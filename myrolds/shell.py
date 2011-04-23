@@ -109,15 +109,17 @@ class Parser(object):
                                    "What?" ])
 
 
-def playGame(p, world):
+def playGame(story):
+    world = story.world
+    player = world.player
     # create parser
     parser = Parser()
-    while not world.player.gameOver:
+    while not player.gameOver:
         cmdstr = raw_input(">> ")
         cmd = parser.parseCmd(cmdstr)
         if cmd is not None:
-            cmd.command(p)
+            cmd.command(player)
     print
     print "You ended the game with:"
-    for i in p.inv:
-        print " -", aOrAn(i), i
+    for item in player.inv:
+        print " -", aOrAn(item), item

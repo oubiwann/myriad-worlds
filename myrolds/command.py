@@ -53,7 +53,9 @@ class TakeCommand(Command):
 
     @staticmethod
     def helpDescription():
-        return "TAKE or PICKUP or PICK UP - pick up an object (but some are deadly)"
+        return (
+            "TAKE or PICKUP or PICK UP - pick up an object"
+            "(but some are deadly)")
 
     def _doCommand(self, player):
         rm = player.room

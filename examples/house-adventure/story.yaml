@@ -1,0 +1,68 @@
+map:
+    type: ascii
+    location: examples/house-adventure/map.asc
+
+items:
+  - name: sword
+
+  - name: diamond
+    
+  - name: apple
+    isDeadly: True
+
+  - name: flower
+
+  - name: coin
+    isVisible: False
+
+  - name: shovel
+
+  - name: book
+
+  - name: mirror
+    isFragile: True
+
+  - name: telescope
+    isTakable: False
+
+  - name: gold bar
+
+  - name: treasure chest
+    isOpenable: True
+    items: [gold bar]
+
+scapes:
+  - room-key: A
+    description: You are standing at the front door.
+    startingPlace: True
+    items: [shovel]
+
+  - room-key: b
+    description: You are in a garden.
+    items: [coin, flower]
+
+  - room-key: c
+    description: You are in a kitchen.
+    items: [book]
+
+  - room-key: d
+    description: You are on the back porch.
+    items: [diamond]
+
+  - room-key: e
+    description: You are in a library.
+    items: [apple, mirror, telescope]
+
+  - room-key: f
+    description: You are on the patio.
+    items: [treasure chest]
+
+  - room-key: q
+    description: You are sinking in quicksand... you're dead."
+    gameOver: True
+
+characters:
+
+  - name: Bob
+    isPlayer: True
+    inventory: [sword]

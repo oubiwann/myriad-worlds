@@ -1,16 +1,19 @@
 class Item(object):
+
     items = {}
-    def __init__(self, desc):
-        self.desc = desc
-        self.isDeadly = False
-        self.isFragile = False
-        self.isBroken = False
-        self.isTakeable = True
-        self.isVisible = True
-        self.isOpenable = False
+
+    def __init__(self, name="", isDeadly=False, isFragile=False, isBroken=False,
+                 isTakable=True, isVisible=True, isOpenable=False):
+        self.desc = name
+        self.isDeadly = isDeadly
+        self.isFragile = isFragile
+        self.isBroken = isBroken
+        self.isTakeable = isTakable
+        self.isVisible = isVisible
+        self.isOpenable = isOpenable
         self.useAction = None
         self.usableConditionTest = None
-        Item.items[desc] = self
+        Item.items[name] = self
 
     def __str__(self):
         return self.desc
