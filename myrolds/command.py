@@ -1,3 +1,7 @@
+from myrolds.item import Item
+from myrolds.util import aOrAn, enumerateDoors, enumerateItems
+
+
 class Command(object):
     "Base class for commands"
     def __init__(self, verb, verbProg):
@@ -11,7 +15,7 @@ class Command(object):
     def _doCommand(self, player):
         pass
 
-    def __call__(self, player ):
+    def __call__(self, player):
         print self.verbProg.capitalize()+"..."
         self._doCommand(player)
 
@@ -37,7 +41,7 @@ class MoveCommand(Command):
             }[self.direction]
             ]
         if nextRoom:
-            player.moveTo( nextRoom )
+            player.moveTo(nextRoom)
         else:
             print "Can't go that way."
 
@@ -92,7 +96,7 @@ class InventoryCommand(Command):
         return "INVENTORY or INV or I - lists what items you have"
 
     def _doCommand(self, player):
-        print "You have %s." % enumerateItems( player.inv )
+        print "You have %s." % enumerateItems(player.inv)
 
 
 class LookCommand(Command):
@@ -128,7 +132,7 @@ class DoorsCommand(Command):
             doorNames = [ {0:"north", 1:"south", 2:"east", 3:"west"}[i]
                           for i,d in enumerate(rm.doors) if d is not None ]
             #~ print doorNames
-            reply += enumerateDoors( doorNames )
+            reply += enumerateDoors(doorNames)
             reply += "."
             print reply
 
@@ -150,8 +154,8 @@ class UseCommand(Command):
         rm = player.room
         availItems = rm.inv+player.inv
         if self.subject in availItems:
-            if self.subject.isUsable( player, self.target ):
-                self.subject.useItem( player, self.target )
+            if self.subject.isUsable(player, self.target):
+                self.subject.useItem(player, self.target)
             else:
                 print "You can't use that here."
         else:
@@ -172,7 +176,7 @@ class OpenCommand(Command):
         availItems = rm.inv+player.inv
         if self.subject in availItems:
             if self.subject.isOpenable:
-                self.subject.openItem( player )
+                self.subject.openItem(player)
             else:
                 print "You can't use that here."
         else:

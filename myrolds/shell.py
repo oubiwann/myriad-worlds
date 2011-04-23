@@ -1,3 +1,16 @@
+import random
+
+from pyparsing import alphas, empty, oneOf, replaceWith
+from pyparsing import CaselessLiteral, OneOrMore, Optional, ParseException
+from pyparsing import LineEnd, Word
+
+from myrolds.command import DropCommand, InventoryCommand, TakeCommand
+from myrolds.command import MoveCommand, OpenCommand, QuitCommand, UseCommand
+from myrolds.command import DoorsCommand, HelpCommand, LookCommand
+from myrolds.item import Item
+from myrolds.util import aOrAn
+
+
 class AppParseException(ParseException):
     pass
 
@@ -6,7 +19,7 @@ class Parser(object):
     def __init__(self):
         self.bnf = self.makeBNF()
 
-    def makeCommandParseAction( self, cls ):
+    def makeCommandParseAction(self, cls):
         def cmdParseAction(s,l,tokens):
             return cls(tokens)
         return cmdParseAction
@@ -15,7 +28,7 @@ class Parser(object):
         invVerb = oneOf("INV INVENTORY I", caseless=True)
         dropVerb = oneOf("DROP LEAVE", caseless=True)
         takeVerb = oneOf("TAKE PICKUP", caseless=True) | \
-            (CaselessLiteral("PICK") + CaselessLiteral("UP") )
+            (CaselessLiteral("PICK") + CaselessLiteral("UP"))
         moveVerb = oneOf("MOVE GO", caseless=True) | empty
         useVerb = oneOf("USE U", caseless=True)
         openVerb = oneOf("OPEN O", caseless=True)
@@ -24,7 +37,7 @@ class Parser(object):
         doorsVerb = CaselessLiteral("DOORS")
         helpVerb = oneOf("H HELP ?",caseless=True)
 
-        itemRef = OneOrMore(Word(alphas)).setParseAction( self.validateItemName )
+        itemRef = OneOrMore(Word(alphas)).setParseAction(self.validateItemName)
         nDir = oneOf("N NORTH",caseless=True).setParseAction(replaceWith("N"))
         sDir = oneOf("S SOUTH",caseless=True).setParseAction(replaceWith("S"))
         eDir = oneOf("E EAST",caseless=True).setParseAction(replaceWith("E"))
@@ -45,27 +58,27 @@ class Parser(object):
         helpCommand = helpVerb
 
         invCommand.setParseAction(
-            self.makeCommandParseAction( InventoryCommand ) )
+            self.makeCommandParseAction(InventoryCommand))
         dropCommand.setParseAction(
-            self.makeCommandParseAction( DropCommand ) )
+            self.makeCommandParseAction(DropCommand))
         takeCommand.setParseAction(
-            self.makeCommandParseAction( TakeCommand ) )
+            self.makeCommandParseAction(TakeCommand))
         useCommand.setParseAction(
-            self.makeCommandParseAction( UseCommand ) )
+            self.makeCommandParseAction(UseCommand))
         openCommand.setParseAction(
-            self.makeCommandParseAction( OpenCommand ) )
+            self.makeCommandParseAction(OpenCommand))
         moveCommand.setParseAction(
-            self.makeCommandParseAction( MoveCommand ) )
+            self.makeCommandParseAction(MoveCommand))
         quitCommand.setParseAction(
-            self.makeCommandParseAction( QuitCommand ) )
+            self.makeCommandParseAction(QuitCommand))
         lookCommand.setParseAction(
-            self.makeCommandParseAction( LookCommand ) )
+            self.makeCommandParseAction(LookCommand))
         doorsCommand.setParseAction(
-            self.makeCommandParseAction( DoorsCommand ) )
+            self.makeCommandParseAction(DoorsCommand))
         helpCommand.setParseAction(
-            self.makeCommandParseAction( HelpCommand ) )
+            self.makeCommandParseAction(HelpCommand))
 
-        return ( invCommand |
+        return (invCommand |
                   useCommand |
                   openCommand |
                   dropCommand |
@@ -74,7 +87,7 @@ class Parser(object):
                   lookCommand |
                   doorsCommand |
                   helpCommand |
-                  quitCommand ).setResultsName("command") + LineEnd()
+                  quitCommand).setResultsName("command") + LineEnd()
 
     def validateItemName(self,s,l,t):
         iname = " ".join(t)
@@ -93,18 +106,17 @@ class Parser(object):
                                    "Huh?",
                                    "Excuse me?",
                                    "???",
-                                   "What?" ] )
+                                   "What?" ])
 
 
-def playGame(p,startRoom):
+def playGame(p, world):
     # create parser
     parser = Parser()
-    p.moveTo( startRoom )
-    while not p.gameOver:
+    while not world.player.gameOver:
         cmdstr = raw_input(">> ")
         cmd = parser.parseCmd(cmdstr)
         if cmd is not None:
-            cmd.command( p )
+            cmd.command(p)
     print
     print "You ended the game with:"
     for i in p.inv:

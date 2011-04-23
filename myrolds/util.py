@@ -9,7 +9,7 @@ def enumerateItems(items):
     if len(items) == 0: return "nothing"
     out = []
     for item in items:
-        if len(l)>1 and item == items[-1]:
+        if len(items)>1 and item == items[-1]:
             out.append("and")
         out.append(aOrAn(item))
         if item == items[-1]:
