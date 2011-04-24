@@ -34,31 +34,38 @@ items:
 
 scapes:
   - room-key: A
+    name: front porch
     description: You are standing at the front door.
     startingPlace: True
     items: [shovel]
 
   - room-key: b
+    name: garden
     description: You are in a garden.
     items: [coin, flower]
 
   - room-key: c
+    name: kitchen
     description: You are in a kitchen.
     items: [book]
 
   - room-key: d
+    name: back porch
     description: You are on the back porch.
     items: [diamond]
 
   - room-key: e
+    name: library
     description: You are in a library.
     items: [apple, mirror, telescope]
 
   - room-key: f
+    name: patio
     description: You are on the patio.
     items: [treasure chest]
 
   - room-key: q
+    name: quicksand
     description: You are sinking in quicksand... you're dead."
     gameOver: True
 

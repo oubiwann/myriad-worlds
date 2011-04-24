@@ -10,7 +10,7 @@ story = Story("examples/house-adventure/story.yaml")
 
 # programmatic item customizations
 Item.items["shovel"].usableConditionTest = (
-    lambda player, target: p.room is garden)
+    lambda player, target: player.room is story.world.getScape("garden"))
 def useShovel(player, subj, target):
     coin = Item.items["coin"]
     if not coin.isVisible and coin in player.room.inv:

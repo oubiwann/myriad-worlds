@@ -22,7 +22,7 @@ def enumerateItems(items):
     return " ".join(out)
 
 
-def enumerateDoors(l):
+def enumerateExits(l):
     if len(l) == 0: return ""
     out = []
     for item in l:

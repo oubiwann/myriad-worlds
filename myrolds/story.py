@@ -39,6 +39,8 @@ class Story(object):
             if startingPlace:
                 scape.startingPlace = True
                 self.world.startingPlace = scape
+            scape.name = scapeData.get("name")
+            self.world.scapes[scape.name] = scape
             scape.desc = scapeData.get("description")
             scape.gameOver = scapeData.get("gameOver")
             itemsList = scapeData.get("items")

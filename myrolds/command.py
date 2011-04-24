@@ -1,5 +1,5 @@
 from myrolds.item import Item
-from myrolds.util import aOrAn, enumerateDoors, enumerateItems
+from myrolds.util import aOrAn, enumerateExits, enumerateItems
 
 
 class Command(object):
@@ -110,7 +110,7 @@ class LookCommand(Command):
         return "LOOK or L - describes the current room and any objects in it"
 
     def _doCommand(self, player):
-        player.room.describeAndListDoors()
+        player.room.describeAndListExits()
 
 
 class DoorsCommand(Command):
@@ -122,7 +122,7 @@ class DoorsCommand(Command):
         return "DOORS - display what doors are visible from this room"
 
     def _doCommand(self, player):
-        player.room.listDoors()
+        player.room.listExits()
 
 
 class UseCommand(Command):

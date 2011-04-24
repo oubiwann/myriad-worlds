@@ -1,5 +1,5 @@
 from myrolds.item import Item
-from myrolds.util import enumerateItems, enumerateDoors
+from myrolds.util import enumerateItems, enumerateExits
 
 
 class World(object):
@@ -11,6 +11,9 @@ class World(object):
 
     def setScapes(self, scapes):
         self.scapes = scapes
+
+    def getScape(self, name):
+        return self.scapes[name]
 
     def putItemInScape(self, item, scape):
         if isinstance(scape, basestring):
@@ -30,7 +33,9 @@ class WorldScape(object):
     """
     An abstract scape of the world.
     """
-    def __init__(self, desc):
+    def __init__(self, id, name="", desc=""):
+        self.id = id
+        self.name = name
         self.desc = desc
         self.inv = []
         self.gameOver = False
@@ -39,11 +44,11 @@ class WorldScape(object):
         if self.gameOver:
             player.gameOver = True
 
-    def addItem(self, it):
-        self.inv.append(it)
+    def addItem(self, item):
+        self.inv.append(item)
 
-    def removeItem(self,it):
-        self.inv.remove(it)
+    def removeItem(self, item):
+        self.inv.remove(item)
 
     def describe(self):
         print self.desc
@@ -56,26 +61,25 @@ class WorldScape(object):
     def getExitName(self):
         return "exit"
 
-    def listDoors(self):
-        numDoors = sum([1 for door in self.doors if door is not None])
-        if numDoors == 0:
-            reply = "There are no doors in any direction."
+    def listExits(self):
+        numExits = sum([1 for exit in self.exits if exit is not None])
+        if numExits == 0:
+            reply = "There are no %s in any direction." % self.getExitName()
         else:
-            if numDoors == 1:
-                reply = "There is a door to the "
+            if numExits == 1:
+                reply = "There is a %s to the " % self.getExitName()
             else:
-                reply = "There are doors to the "
-            doorNames = [{0:"north", 1:"south", 2:"east", 3:"west"}[index]
-                         for index, door in enumerate(self.doors)
-                         if door is not None]
-            #~ print doorNames
-            reply += enumerateDoors(doorNames)
+                reply = "There are %s to the " % self.getExitName()
+            exitNames = [{0:"north", 1:"south", 2:"east", 3:"west"}[index]
+                         for index, exit in enumerate(self.exits)
+                         if exit is not None]
+            reply += enumerateExits(exitNames)
             reply += "."
             print reply
 
-    def describeAndListDoors(self):
+    def describeAndListExits(self):
         self.describe()
-        self.listDoors()
+        self.listExits()
 
 
 class Moment(WorldScape):
@@ -90,14 +94,14 @@ class Room(WorldScape):
     """
     def __init__(self, *args, **kwargs):
         super(Room, self).__init__(*args, **kwargs)
-        self.doors = [None,None,None,None]
+        self.exits = [None,None,None,None]
 
     def __getattr__(self, attr):
         return {
-            "n":self.doors[0],
-            "s":self.doors[1],
-            "e":self.doors[2],
-            "w":self.doors[3],
+            "n":self.exits[0],
+            "s":self.exits[1],
+            "e":self.exits[2],
+            "w":self.exits[3],
             }[attr]
 
     def getExitName(self):

@@ -12,7 +12,7 @@ class Player(object):
                 room.describe()
             print "Game over!"
         else:
-            room.describeAndListDoors()
+            room.describeAndListExits()
 
     def take(self, item):
         if item.isDeadly:
