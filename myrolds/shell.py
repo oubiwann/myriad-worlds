@@ -99,14 +99,18 @@ class Parser(object):
         try:
             ret = self.bnf.parseString(cmdstr)
             return ret
-        except AppParseException, pe:
-            print pe.msg
-        except ParseException, pe:
-            print random.choice([ "Sorry, I don't understand that.",
-                                   "Huh?",
-                                   "Excuse me?",
-                                   "???",
-                                   "What?" ])
+        except AppParseException, parseError:
+            print parseError.msg
+        except ParseException, parseError:
+            print random.choice(["Sorry, I don't understand that.",
+                                 "Say what?",
+                                 "Whatchyoo talkin' 'bout, Willis?",
+                                 "Huh?",
+                                 "Garbage in, garbage out. Try again.",
+                                 "What was the middle part again?",
+                                 "Excuse me?",
+                                 "Wtf?",
+                                 "What?"])
 
 
 def playGame(story):

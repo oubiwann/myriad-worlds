@@ -4,24 +4,25 @@ class Player(object):
         self.gameOver = False
         self.inv = []
 
-    def moveTo(self, rm):
-        self.room = rm
-        rm.enter(self)
+    def moveTo(self, room):
+        self.room = room
+        room.enter(self)
         if self.gameOver:
-            if rm.desc:
-                rm.describe()
+            if room.desc:
+                room.describe()
             print "Game over!"
         else:
-            rm.describe()
+            room.describeAndListDoors()
 
-    def take(self,it):
-        if it.isDeadly:
-            print "Aaaagh!...., the %s killed me!" % it
+    def take(self, item):
+        if item.isDeadly:
+            print 'In despair, you yell, "Aaaagh! The %s..."' % item
+            print "You're dead."
             self.gameOver = True
         else:
-            self.inv.append(it)
+            self.inv.append(item)
 
-    def drop(self,it):
-        self.inv.remove(it)
-        if it.isFragile:
-            it.breakItem()
+    def drop(self, item):
+        self.inv.remove(item)
+        if item.isFragile:
+            item.breakItem()

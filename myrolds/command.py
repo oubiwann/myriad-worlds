@@ -31,8 +31,8 @@ class MoveCommand(Command):
           (can abbreviate as 'GO N' and 'GO W', or even just 'E' and 'S')"""
 
     def _doCommand(self, player):
-        rm = player.room
-        nextRoom = rm.doors[
+        room = player.room
+        nextRoom = room.doors[
             {
             "N":0,
             "S":1,
@@ -103,48 +103,34 @@ class InventoryCommand(Command):
 
 class LookCommand(Command):
     def __init__(self, quals):
-        super(LookCommand,self).__init__("LOOK", "looking")
+        super(LookCommand, self).__init__("LOOK", "looking")
 
     @staticmethod
     def helpDescription():
         return "LOOK or L - describes the current room and any objects in it"
 
     def _doCommand(self, player):
-        player.room.describe()
+        player.room.describeAndListDoors()
 
 
 class DoorsCommand(Command):
     def __init__(self, quals):
-        super(DoorsCommand,self).__init__("DOORS", "looking for doors")
+        super(DoorsCommand, self).__init__("DOORS", "looking for doors")
 
     @staticmethod
     def helpDescription():
         return "DOORS - display what doors are visible from this room"
 
     def _doCommand(self, player):
-        rm = player.room
-        numDoors = sum([1 for r in rm.doors if r is not None])
-        if numDoors == 0:
-            reply = "There are no doors in any direction."
-        else:
-            if numDoors == 1:
-                reply = "There is a door to the "
-            else:
-                reply = "There are doors to the "
-            doorNames = [ {0:"north", 1:"south", 2:"east", 3:"west"}[i]
-                          for i,d in enumerate(rm.doors) if d is not None ]
-            #~ print doorNames
-            reply += enumerateDoors(doorNames)
-            reply += "."
-            print reply
+        player.room.listDoors()
 
 
 class UseCommand(Command):
     def __init__(self, quals):
         super(UseCommand,self).__init__("USE", "using")
-        self.subject = Item.items[ quals["usedObj"] ]
-        if "targetObj" in quals.keys():
-            self.target = Item.items[ quals["targetObj"] ]
+        self.subject = Item.items[quals["usedObj"]]
+        if "targetObj" in quals.keys() and quals["targetObj"]:
+            self.target = Item.items[quals["targetObj"]]
         else:
             self.target = None
 
@@ -153,8 +139,8 @@ class UseCommand(Command):
         return "USE or U - use an object, optionally IN or ON another object"
 
     def _doCommand(self, player):
-        rm = player.room
-        availItems = rm.inv+player.inv
+        room = player.room
+        availItems = room.inv+player.inv
         if self.subject in availItems:
             if self.subject.isUsable(player, self.target):
                 self.subject.useItem(player, self.target)

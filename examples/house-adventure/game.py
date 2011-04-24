@@ -9,14 +9,16 @@ story = Story("examples/house-adventure/story.yaml")
 
 
 # programmatic item customizations
-Item.items["shovel"].usableConditionTest = (lambda p,t: p.room is garden)
-def useShovel(p,subj,target):
+Item.items["shovel"].usableConditionTest = (
+    lambda player, target: p.room is garden)
+def useShovel(player, subj, target):
     coin = Item.items["coin"]
-    if not coin.isVisible and coin in p.room.inv:
+    if not coin.isVisible and coin in player.room.inv:
         coin.isVisible = True
 Item.items["shovel"].useAction = useShovel
 
-def useTelescope(p,subj,target):
+Item.items["telescope"].usableConditionTest = lambda player, target: True
+def useTelescope(player, subj, target):
     print "You don't see anything."
 Item.items["telescope"].useAction = useTelescope
 

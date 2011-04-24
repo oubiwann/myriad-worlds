@@ -1,5 +1,5 @@
 from myrolds.item import Item
-from myrolds.util import enumerateItems
+from myrolds.util import enumerateItems, enumerateDoors
 
 
 class World(object):
@@ -53,16 +53,40 @@ class WorldScape(object):
         else:
             print "There is %s here." % enumerateItems(visibleItems)
 
+    def getExitName(self):
+        return "exit"
+
+    def listDoors(self):
+        numDoors = sum([1 for door in self.doors if door is not None])
+        if numDoors == 0:
+            reply = "There are no doors in any direction."
+        else:
+            if numDoors == 1:
+                reply = "There is a door to the "
+            else:
+                reply = "There are doors to the "
+            doorNames = [{0:"north", 1:"south", 2:"east", 3:"west"}[index]
+                         for index, door in enumerate(self.doors)
+                         if door is not None]
+            #~ print doorNames
+            reply += enumerateDoors(doorNames)
+            reply += "."
+            print reply
+
+    def describeAndListDoors(self):
+        self.describe()
+        self.listDoors()
+
 
 class Moment(WorldScape):
     """
     A "scape" that takes place in time, rather than physical space.
     """
 
-    
+
 class Room(WorldScape):
     """
-    A tile or section of the world. This 
+    A tile or section of the world. This
     """
     def __init__(self, *args, **kwargs):
         super(Room, self).__init__(*args, **kwargs)
@@ -75,6 +99,9 @@ class Room(WorldScape):
             "e":self.doors[2],
             "w":self.doors[3],
             }[attr]
+
+    def getExitName(self):
+        return "door"
 
 
 class Exit(Room):

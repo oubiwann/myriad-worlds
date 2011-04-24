@@ -31,6 +31,7 @@ items:
     isOpenable: True
     items: [gold bar]
 
+
 scapes:
   - room-key: A
     description: You are standing at the front door.
@@ -61,8 +62,8 @@ scapes:
     description: You are sinking in quicksand... you're dead."
     gameOver: True
 
-characters:
 
+characters:
   - name: Bob
     isPlayer: True
     inventory: [sword]

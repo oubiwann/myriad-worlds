@@ -26,7 +26,7 @@ class Item(object):
 
     def isUsable(self, player, target):
         if self.usableConditionTest:
-            return self.usableConditionTest( player, target )
+            return self.usableConditionTest(player, target)
         else:
             return False
 
