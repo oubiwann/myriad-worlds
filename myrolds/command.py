@@ -1,5 +1,5 @@
 from myrolds.item import Item
-from myrolds.util import aOrAn, enumerateExits, enumerateItems
+from myrolds.util import aOrAn, enumerateItems
 
 
 class Command(object):
