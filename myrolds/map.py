@@ -56,7 +56,7 @@ class ASCIICharacterMap(object):
                     if col > 0 and line[col-1] in "<-":
                         other = line[col-2]
                         w = self.scapes[other]
-                    if col < len(line) - 1 and line[col + 1] in "->":
+                    if col < (len(line) - 1) and line[col + 1] in "->":
                         other = line[col + 2]
                         e = self.scapes[other]
                     if (row > 1
@@ -64,14 +64,14 @@ class ASCIICharacterMap(object):
                         and rows[row - 1][col] in '|^'):
                         other = rows[row - 2][col]
                         n = self.scapes[other]
-                    if (row < len(rows) - 1
+                    if (row < (len(rows) - 1)
                         and col < len(rows[row + 1])
                         and rows[row + 1][col] in '|.'):
                         other = rows[row + 2][col]
                         s = self.scapes[other]
 
                     # set connections to neighboring rooms
-                    room.doors = [n, s, e, w]
+                    room.exits = [n, s, e, w]
 
 
 class Map(object):

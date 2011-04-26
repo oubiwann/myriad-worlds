@@ -32,7 +32,7 @@ class MoveCommand(Command):
 
     def _doCommand(self, player):
         room = player.room
-        nextRoom = room.doors[
+        nextRoom = room.exits[
             {
             "N":0,
             "S":1,
