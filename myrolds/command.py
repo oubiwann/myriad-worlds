@@ -16,7 +16,7 @@ class Command(object):
         pass
 
     def __call__(self, player):
-        print self.verbProg.capitalize()+"..."
+        print self.verbProg.capitalize() + "..."
         self._doCommand(player)
 
 
@@ -140,7 +140,7 @@ class UseCommand(Command):
 
     def _doCommand(self, player):
         room = player.room
-        availItems = room.inv+player.inv
+        availItems = room.inv + player.inv
         if self.subject in availItems:
             if self.subject.isUsable(player, self.target):
                 self.subject.useItem(player, self.target)
@@ -153,7 +153,7 @@ class UseCommand(Command):
 class OpenCommand(Command):
     def __init__(self, quals):
         super(OpenCommand,self).__init__("OPEN", "opening")
-        self.subject = Item.items[ quals["item"] ]
+        self.subject = Item.items[quals["item"]]
 
     @staticmethod
     def helpDescription():
@@ -161,7 +161,7 @@ class OpenCommand(Command):
 
     def _doCommand(self, player):
         rm = player.room
-        availItems = rm.inv+player.inv
+        availItems = rm.inv + player.inv
         if self.subject in availItems:
             if self.subject.isOpenable:
                 self.subject.openItem(player)

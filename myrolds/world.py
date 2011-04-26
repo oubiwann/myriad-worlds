@@ -40,7 +40,7 @@ class WorldScape(object):
         self.inv = []
         self.gameOver = False
 
-    def enter(self,player):
+    def enter(self, player):
         if self.gameOver:
             player.gameOver = True
 
@@ -52,7 +52,7 @@ class WorldScape(object):
 
     def describe(self):
         print self.desc
-        visibleItems = [ it for it in self.inv if it.isVisible ]
+        visibleItems = [item for item in self.inv if item.isVisible]
         if len(visibleItems) > 1:
             print "There are %s here." % enumerateItems(visibleItems)
         else:
@@ -110,10 +110,7 @@ class Room(WorldScape):
 
 class Exit(Room):
     def __init__(self):
-        super(Exit,self).__init__("")
+        super(Exit, self).__init__("")
 
     def enter(self,player):
         player.gameOver = True
-
-
-

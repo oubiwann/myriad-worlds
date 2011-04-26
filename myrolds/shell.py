@@ -20,7 +20,7 @@ class Parser(object):
         self.bnf = self.makeBNF()
 
     def makeCommandParseAction(self, cls):
-        def cmdParseAction(s,l,tokens):
+        def cmdParseAction(s, l, tokens):
             return cls(tokens)
         return cmdParseAction
 
@@ -89,10 +89,10 @@ class Parser(object):
                   helpCommand |
                   quitCommand).setResultsName("command") + LineEnd()
 
-    def validateItemName(self,s,l,t):
+    def validateItemName(self, s, l, t):
         iname = " ".join(t)
         if iname not in Item.items:
-            raise AppParseException(s,l,"No such item '%s'." % iname)
+            raise AppParseException(s, l, "No such item '%s'." % iname)
         return iname
 
     def parseCmd(self, cmdstr):

@@ -10,7 +10,7 @@ class ASCIICharacterMap(object):
         self.file = open(filename)
         self.data = self.file.read()
         # with the string data from the file, instantiate rooms for all the
-        # scapes 
+        # scapes
         self.createScapes(self.getData())
 
     def getData(self):
@@ -56,26 +56,26 @@ class ASCIICharacterMap(object):
                     if col > 0 and line[col-1] in "<-":
                         other = line[col-2]
                         w = self.scapes[other]
-                    if col < len(line)-1 and line[col+1] in "->":
-                        other = line[col+2]
+                    if col < len(line) - 1 and line[col + 1] in "->":
+                        other = line[col + 2]
                         e = self.scapes[other]
-                    if (row > 1 
-                        and col < len(rows[row-1]) 
-                        and rows[row-1][col] in '|^'):
-                        other = rows[row-2][col]
+                    if (row > 1
+                        and col < len(rows[row - 1])
+                        and rows[row - 1][col] in '|^'):
+                        other = rows[row - 2][col]
                         n = self.scapes[other]
-                    if (row < len(rows)-1 
-                        and col < len(rows[row+1]) 
-                        and rows[row+1][col] in '|.'):
-                        other = rows[row+2][col]
+                    if (row < len(rows) - 1
+                        and col < len(rows[row + 1])
+                        and rows[row + 1][col] in '|.'):
+                        other = rows[row + 2][col]
                         s = self.scapes[other]
 
                     # set connections to neighboring rooms
-                    room.doors = [n,s,e,w]
+                    room.doors = [n, s, e, w]
 
 
 class Map(object):
-    
+
     def __init__(self, mapData):
         self.type = mapData.get("type")
         self.location = mapData.get("location")

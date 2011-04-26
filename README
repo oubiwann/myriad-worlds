@@ -1,0 +1,16 @@
+This code is based on the adventure engine that Paul McGuire, the author of
+PyParsing, wrote and then summarized for a PyCon 2006 talk. The first revision
+in myriad-worlds repository is his work, 100%.
+
+Each subsequent revision since then has aimed to expand Paul's original work
+into something that could support an experiment in authoring interactive
+fiction adventure games. The initial thrust of this experimentation was:
+  * object- or connection-based storyline generation (as opposed to room-based)
+but this quickly expanded into exploring the following:
+  * ASCII maps generated from textual descriptions
+  * procedurally generated floor plans, city plans, landscapes, etc.
+  * how to abstract a world and the narration of its contents in a way amenable
+    to generating new stories from rearranged content
+
+Ultimately, the intent of this project is to be able to create interesting
+games that are infinitely replayable, due to the variation that is possible.

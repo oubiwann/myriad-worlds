@@ -1,0 +1,6 @@
+* Add save/restore game functionality.
+  - add LOAD command
+  - add SAVE command
+* Add support for rooms containing rooms (e.g., a "city" object that could
+  contain many "building" objects, which could each contain many "room"
+  objects).
