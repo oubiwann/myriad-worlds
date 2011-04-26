@@ -9,6 +9,7 @@ story = Story("examples/house-adventure/story.yaml")
 
 
 # programmatic item customizations
+# XXX do we want to do this here? or in YAML, similar to what Inform 7 does?
 Item.items["shovel"].usableConditionTest = (
     lambda player, target: player.room is story.world.getScape("garden"))
 def useShovel(player, subj, target):

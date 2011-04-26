@@ -1,6 +1,16 @@
+As one might imagine, I have pages and pages of hand-written notes. I'll only
+transfer them to this TODO file when I plan on working on noted features in
+the "near" future (i.e., next up on the list).
+
 * Add save/restore game functionality.
   - add LOAD command
   - add SAVE command
+
 * Add support for rooms containing rooms (e.g., a "city" object that could
   contain many "building" objects, which could each contain many "room"
   objects).
+
+* Add readline support (in particular, command history) for the interpreter.
+
+* Work on defining terrain data and auto-populating a new world with tiles of
+  different terrain types.
