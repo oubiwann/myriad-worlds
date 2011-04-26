@@ -1,3 +1,4 @@
+from myrolds import map
 from myrolds.item import Item
 from myrolds.util import aOrAn, enumerateItems
 
@@ -32,14 +33,7 @@ class MoveCommand(Command):
 
     def _doCommand(self, player):
         room = player.room
-        nextRoom = room.exits[
-            {
-            "N":0,
-            "S":1,
-            "E":2,
-            "W":3,
-            }[self.direction]
-            ]
+        nextRoom = room.exits[map.directions[self.direction]]
         if nextRoom:
             player.moveTo(nextRoom)
         else:

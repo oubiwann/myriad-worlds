@@ -1,3 +1,23 @@
+directions = {
+    "N": 0,
+    "S": 1,
+    "E": 2,
+    "W": 3}
+reverseDirections = dict([
+    (index, direction) for direction, index in directions.items()])
+
+
+def getDirectionName(abbr):
+    if abbr.lower() == "n":
+        return "north"
+    elif abbr.lower() == "s":
+        return "south"
+    elif abbr.lower() == "e":
+        return "east"
+    elif abbr.lower() == "w":
+        return "west"
+
+
 class ASCIICharacterMap(object):
     """
     This class parses maps that have been created using ASCII characters.

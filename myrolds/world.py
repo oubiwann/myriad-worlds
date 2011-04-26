@@ -1,3 +1,4 @@
+from myrolds import map
 from myrolds.item import Item
 from myrolds.util import enumerateItems, enumerateExits
 
@@ -63,6 +64,7 @@ class WorldScape(object):
 
     def listExits(self):
         numExits = sum([1 for exit in self.exits if exit is not None])
+        print "number of exits:", numExits
         if numExits == 0:
             reply = "There are no %s in any direction." % self.getExitName()
         else:
@@ -70,7 +72,7 @@ class WorldScape(object):
                 reply = "There is a %s to the " % self.getExitName()
             else:
                 reply = "There are %s to the " % self.getExitName()
-            exitNames = [{0:"north", 1:"south", 2:"east", 3:"west"}[index]
+            exitNames = [map.getDirectionName(map.reverseDirections[index])
                          for index, exit in enumerate(self.exits)
                          if exit is not None]
             reply += enumerateExits(exitNames)
@@ -88,21 +90,34 @@ class Moment(WorldScape):
     """
 
 
+class Town(WorldScape):
+
+    def addBuilding(self, building):
+        pass
+
+
+class Building(WorldScape):
+
+    def addRoom(self, room):
+        pass
+
+
 class Room(WorldScape):
     """
-    A tile or section of the world. This
+    A "tile" or "section" of the world. This can be of any size
     """
     def __init__(self, *args, **kwargs):
         super(Room, self).__init__(*args, **kwargs)
-        self.exits = [None,None,None,None]
+        self.exits = [None, None, None, None]
 
     def __getattr__(self, attr):
-        return {
-            "n":self.exits[0],
-            "s":self.exits[1],
-            "e":self.exits[2],
-            "w":self.exits[3],
-            }[attr]
+        return self.getExits()[attr]
+
+    def getExits(self):
+        exitCheks = [
+            (key.lower(), self.exists[value]) for key, value in map.directions]
+        import pdb;pdb.set_trace()
+        return dict(exitChecks)
 
     def getExitName(self):
         return "door"
