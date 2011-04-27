@@ -45,13 +45,17 @@ class Mountains(Hills):
     traversalMultiplier = 0.4
 
 
-class Valley(Plains):
-    defaultDesc = ""
-
-
 class HighPeaks(Mountain):
     defaultDesc = ""
     traversalMultiplier = 0.1
+
+
+class HighPlateau(Mountain):
+    defaultDesc = ""
+
+
+class Valley(Plains):
+    defaultDesc = ""
 
 
 class Desert(SandyGround):
@@ -80,3 +84,28 @@ class Lake(WaterBody):
 
 class Ocean(WaterBody):
     defaultDesc = ""
+
+
+transitions = {
+    Plains: [SandyGround, RockyGround, Hills, Valley, Desert, Beach, Canyon,
+             Cave, River, Lake, Ocean],
+    Hills: [Plains, SandyGround, RockyGround, Hills, Mountains, Canyon, Cave,
+            River, Lake],
+    Mountains: [Hills, Mountains, HighPlateau, HighPeaks, Valley, Cave],
+    Highlateau: [Mountains, HighPlateau, HighPeaks],
+    Valley: [Plains, SandyGround, RockyGround, Hills, Mountains, River, Lake,
+             Ocean],
+    Canyon: [Plains, SandyGround, RockyGround, Hills, Canyon, Cave, River],
+    Cave: [Plains, SandyGround, RockyGround, Hills, Mountains, HighPlateau,
+           HighPeaks, Desert, Canyon, Valley],
+    River: [Plains, SandyGround, RockyGround, Hills, Desert, Beach, Canyon,
+            Cave, River, Lake, Ocean],
+    Lake: [],
+    Ocean: [],
+    }
+
+transitions[SandyGround] = transitions[Plains]
+transitions[RockyGround] = transitions[Plains]
+transitions[HighPeaks] = transitions[HighPlateau]
+transitions[Desert] = transitions[Plains]
+transitions[Beach] = transitions[Plains]
