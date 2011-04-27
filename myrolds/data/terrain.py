@@ -66,7 +66,11 @@ class Beach(SandyGround):
     defaultDesc = ""
 
 
-class Canyon(Terrain):
+class Ravine(Terrain):
+    defaultDesc = ""
+
+
+class Canyon(Ravine):
     defaultDesc = ""
 
 
@@ -86,6 +90,8 @@ class Ocean(WaterBody):
     defaultDesc = ""
 
 
+# for procedural generation of tile layouts, valid transitions from one tile
+# type to another have to be defined.
 transitions = {
     Plains: [SandyGround, RockyGround, Hills, Valley, Desert, Beach, Canyon,
              Cave, River, Lake, Ocean],
@@ -95,7 +101,8 @@ transitions = {
     Highlateau: [Mountains, HighPlateau, HighPeaks],
     Valley: [Plains, SandyGround, RockyGround, Hills, Mountains, River, Lake,
              Ocean],
-    Canyon: [Plains, SandyGround, RockyGround, Hills, Canyon, Cave, River],
+    Ravine: [Plains, SandyGround, RockyGround, Hills, Ravine, Canyon, Cave,
+             River],
     Cave: [Plains, SandyGround, RockyGround, Hills, Mountains, HighPlateau,
            HighPeaks, Desert, Canyon, Valley],
     River: [Plains, SandyGround, RockyGround, Hills, Desert, Beach, Canyon,
@@ -104,8 +111,16 @@ transitions = {
     Ocean: [],
     }
 
+
 transitions[SandyGround] = transitions[Plains]
 transitions[RockyGround] = transitions[Plains]
 transitions[HighPeaks] = transitions[HighPlateau]
+transitions[Canyon] = transitions[Ravine]
 transitions[Desert] = transitions[Plains]
 transitions[Beach] = transitions[Plains]
+
+
+# the transformation of one terrain type into another would be something that
+# occurred with a permanent change (local or global) in temperature (e.g., a
+# river turning into a dry ravine).
+transforms ={}
