@@ -18,3 +18,15 @@
 # And finally, the Earth itself has a total of 316944047 square miles (land and
 # sea) which would be about 102240015 tiles, or a grid of 10002 by 10222 tiles.
 horizonDistance = 3.1
+
+# directions
+N = 0
+S = 1
+E = 2
+W = 3
+NE = 4
+NW = 5
+SE = 6
+SW = 7
+# the last one is "center"
+C = 8

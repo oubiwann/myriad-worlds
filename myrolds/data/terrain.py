@@ -25,90 +25,114 @@ class WaterBody(GeographicalFeature):
 
 class Plains(Terrain):
     defaultDesc = ""
+    isPassable = True
+    pervasiveness = 0.8
 
 
 class SandyGround(Plains):
     traversalMultiplier = 0.8
+    isPassable = True
+    pervasiveness = 0.3
 
 
 class RockyGround(Plains):
     defaultDesc = ""
+    isPassable = True
+    pervasiveness = 0.3
 
 
 class Hills(RockyGround):
     defaultDesc = ""
     traversalMultiplier = 0.6
+    isPassable = True
+    pervasiveness = 0.5
 
 
 class Mountains(Hills):
     defaultDesc = ""
     traversalMultiplier = 0.4
+    isPassable = True
+    pervasiveness = 0.4
 
 
-class HighPeaks(Mountain):
+class HighPeaks(Mountains):
     defaultDesc = ""
     traversalMultiplier = 0.1
+    isPassable = False
+    pervasiveness = 0.2
 
 
-class HighPlateau(Mountain):
+class HighPlateau(Mountains):
     defaultDesc = ""
+    isPassable = True
+    pervasiveness = 0.1
 
 
 class Valley(Plains):
     defaultDesc = ""
+    isPassable = True
+    pervasiveness = 0.3
 
 
 class Desert(SandyGround):
     defaultDesc = ""
+    isPassable = False
+    pervasiveness = 0.7
 
 
 class Beach(SandyGround):
     defaultDesc = ""
+    isPassable = True
+    pervasiveness = 0.3
 
 
 class Ravine(Terrain):
     defaultDesc = ""
+    isPassable = True
+    pervasiveness = 0.3
 
 
 class Canyon(Ravine):
     defaultDesc = ""
-
-
-class Cave(RockyGround):
-    defaultDesc = ""
+    isPassable = False
+    pervasiveness = 0.3
 
 
 class River(WaterBody):
     defaultDesc = ""
+    isPassable = False
+    pervasiveness = 0.3
 
 
 class Lake(WaterBody):
     defaultDesc = ""
+    isPassable = False
+    pervasiveness = 0.7
 
 
 class Ocean(WaterBody):
     defaultDesc = ""
-
+    isPassable = False
+    pervasiveness = 0.9
 
 # for procedural generation of tile layouts, valid transitions from one tile
 # type to another have to be defined.
 transitions = {
-    Plains: [SandyGround, RockyGround, Hills, Valley, Desert, Beach, Canyon,
-             Cave, River, Lake, Ocean],
-    Hills: [Plains, SandyGround, RockyGround, Hills, Mountains, Canyon, Cave,
-            River, Lake],
-    Mountains: [Hills, Mountains, HighPlateau, HighPeaks, Valley, Cave],
-    Highlateau: [Mountains, HighPlateau, HighPeaks],
-    Valley: [Plains, SandyGround, RockyGround, Hills, Mountains, River, Lake,
-             Ocean],
-    Ravine: [Plains, SandyGround, RockyGround, Hills, Ravine, Canyon, Cave,
-             River],
-    Cave: [Plains, SandyGround, RockyGround, Hills, Mountains, HighPlateau,
-           HighPeaks, Desert, Canyon, Valley],
+    Plains: [Plains, SandyGround, RockyGround, Hills, Valley, Desert, Beach,
+             Canyon, River, Lake, Ocean],
+    Hills: [Plains, SandyGround, RockyGround, Hills, Mountains, Canyon, River,
+           Lake],
+    Mountains: [Hills, Mountains, HighPlateau, HighPeaks, Valley],
+    HighPlateau: [Mountains, HighPlateau, HighPeaks],
+    Valley: [Plains, SandyGround, RockyGround, Hills, Mountains, River, Lake],
+    Ravine: [Plains, SandyGround, RockyGround, Hills, Ravine, Canyon, River],
+    Desert: [Plains, SandyGround, RockyGround, Ravine, Desert, Beach, Canyon,
+             River, Lake, Ocean],
     River: [Plains, SandyGround, RockyGround, Hills, Desert, Beach, Canyon,
-            Cave, River, Lake, Ocean],
-    Lake: [],
-    Ocean: [],
+            River, Lake, Ocean],
+    Lake: [Plains, SandyGround, RockyGround, Hills, Valley, Desert, Beach,
+           River, Lake],
+    Ocean: [Plains, SandyGround, RockyGround, Hills, Desert, Beach, River],
     }
 
 
@@ -116,8 +140,27 @@ transitions[SandyGround] = transitions[Plains]
 transitions[RockyGround] = transitions[Plains]
 transitions[HighPeaks] = transitions[HighPlateau]
 transitions[Canyon] = transitions[Ravine]
-transitions[Desert] = transitions[Plains]
 transitions[Beach] = transitions[Plains]
+
+# some terrain types require
+requires = {
+    # each valley tile should be connected to at least two mountains (on each
+    # side)
+    Valley: [],
+    # each river tile should be connected directly to two other river tiles
+    River: [],
+    # each mountain should have a very high likelihood of having hills as
+    # neighbors
+    Mountains: [],
+    # a beach must have water at least one one side
+    Beach: [],
+    # A river should be *very* pervasive, but in only distinct directions
+    # (primarily usually only two neighbors will have river tiles... sometimes
+    # a river will branch, in which case there might be three neigbors (non
+    # touching, in that case). Also, where rivers meet oceans, an adjoining
+    # tile should be another river tile, to help comprise a river delta.
+    River: [],
+    }
 
 
 # the transformation of one terrain type into another would be something that

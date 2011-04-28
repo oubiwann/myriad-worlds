@@ -14,3 +14,17 @@ the "near" future (i.e., next up on the list).
 
 * Work on defining terrain data and auto-populating a new world with tiles of
   different terrain types.
+
+* Adjust the API so that it's testable (e.g., convert print statements to print
+  methods that simply print the results of various actions, and then use the
+  methods that generated the results in tests... to do things like play the
+  game programmatically).
+
+* The Cave terrain class was removed. Instead, an attirbute needs to be added
+  to terrain objects to indicate the liklihood of a cave occurring on that
+  tile.
+
+* I've started thinking about the rules for fine-tuning the placement of tiles,
+  and under what circumstances one tile can be next to another (in addition to
+  valid transitions). This work needs to continue with the addition of
+  supporting logic in the util.getRandomTileTransitionClass function.

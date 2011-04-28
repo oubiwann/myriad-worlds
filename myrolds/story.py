@@ -6,6 +6,8 @@ from myrolds.world import World
 from myrolds.item import Item, OpenableItem
 
 
+# XXX maybe the story object should have a map attribute assigned based on
+# story type... e.g., provided ASCII map, procedurally generated map, etc.
 class Story(object):
 
     def __init__(self, filename):
@@ -15,6 +17,7 @@ class Story(object):
         self.map = Map(self.data.get("map"))
         self.world = World()
         self.world.setScapes(self.map.getScapes())
+        # XXX what form do these take when the map is procedural?
         self.createItems()
         self.updateScapes()
         self.createCharacters()
