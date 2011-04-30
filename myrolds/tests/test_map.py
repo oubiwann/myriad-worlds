@@ -7,4 +7,4 @@ class GenerateMapTestCase(unittest.TestCase):
 
     def test_generateTilesSmallMap(self):
         print
-        result = map.GeneratedMap("tiny").generateTiles()
+        result = map.GeneratedMap("tiny")
