@@ -82,9 +82,9 @@ class Tile(object):
                 reply = "There is a %s to the " % self.getExitName()
             else:
                 reply = "There are %ss to the " % self.getExitName()
-            exitNames = [map.getDirectionName(map.reverseDirections[index])
-                         for index, exit in enumerate(self.exits)
-                         if exit is not None]
+            exitNames = [map.getDirectionName(exit)
+                         for exit, room in enumerate(self.exits)
+                         if room is not None]
             reply += enumerateExits(exitNames)
             reply += "."
             print reply
