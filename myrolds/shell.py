@@ -32,7 +32,7 @@ class ShellParser(object):
         takeVerb = makeCmd("TAKE PICKUP") | \
             (CaselessLiteral("PICK") + CaselessLiteral("UP"))
         moveVerb = makeCmd("MOVE GO") | empty
-        useVerb = oneOf("USE U")
+        useVerb = makeCmd("USE U")
         openVerb = makeCmd("OPEN O")
         quitVerb = makeCmd("QUIT Q")
         lookVerb = makeCmd("LOOK L")
@@ -41,18 +41,25 @@ class ShellParser(object):
         readVerb = CaselessKeyword("READ")
 
         itemRef = OneOrMore(Word(alphas)).setParseAction(self.validateItemName)
-        nDir = oneOf("N NORTH",caseless=True).setParseAction(replaceWith("N"))
-        sDir = oneOf("S SOUTH",caseless=True).setParseAction(replaceWith("S"))
-        eDir = oneOf("E EAST",caseless=True).setParseAction(replaceWith("E"))
-        wDir = oneOf("W WEST",caseless=True).setParseAction(replaceWith("W"))
-        moveDirection = nDir | sDir | eDir | wDir
+        makeDir = lambda s : makeCmd(s).setParseAction(
+            replaceWith(s.split()[0]))
+        nDir = makeDir("N NORTH")
+        sDir = makeDir("S SOUTH")
+        eDir = makeDir("E EAST")
+        wDir = makeDir("W WEST")
+        neDir = makeDir("NE NORTHEAST")
+        seDir = makeDir("SE SOUTHEAST")
+        swDir = makeDir("SW SOUTHWEST")
+        nwDir = makeDir("NW NORTHWEST")
+        moveDirection = nDir | sDir | eDir | wDir | neDir | seDir | swDir \
+            | nwDir
 
         invCommand = invVerb
         dropCommand = dropVerb + itemRef.setResultsName("item")
         takeCommand = takeVerb + itemRef.setResultsName("item")
-        useCommand = useVerb + itemRef.setResultsName("usedObj") + \
+        useCommand = useVerb + itemRef("usedObj") + \
             Optional(oneOf("IN ON", caseless=True)) + \
-            Optional(itemRef,default=None).setResultsName("targetObj")
+            Optional(itemRef, default=None)("targetObj")
         openCommand = openVerb + itemRef.setResultsName("item")
         moveCommand = moveVerb + moveDirection.setResultsName("direction")
         quitCommand = quitVerb
