@@ -3,6 +3,9 @@ from myrolds.item import Item
 from myrolds.util import enumerateItems, enumerateExits
 
 
+# XXX maybe there should be layers *and* a context object. For all operations
+# that require a layer to be know, the current layer (context) could just be
+# used...
 class World(object):
 
     def __init__(self):
@@ -11,17 +14,21 @@ class World(object):
         startingPlace = None
 
     def setScapes(self, scapes):
+        # XXX scapes need to know which layer they belong to
         self.scapes = scapes
 
     def getScape(self, name):
+        # XXX from which layer?
         return self.scapes[name]
 
     def putItemInScape(self, item, scape):
+        # XXX items need to know which layer they belong to
         if isinstance(scape, basestring):
             scape = self.scapes[scape]
         scape.addItem(Item.items[item])
 
     def placeCharacterInScape(self, character, scape, isPlayer=False):
+        # XXX characters need to know which layer they belong to
         character.moveTo(scape)
         if isPlayer:
             self.setPlayer(character)
@@ -29,10 +36,13 @@ class World(object):
     def setPlayer(self, player):
         self.player = player
 
+    def setLayers(self, layers):
+        self.layers = layers
 
-class WorldScape(object):
+
+class Tile(object):
     """
-    An abstract scape of the world.
+    An abstract portion of the world.
     """
     def __init__(self, id, name="", desc=""):
         self.id = id
@@ -40,6 +50,7 @@ class WorldScape(object):
         self.desc = desc
         self.inv = []
         self.gameOver = False
+        self.doors = [None] * 8
 
     def enter(self, player):
         if self.gameOver:
@@ -64,14 +75,13 @@ class WorldScape(object):
 
     def listExits(self):
         numExits = sum([1 for exit in self.exits if exit is not None])
-        print "number of exits:", numExits
         if numExits == 0:
             reply = "There are no %s in any direction." % self.getExitName()
         else:
             if numExits == 1:
                 reply = "There is a %s to the " % self.getExitName()
             else:
-                reply = "There are %s to the " % self.getExitName()
+                reply = "There are %ss to the " % self.getExitName()
             exitNames = [map.getDirectionName(map.reverseDirections[index])
                          for index, exit in enumerate(self.exits)
                          if exit is not None]
@@ -84,25 +94,25 @@ class WorldScape(object):
         self.listExits()
 
 
-class Moment(WorldScape):
+class Moment(Tile):
     """
     A "scape" that takes place in time, rather than physical space.
     """
 
 
-class Town(WorldScape):
+class Town(Tile):
 
     def addBuilding(self, building):
         pass
 
 
-class Building(WorldScape):
+class Building(Tile):
 
     def addRoom(self, room):
         pass
 
 
-class Room(WorldScape):
+class Room(Tile):
     """
     A "tile" or "section" of the world. This can be of any size
     """
