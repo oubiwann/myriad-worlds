@@ -1,5 +1,7 @@
 import random
 
+from pyparsing import srange
+
 from myrolds import util
 from myrolds.const import N, S, E, W, NE, NW, SE, SW, C, U, D
 
@@ -37,6 +39,7 @@ def getDirectionName(direction):
     elif direction == D:
         return "down"
 
+
 class ASCIICharacterMap(object):
     """
     This class parses maps that have been created using ASCII characters.
@@ -66,7 +69,7 @@ class ASCIICharacterMap(object):
             A-Z, a-z indicate rooms, and rooms will be stored in a dictionary
                 by reference letter
 
-            -, | symbols indicate connection between rooms
+            -, |, /, \ symbols indicate connection between rooms
 
             <, >, ^, . symbols indicate one-way connection between rooms
         """
@@ -83,34 +86,59 @@ class ASCIICharacterMap(object):
         rows = map.split("\n")
         for row, line in enumerate(rows):
             for col, c in enumerate(line):
-                if "A" <= c <= "Z" or "a" <= c <= "z":
-                    room = self.scapes[c]
-                    n = None
-                    s = None
-                    e = None
-                    w = None
-                    # look in neighboring cells for connection symbols (must
-                    # take care to guard that neighboring cells exist before
-                    # testing contents)
-                    if col > 0 and line[col-1] in "<-":
-                        other = line[col-2]
-                        w = self.scapes[other]
-                    if col < (len(line) - 1) and line[col + 1] in "->":
-                        other = line[col + 2]
-                        e = self.scapes[other]
-                    if (row > 1
-                        and col < len(rows[row - 1])
-                        and rows[row - 1][col] in '|^'):
-                        other = rows[row - 2][col]
-                        n = self.scapes[other]
-                    if (row < (len(rows) - 1)
-                        and col < len(rows[row + 1])
-                        and rows[row + 1][col] in '|.'):
-                        other = rows[row + 2][col]
-                        s = self.scapes[other]
+                if c not in srange("[A-Za-z]"):
+                    continue
+                room = self.scapes[c]
+                n = None
+                s = None
+                e = None
+                w = None
+                ne = None
+                se = None
+                sw = None
+                nw = None
+                # look in neighboring cells for connection symbols (must
+                # take care to guard that neighboring cells exist before
+                # testing contents)
+                if col > 1 and line[col - 1] in "<-":
+                    other = line[col - 2]
+                    w = self.scapes[other]
+                if col < (len(line) - 1) and line[col + 1] in "->":
+                    other = line[col + 2]
+                    e = self.scapes[other]
+                if (row > 2
+                    and col < len(rows[row - 1])
+                    and rows[row - 1][col] in '|^'):
+                    other = rows[row - 2][col]
+                    n = self.scapes[other]
+                if (row < (len(rows) - 1)
+                    and col < len(rows[row + 1])
+                    and rows[row + 1][col] in '|.'):
+                    other = rows[row + 2][col]
+                    s = self.scapes[other]
+                if (row > 2 
+                    and col < len(rows[row - 1]) - 1 
+                    and rows[row - 1][col + 1] == '/'):
+                    other = rows[row - 2][col + 2]
+                    ne = self.scapes[other]
+                if (row < len(rows) - 1 
+                    and col < len(rows[row + 1]) - 1 
+                    and rows[row + 1][col + 1] == '\\'):
+                    other = rows[row + 2][col + 2]
+                    se = self.scapes[other]
+                if (row > 2 
+                    and 2 < col < len(rows[row - 1]) + 1 
+                    and rows[row - 1][col - 1] == '\\'):
+                    other = rows[row - 2][col - 2]
+                    nw = self.scapes[other]
+                if (row < len(rows) - 1 
+                    and 1 < col < len(rows[row + 1]) + 1 
+                    and rows[row + 1][col - 1] == '/'):
+                    other = rows[row + 2][col - 2]
+                    sw = self.scapes[other]
 
-                    # set connections to neighboring rooms
-                    room.exits = [n, s, e, w]
+                # set connections to neighboring rooms
+                room.exits = [n, s, e, w, ne, se, sw, nw]
 
 
 class GeneratedMap(object):

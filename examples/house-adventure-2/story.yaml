@@ -75,7 +75,7 @@ scapes:
 
   - room-key: g
     name: hallway
-    descroption: You are in a hallway
+    description: You are in a hallway.
 
   - room-key: h
     name: courtyard
@@ -86,6 +86,7 @@ scapes:
         rooms are all at the corners of the courtyard, not against the walls 
         like the other rooms of this house. Very peculiar... and somehow,  
         mysterious.
+
   - room-key: m
     name: exciting room
     description: > 
@@ -150,7 +151,11 @@ scapes:
 
   - room-key: q
     name: quicksand
-    description: You are sinking in quicksand... you're dead."
+    description: >
+        You are sinking in quicksand... you realize too late that the sign back
+        in the other room was probably warning about this very thing. Your
+        teachers always said you had trouble paying attention to direction.
+        They were right: it *did* end up killing you.
     gameOver: True
 
 

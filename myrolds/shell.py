@@ -55,41 +55,30 @@ class ShellParser(object):
             | nwDir
 
         invCommand = invVerb
-        dropCommand = dropVerb + itemRef.setResultsName("item")
-        takeCommand = takeVerb + itemRef.setResultsName("item")
+        dropCommand = dropVerb + itemRef("item")
+        takeCommand = takeVerb + itemRef("item")
         useCommand = useVerb + itemRef("usedObj") + \
             Optional(oneOf("IN ON", caseless=True)) + \
             Optional(itemRef, default=None)("targetObj")
-        openCommand = openVerb + itemRef.setResultsName("item")
-        moveCommand = moveVerb + moveDirection.setResultsName("direction")
+        openCommand = openVerb + itemRef("item")
+        moveCommand = moveVerb + moveDirection("direction")
         quitCommand = quitVerb
         lookCommand = lookVerb
         doorsCommand = doorsVerb
         helpCommand = helpVerb
         readCommand = readVerb + itemRef("subjectObj")
 
-        invCommand.setParseAction(
-            self.makeCommandParseAction(InventoryCommand))
-        dropCommand.setParseAction(
-            self.makeCommandParseAction(DropCommand))
-        takeCommand.setParseAction(
-            self.makeCommandParseAction(TakeCommand))
-        useCommand.setParseAction(
-            self.makeCommandParseAction(UseCommand))
-        openCommand.setParseAction(
-            self.makeCommandParseAction(OpenCommand))
-        moveCommand.setParseAction(
-            self.makeCommandParseAction(MoveCommand))
-        quitCommand.setParseAction(
-            self.makeCommandParseAction(QuitCommand))
-        lookCommand.setParseAction(
-            self.makeCommandParseAction(LookCommand))
-        doorsCommand.setParseAction(
-            self.makeCommandParseAction(DoorsCommand))
-        helpCommand.setParseAction(
-            self.makeCommandParseAction(HelpCommand))
-        readCommand.setParseAction(
-            self.makeCommandParseAction(ReadCommand))
+        invCommand.setParseAction(InventoryCommand)
+        dropCommand.setParseAction(DropCommand)
+        takeCommand.setParseAction(TakeCommand)
+        useCommand.setParseAction(UseCommand)
+        openCommand.setParseAction(OpenCommand)
+        moveCommand.setParseAction(MoveCommand)
+        quitCommand.setParseAction(QuitCommand)
+        lookCommand.setParseAction(LookCommand)
+        doorsCommand.setParseAction(DoorsCommand)
+        helpCommand.setParseAction(HelpCommand)
+        readCommand.setParseAction(ReadCommand)
         return (invCommand |
                   useCommand |
                   openCommand |
