@@ -29,12 +29,14 @@ class MoveCommand(Command):
 
     @staticmethod
     def helpDescription():
-        return """MOVE or GO - go NORTH, SOUTH, EAST, or WEST
-          (can abbreviate as 'GO N' and 'GO W', or even just 'E' and 'S')"""
+        return ("MOVE or GO - go NORTH, SOUTH, EAST, WEST, NORTHEAST, "
+                "SOUTHEAST, SOUTHWEST, or NORTHWEST\n    (can abbreviate "
+                "as 'GO N' and 'GO SW', or even just 'E' or 'SE')")
+
 
     def _doCommand(self, player):
         room = player.room
-        nextRoom = room.exits[map.directions[self.direction]]
+        nextRoom = room.exits[self.direction]
         if nextRoom:
             player.moveTo(nextRoom)
         else:
@@ -143,6 +145,27 @@ class UseCommand(Command):
                 print "You can't use that here."
         else:
             print "There is no %s here to use." % self.subject
+
+
+class ReadCommand(Command):
+    def __init__(self, quals):
+        super(ReadCommand,self).__init__("READ", "reading")
+        self.subject = Item.items[quals["subjectObj"]]
+
+    @staticmethod
+    def helpDescription():
+        return "READ - read an object, either in the room or the player's inventory"
+        
+    def _doCommand(self, player):
+        rm = player.room
+        availItems = rm.inv + player.inv
+        if self.subject in availItems:
+            if self.subject.isReadable(player, self.subject):
+                self.subject.readItem(player, self.subject)
+            else:
+                print "There is nothing on that to read."
+        else:
+            print "There is no %s here to read." % self.subject
 
 
 class OpenCommand(Command):

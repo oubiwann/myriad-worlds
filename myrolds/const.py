@@ -25,8 +25,12 @@ S = 1
 E = 2
 W = 3
 NE = 4
-NW = 5
-SE = 6
-SW = 7
-# the last one is "center"
+SE = 5
+SW = 6
+NW = 7
+# "C" stands for "center"
 C = 8
+# "U" stands for "up"
+U = 9
+# "D" stands for "down"
+D = 10

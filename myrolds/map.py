@@ -1,6 +1,7 @@
-from myrolds import util
+import random
 
-from myrolds.const import N, S, E, W, NE, NW, SE, SW, C
+from myrolds import util
+from myrolds.const import N, S, E, W, NE, NW, SE, SW, C, U, D
 
 
 directions = {
@@ -21,7 +22,20 @@ def getDirectionName(direction):
         return "east"
     elif direction == W:
         return "west"
-
+    elif direction == NE:
+        return "northeast"
+    elif direction == SE:
+        return "southeast"
+    elif direction == SW:
+        return "southwest"
+    elif direction == NW:
+        return "northwest"
+    elif direction == C:
+        return "center"
+    elif direction == U:
+        return "up"
+    elif direction == D:
+        return "down"
 
 class ASCIICharacterMap(object):
     """

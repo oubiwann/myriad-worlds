@@ -4,7 +4,7 @@ from myrolds.util import enumerateItems, enumerateExits
 
 
 # XXX maybe there should be layers *and* a context object. For all operations
-# that require a layer to be know, the current layer (context) could just be
+# that require a layer to be known, the current layer (context) could just be
 # used...
 class World(object):
 
@@ -118,16 +118,7 @@ class Room(Tile):
     """
     def __init__(self, *args, **kwargs):
         super(Room, self).__init__(*args, **kwargs)
-        self.exits = [None, None, None, None]
-
-    def __getattr__(self, attr):
-        return self.getExits()[attr]
-
-    def getExits(self):
-        exitCheks = [
-            (key.lower(), self.exists[value]) for key, value in map.directions]
-        import pdb;pdb.set_trace()
-        return dict(exitChecks)
+        self.exits = [None] * 8
 
     def getExitName(self):
         return "door"
