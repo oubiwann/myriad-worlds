@@ -11,12 +11,13 @@ from myrolds.item import Item
 from myrolds.util import aOrAn
 
 
-class AppParseException(ParseException):
+class ShellParseException(ParseException):
     pass
 
 
-class Parser(object):
-    def __init__(self):
+class ShellParser(object):
+    def __init__(self, session=None):
+        self.session = session
         self.bnf = self.makeBNF()
 
     def makeCommandParseAction(self, cls):
@@ -92,14 +93,14 @@ class Parser(object):
     def validateItemName(self, s, l, t):
         iname = " ".join(t)
         if iname not in Item.items:
-            raise AppParseException(s, l, "No such item '%s'." % iname)
+            raise ShellParseException(s, l, "No such item '%s'." % iname)
         return iname
 
     def parseCmd(self, cmdstr):
         try:
             ret = self.bnf.parseString(cmdstr)
             return ret
-        except AppParseException, parseError:
+        except ShellParseException, parseError:
             print parseError.msg
         except ParseException, parseError:
             print random.choice(["Sorry, I don't understand that.",
@@ -111,19 +112,3 @@ class Parser(object):
                                  "Excuse me?",
                                  "Wtf?",
                                  "What?"])
-
-
-def playGame(story):
-    world = story.world
-    player = world.player
-    # create parser
-    parser = Parser()
-    while not player.gameOver:
-        cmdstr = raw_input(">> ")
-        cmd = parser.parseCmd(cmdstr)
-        if cmd is not None:
-            cmd.command(player)
-    print
-    print "You ended the game with:"
-    for item in player.inv:
-        print " -", aOrAn(item), item

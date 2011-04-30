@@ -49,6 +49,10 @@ def enumerateExits(l):
 
 def getRandomInts(min=0, max=1, step=1, count=1):
     max += step
+    # XXX this needs to use the session randomizer... need to move this
+    # function into a class that the session can get access to (the session has
+    # access to the game, and thus the story, world, and player objects...
+    # world has access to map objects, so that seems like a good place)
     return [random.randrange(min, max, step) for x in xrange(count)]
 
 
@@ -65,6 +69,7 @@ def getTileClasses():
 
 
 def getRandomTileClass():
+    # XXX this needs to use the session randomizer... need to move this
     return random.choice(getTileClasses())
 
 
@@ -96,9 +101,13 @@ def getRandomTileTransitionClass(tile, neighborTiles):
     # the higher tendency the tile is to be pervasive, the more likely the
     # tile will continue being used; if the same tile is not pervaded, randomly
     # select a valid transition tile from the intersections
+
+    # XXX this needs to use the session randomizer... need to move this
     reuseCheck = random.random()
     if tile in intersections and reuseCheck < tile.pervasiveness:
         return tile
+
+    # XXX this needs to use the session randomizer... need to move this
     return random.choice(intersections)
     return choice
 
