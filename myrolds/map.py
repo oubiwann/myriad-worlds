@@ -104,8 +104,11 @@ class GeneratedMap(object):
     def __init__(self, size):
         self.size = size
         self.grid = None
+        self.startingTile = None
+        self.passableTiles = []
+        self.playableTiles = []
         self.generateTiles()
-        self.setExits()
+        self.finishTiles()
 
     def printTiles(self):
         for j in self.grid:
@@ -161,31 +164,68 @@ class GeneratedMap(object):
         # XXX debug
         self.printTiles()
 
-    def setExits(self):
+    def finishTiles(self):
+        """
+        This method does the following, once the tiles have been generated:
+            * sets the exits on each tile
+            * builds a list of tiles that are passable
+            * builds a list of tiles that are playable (passable *and* have
+              exits)
+            * set the starting place for the player
+        """
         for j, row in enumerate(self.grid):
             for i, tile in enumerate(row):
+                tile.startingPlace = False
+                # set the exits
                 exits = util.getSurroundingExits(i, j, self.grid)
                 tile.exits = exits
+                maxExits = len(tile.exits)
+                # get passable tiles
+                if tile.isPassable:
+                    self.passableTiles.append(tile)
+                    # get playable tiles
+                    nones = [exit for exit in tile.exits if exit is None]
+                    if nones > maxExits:
+                        self.playableTiles.append(tile)
+        # set one of the playable tiles as the starting place
+        # XXX use randomizer for this? or do we always want to start in a new
+        # place?
+        self.startingTile = random.choice(self.getPlayableTiles())
+        self.startingTile.startingPlace = True
 
+    def getScapes(self):
+        return self.grid
+
+    def getPassableTiles(self):
+        return self.passableTiles
+
+    def getPlayableTiles(self):
+        return self.playableTiles
+            
 
 class Map(object):
 
     def __init__(self, mapData):
         self.type = mapData.get("type")
         self.data = None
+        self._map = None
         if self.type.lower() == "ascii":
             self.location = mapData.get("location")
-            _map = ASCIICharacterMap(self.location)
-            self.data = _map.getData()
-            self.scapes = _map.getScapes()
+            self._map = ASCIICharacterMap(self.location)
+            self.data = self._map.getData()
         if self.type.lower() == "procedural":
             self.size = mapData.get("size")
-            _map = GeneratedMap(self.size)
-            self.data = _map.getData()
-            self.scapes = _map.getScapes()
+            self._map = GeneratedMap(self.size)
+        self.scapes = self._map.getScapes()
 
     def getData(self):
         return self.data
 
     def getScapes(self):
         return self.scapes
+
+    def setStartingPlace(self, tile):
+        self._map.startingTile = tile
+
+    def getStartingPlace(self):
+        return self._map.startingTile

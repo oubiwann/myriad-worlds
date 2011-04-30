@@ -31,17 +31,22 @@ class Story(object):
         return self.map.getData()
 
     def createItems(self):
-        for itemData in self.data.get("items"):
+        itemsData = self.data.get("items")
+        if not itemsData:
+            return
+        for itemData in itemsData:
             self.createItem(itemData)
 
     def updateScapes(self):
         scapesData = self.data.get("scapes")
+        if not scapesData:
+            return
         for scapeData in scapesData:
             scape = self.world.scapes.get(scapeData.get("room-key"))
             startingPlace = scapeData.get("startingPlace")
             if startingPlace:
                 scape.startingPlace = True
-                self.world.startingPlace = scape
+                self.setStartingPlace(scape)
             scape.name = scapeData.get("name")
             self.world.scapes[scape.name] = scape
             scape.desc = scapeData.get("description")
@@ -68,15 +73,27 @@ class Story(object):
         # use the scape object's addItem method
         self.world.putItemInScape(itemName, scape)
 
+    def setStartingPlace(self, tile):
+        self.map.setStartingPlace(tile)
+
+    def getStartingPlace(self):
+        return self.map.getStartingPlace()
+
     def createCharacters(self):
-        for characterData in self.data.get("characters"):
+        charactersData = self.data.get("characters")
+        if not charactersData:
+            return
+        for characterData in charactersData:
             if characterData.get("isPlayer") == True:
                 player = Player(characterData.get("name"))
                 for itemName in characterData.get("inventory"):
                     player.take(Item.items[itemName])
                 self.world.placeCharacterInScape(
-                    player, self.world.startingPlace, isPlayer=True)
+                    player, self.getStartingPlace(), isPlayer=True)
 
     def createLayers(self):
-        for layerData in self.data.get("layers"):
+        layersData = self.data.get("layers")
+        if not layersData:
+            return
+        for layerData in layersData:
             pass
