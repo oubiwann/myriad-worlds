@@ -1,0 +1,160 @@
+map:
+    type: ascii
+    location: examples/house-adventure-2/map.asc
+
+layers:
+  - type: building
+    name: House
+
+items:
+  - name: sword
+
+  - name: diamond
+    
+  - name: apple
+    isDeadly: True
+
+  - name: flower
+
+  - name: coin
+    isVisible: False
+
+  - name: shovel
+
+  - name: magnifying glass
+
+  - name: sign
+    isTakable: False
+
+  - name: book
+
+  - name: mirror
+    isFragile: True
+
+  - name: telescope
+    isTakable: False
+
+  - name: gold bar
+
+  - name: treasure chest
+    isOpenable: True
+    items: [gold bar]
+
+
+scapes:
+  - room-key: A
+    name: front porch
+    description: You are standing at the front door.
+    startingPlace: True
+    items: [shovel, magnifying glass]
+
+  - room-key: b
+    name: garden
+    description: You are in a garden.
+    items: [coin, flower, sign]
+
+  - room-key: c
+    name: kitchen
+    description: You are in a kitchen.
+    items: [book]
+
+  - room-key: d
+    name: back porch
+    description: You are on the back porch.
+    items: [diamond]
+
+  - room-key: e
+    name: library
+    description: You are in a library.
+    items: [apple, mirror, telescope]
+
+  - room-key: f
+    name: patio
+    description: You are on the patio.
+    items: [treasure chest]
+
+  - room-key: g
+    name: hallway
+    descroption: You are in a hallway
+
+  - room-key: h
+    name: courtyard
+    description: > 
+        You are in an indoor courtyard. The ceiling is glass, so there
+        is a great deal of light that enters the room. What's more, the room is
+        made more interesting by the fact that the doorways to the adjoining 
+        rooms are all at the corners of the courtyard, not against the walls 
+        like the other rooms of this house. Very peculiar... and somehow,  
+        mysterious.
+  - room-key: m
+    name: exciting room
+    description: > 
+        You are in an exciting room. For some reason, you get butterflies in
+        your stomach and begin to laugh. You try to suppress it, but do not
+        succeed. This room is just too exciting.
+
+  - room-key: n
+    name: wonderful room
+    description: >
+        You are in a wonderful room. Though you cannot explain your reaction by
+        examining the simple decorations, you find yourself reminded of
+        pyramids, hanging gardens, and lighthouses.
+
+  - room-key: o
+    name: fascinating room
+    description: >
+        You are in a fascinating room. Each little nondescript nothing here
+        creates endless thoughts in your head. You'd better leave soon, or you
+        could end up fascinating yourself to death.
+
+  - room-key: p
+    name: terrific key
+    description: You are in a terrific room. Dunno why. It's just terrific.
+
+  - room-key: r
+    name: no escape
+    description: >
+        Oh no! You notice too late that the door you just passed through is a
+        magical one-way door, an infamous one-way Valve of Doom. You begin
+        going through your inventory to catalog your edible resources. After
+        that, you're going to do some math and estimate how many days you have
+        left, for they are most certainly numbered.
+
+  - room-key: s
+    name: room of denial
+    description: You are in the Room of Denial. You cannot go back.
+
+  - room-key: t
+    name: room of anger
+    description: You are in the Room of Anger. You cannot go back.
+
+  - room-key: u
+    name: room of bargaining
+    description: You are in the Room of Bargaining. You can still not go back.
+
+  - room-key: v
+    name: room of sorrow
+    description: >
+        You are in the Room of Sorrow. Hey! You can -- oh, wait. Never mind.
+        You can't go back.
+
+  - room-key: w
+    name: room of acceptance
+    description: >
+        You are in the Room of Acceptance. Oddly, having come to terms with the
+        fact that this chain of rooms with their one-way doors could go on
+        forever, you find out something quite to the contrary: they have
+        circled back to the courtyard... you see it just beyond the next door.
+        You sigh with relief and anticipation when you see that startlingly
+        bright room.
+
+  - room-key: q
+    name: quicksand
+    description: You are sinking in quicksand... you're dead."
+    gameOver: True
+
+
+characters:
+  - name: Bob
+    isPlayer: True
+    inventory: [sword]
