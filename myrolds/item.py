@@ -47,5 +47,5 @@ class OpenableItem(Item):
             self.isOpened = True
             self.isOpenable = False
             if self.contents is not None:
-                player.room.addItem(self.contents)
+                [player.room.addItem(x) for x in self.contents]
             self.desc = "open " + self.desc
