@@ -141,6 +141,20 @@ def getSurroundingIndices(x, y, grid):
     return indices
 
 
+def getSurroundingExits(x, y, grid):
+    indices = getSurroundingIndices(x, y, grid)
+    for direction, value in indices.items():
+        if direction == C:
+            continue
+        elif not value:
+            continue
+        else:
+            tile = grid[y][x]
+            if not tile.isPassable:
+                indices[direction] = None
+    return [value for key, value in sorted(indices.items())]
+
+
 def setSurroundingTiles(tile, x, y, grid):
     """
     For each random tile we select, we need to 1) make sure that its a valid
