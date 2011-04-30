@@ -1,7 +1,6 @@
-from myrolds import shell
+from myrolds.game import Game
 from myrolds.item import Item, OpenableItem
 from myrolds.story import Story
-from myrolds.world import World
 
 
 # start game definition
@@ -23,5 +22,7 @@ def useTelescope(player, subj, target):
     print "You don't see anything."
 Item.items["telescope"].useAction = useTelescope
 
+
 # start game
-shell.playGame(story)
+game = Game("House Adventure")
+game.play(story)
