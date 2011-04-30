@@ -11,6 +11,8 @@ class Item(object):
         self.isTakeable = isTakable
         self.isVisible = isVisible
         self.isOpenable = isOpenable
+        self.readAction = None
+        self.readableConditionTest = None
         self.useAction = None
         self.usableConditionTest = None
         Item.items[name] = self
@@ -34,9 +36,20 @@ class Item(object):
         if self.useAction:
             self.useAction(player, self, target)
 
+    def isReadable(self, player, target):
+        if self.readableConditionTest:
+            return self.readableConditionTest(player, target)
+        else:
+            return False
+
+    def readItem(self, player, target):
+        if self.readAction:
+            self.readAction(player, self, target)
+
 
 class OpenableItem(Item):
-    def __init__(self, desc, contents = None):
+
+    def __init__(self, desc, contents=None):
         super(OpenableItem,self).__init__(desc)
         self.isOpenable = True
         self.isOpened = False
