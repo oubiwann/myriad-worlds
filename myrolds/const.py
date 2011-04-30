@@ -14,7 +14,7 @@
 # 
 # As a further extreme, a continent the size of North America (about 3 times
 # larger than the surface area of Australia) would be 1000 by 1000 tiles.
-
+#
 # And finally, the Earth itself has a total of 316944047 square miles (land and
 # sea) which would be about 102240015 tiles, or a grid of 10002 by 10222 tiles.
 horizonDistance = 3.1

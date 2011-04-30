@@ -12,14 +12,14 @@ reverseDirections = dict([
     (index, direction) for direction, index in directions.items()])
 
 
-def getDirectionName(abbr):
-    if abbr.lower() == "n":
+def getDirectionName(direction):
+    if direction == N:
         return "north"
-    elif abbr.lower() == "s":
+    elif direction == S:
         return "south"
-    elif abbr.lower() == "e":
+    elif direction == E:
         return "east"
-    elif abbr.lower() == "w":
+    elif direction == W:
         return "west"
 
 
@@ -103,6 +103,19 @@ class GeneratedMap(object):
 
     def __init__(self, size):
         self.size = size
+        self.grid = None
+        self.generateTiles()
+        self.setExits()
+
+    def printTiles(self):
+        for j in self.grid:
+            for i in j:
+                if hasattr(i, "__name__"):
+                    x = i.__name__
+                else:
+                    x = i
+                print x.ljust(11, " "),
+            print
 
     def generateTiles(self):
         # enough tiles to hold 1-2 small towns
@@ -123,15 +136,6 @@ class GeneratedMap(object):
             # surrounding tiles
             grid[0][0] = tile
             util.setSurroundingTiles(tile, 0, 0, grid)
-            # XXX debug
-            for j in grid:
-                for i in j:
-                    if hasattr(i, "__name__"):
-                        x = i.__name__
-                    else:
-                        x = i
-                    print x.ljust(11, " "),
-                print
         # enough tiles to hold 3-6 small towns
         if self.size == "small":
             pass
@@ -153,6 +157,16 @@ class GeneratedMap(object):
         # enough tiles to hold an Earth-sized planet
         if self.size == "planetary":
             pass
+        self.grid = grid
+        # XXX debug
+        self.printTiles()
+
+    def setExits(self):
+        for j, row in enumerate(self.grid):
+            for i, tile in enumerate(row):
+                exits = util.getSurroundingExits(i, j, self.grid)
+                tile.exits = exits
+
 
 class Map(object):
 

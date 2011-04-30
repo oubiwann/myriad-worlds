@@ -1,4 +1,5 @@
 from myrolds import map
+from myrolds.const import N, S, E, W, NE, NW, SE, SW, C
 from myrolds.item import Item
 from myrolds.util import aOrAn, enumerateItems
 
@@ -24,7 +25,7 @@ class Command(object):
 class MoveCommand(Command):
     def __init__(self, quals):
         super(MoveCommand,self).__init__("MOVE", "moving")
-        self.direction = quals["direction"][0]
+        self.direction = eval(quals["direction"][0])
 
     @staticmethod
     def helpDescription():
