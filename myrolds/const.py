@@ -34,3 +34,4 @@ C = 8
 U = 9
 # "D" stands for "down"
 D = 10
+directions = [N, S, E, W, NE, SE, SW, NW, C, U, D]

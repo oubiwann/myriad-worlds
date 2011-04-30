@@ -47,13 +47,17 @@ class ASCIICharacterMap(object):
     Because rooms are limited to A-Za-z, ASCII character-based maps are limited
     to 52 rooms/scapes.
     """
-    def __init__(self, filename):
+    def __init__(self, filename=""):
         self.scapes = {}
-        self.file = open(filename)
-        self.data = self.file.read()
+        self.file = None
+        self.data = None
+        if filename:
+            self.file = open(filename)
+            self.data = self.file.read()
         # with the string data from the file, instantiate rooms for all the
         # scapes
-        self.createScapes(self.getData())
+        if self.data:
+            self.createScapes(self.getData())
 
     def getData(self):
         return self.data
