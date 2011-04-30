@@ -2,6 +2,10 @@ map:
     type: ascii
     location: examples/house-adventure/map.asc
 
+layers:
+  - type: building
+    name: House
+
 items:
   - name: sword
 

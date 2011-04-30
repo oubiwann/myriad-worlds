@@ -76,3 +76,7 @@ class Story(object):
                     player.take(Item.items[itemName])
                 self.world.placeCharacterInScape(
                     player, self.world.startingPlace, isPlayer=True)
+
+    def createLayers(self):
+        for layerData in self.data.get("layers"):
+            pass
