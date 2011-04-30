@@ -1,6 +1,7 @@
-from myrolds import shell
+from myrolds.game import Game
 from myrolds.story import Story
 
 
 story = Story("examples/land-generation/small-area.yaml")
-shell.playGame(story)
+game = Game("save game 1")
+game.play(story)

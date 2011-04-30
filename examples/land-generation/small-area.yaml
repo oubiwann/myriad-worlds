@@ -1,4 +1,11 @@
 map:
     type: procedural
-    size: small
+    size: tiny
 
+items:
+  - name: walking stick
+
+characters:
+  - name: Alice
+    isPlayer: True
+    inventory: [walking stick]
