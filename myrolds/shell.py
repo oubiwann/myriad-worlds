@@ -2,11 +2,11 @@ import random
 
 from pyparsing import alphas, empty, oneOf, replaceWith
 from pyparsing import CaselessLiteral, OneOrMore, Optional, ParseException
-from pyparsing import LineEnd, Word
+from pyparsing import CaselessKeyword, LineEnd, MatchFirst, Word
 
 from myrolds.command import DropCommand, InventoryCommand, TakeCommand
 from myrolds.command import MoveCommand, OpenCommand, QuitCommand, UseCommand
-from myrolds.command import DoorsCommand, HelpCommand, LookCommand
+from myrolds.command import DoorsCommand, HelpCommand, LookCommand, ReadCommand
 from myrolds.item import Item
 from myrolds.util import aOrAn
 
@@ -26,17 +26,19 @@ class ShellParser(object):
         return cmdParseAction
 
     def makeBNF(self):
-        invVerb = oneOf("INV INVENTORY I", caseless=True)
-        dropVerb = oneOf("DROP LEAVE", caseless=True)
-        takeVerb = oneOf("TAKE PICKUP", caseless=True) | \
+        makeCmd = lambda s: MatchFirst(map(CaselessKeyword, s.split()))
+        invVerb = makeCmd("INV INVENTORY I")
+        dropVerb = makeCmd("DROP LEAVE")
+        takeVerb = makeCmd("TAKE PICKUP") | \
             (CaselessLiteral("PICK") + CaselessLiteral("UP"))
-        moveVerb = oneOf("MOVE GO", caseless=True) | empty
-        useVerb = oneOf("USE U", caseless=True)
-        openVerb = oneOf("OPEN O", caseless=True)
-        quitVerb = oneOf("QUIT Q", caseless=True)
-        lookVerb = oneOf("LOOK L", caseless=True)
-        doorsVerb = CaselessLiteral("DOORS")
-        helpVerb = oneOf("H HELP ?",caseless=True)
+        moveVerb = makeCmd("MOVE GO") | empty
+        useVerb = oneOf("USE U")
+        openVerb = makeCmd("OPEN O")
+        quitVerb = makeCmd("QUIT Q")
+        lookVerb = makeCmd("LOOK L")
+        doorsVerb = CaselessKeyword("DOORS")
+        helpVerb = makeCmd("H HELP ?")
+        readVerb = CaselessKeyword("READ")
 
         itemRef = OneOrMore(Word(alphas)).setParseAction(self.validateItemName)
         nDir = oneOf("N NORTH",caseless=True).setParseAction(replaceWith("N"))
@@ -49,7 +51,7 @@ class ShellParser(object):
         dropCommand = dropVerb + itemRef.setResultsName("item")
         takeCommand = takeVerb + itemRef.setResultsName("item")
         useCommand = useVerb + itemRef.setResultsName("usedObj") + \
-            Optional(oneOf("IN ON",caseless=True)) + \
+            Optional(oneOf("IN ON", caseless=True)) + \
             Optional(itemRef,default=None).setResultsName("targetObj")
         openCommand = openVerb + itemRef.setResultsName("item")
         moveCommand = moveVerb + moveDirection.setResultsName("direction")
@@ -57,6 +59,7 @@ class ShellParser(object):
         lookCommand = lookVerb
         doorsCommand = doorsVerb
         helpCommand = helpVerb
+        readCommand = readVerb + itemRef("subjectObj")
 
         invCommand.setParseAction(
             self.makeCommandParseAction(InventoryCommand))
@@ -78,7 +81,8 @@ class ShellParser(object):
             self.makeCommandParseAction(DoorsCommand))
         helpCommand.setParseAction(
             self.makeCommandParseAction(HelpCommand))
-
+        readCommand.setParseAction(
+            self.makeCommandParseAction(ReadCommand))
         return (invCommand |
                   useCommand |
                   openCommand |
@@ -88,7 +92,8 @@ class ShellParser(object):
                   lookCommand |
                   doorsCommand |
                   helpCommand |
-                  quitCommand).setResultsName("command") + LineEnd()
+                  quitCommand |
+                  readCommand).setResultsName("command") + LineEnd()
 
     def validateItemName(self, s, l, t):
         iname = " ".join(t)

@@ -223,6 +223,7 @@ class HelpCommand(Command):
             DoorsCommand,
             QuitCommand,
             HelpCommand,
+            ReadCommand,
             ]:
             print "  - %s" % cmd.helpDescription()
         print
