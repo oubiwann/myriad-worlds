@@ -2,23 +2,31 @@ As one might imagine, I have pages and pages of hand-written notes. I'll only
 transfer them to this TODO file when I plan on working on noted features in
 the "near" future (i.e., next up on the list).
 
+========================
+Commands and Interpreter
+========================
+
 * Add save/restore game functionality.
   - add LOAD command
   - add SAVE command
 
-* Add support for rooms containing rooms (e.g., a "city" object that could
-  contain many "building" objects, which could each contain many "room"
-  objects).
-
 * Add readline support (in particular, command history) for the interpreter.
 
-* Work on defining terrain data and auto-populating a new world with tiles of
-  different terrain types.
+=======
+Testing
+=======
 
 * Adjust the API so that it's testable (e.g., convert print statements to print
   methods that simply print the results of various actions, and then use the
   methods that generated the results in tests... to do things like play the
   game programmatically).
+
+=======
+Terrain
+=======
+
+* Work on defining terrain data and auto-populating a new world with tiles of
+  different terrain types.
 
 * The Cave terrain class was removed. Instead, an attirbute needs to be added
   to terrain objects to indicate the liklihood of a cave occurring on that
@@ -28,3 +36,52 @@ the "near" future (i.e., next up on the list).
   and under what circumstances one tile can be next to another (in addition to
   valid transitions). This work needs to continue with the addition of
   supporting logic in the util.getRandomTileTransitionClass function.
+
+* Exits need to be set up on terrain tiles.
+
+* An ASCII road map can probably be extracted from the terrain grid with each
+  tile providing exit data.
+
+* Similarly, with ASCII representations of the terrain types, we could generate
+  and ASCII physical map.
+
+* Need to add unit tests for setExits on GeneratedMap and
+  util.getSurroundingExits.
+
+========================
+Scapes, Tiles and Worlds
+========================
+
+I've started to rename "scapes" to "tiles". However, the world object has a
+scapes attribute... and to rename that to "tiles" wouldn't be accurate.
+
+For instance:
+ * the ourdoor view of the world will have a definite number of tiles
+ * a certain number of these will be town or city tiles
+ * each town or city will be able to hold any number of buildings
+ * any building, a number of floors
+ * any room, a number of rooms
+ * similarly goes for caves - a single tile may have on or two caves, and those
+   caves any number of cavern rooms and tunnels
+
+So this makes me thing we need a "views", "layers", or "contexts" attribute for
+the world. Each context would have it's own tile count, and depending upon
+context, these would be terrain tiles, cityscape tiles, floor tiles, room
+tiles, cave/dungeon tiles, etc.
+
+Since memory usage could get quite large, it'd be a good idea to store each
+context on disk until needed. For large maps (tile layouts for contexts), it
+might be a really good idea to write portions to disk.
+
+Hrm, actually, these contexts fit nicely with tree graphs... 
+
+This work should probably joined with the load/save work (the only difference
+being the data, and explicit commands; the underlying plumbing will be the
+same).
+
+==========
+Directions
+==========
+
+Constants have been defined for directions now. Much of the code that was used
+to get keys and values for direction dicts may no longer be necessary.
