@@ -77,7 +77,13 @@ class ASCIICharacterMap(object):
 
             <, >, ^, . symbols indicate one-way connection between rooms
         """
+        # XXX if we have to import these here to avoid circularity, then maybe
+        # the classes have been placed in the wrong location. Look into this.
         from myrolds.world import Exit, Room
+        # If there is no new line at the beginning of the ASCII map, the
+        # parseing will not be successful. Let's make sure there is.
+        map.lstrip()
+        map = "\n" + map
         # look for room symbols, and initialize dictionary
         # - exit room is always marked 'Z'
         for c in map:

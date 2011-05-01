@@ -25,14 +25,13 @@ class Command(object):
 class MoveCommand(Command):
     def __init__(self, quals):
         super(MoveCommand,self).__init__("MOVE", "moving")
-        self.direction = eval(quals["direction"][0])
+        self.direction = eval(quals["direction"])
 
     @staticmethod
     def helpDescription():
         return ("MOVE or GO - go NORTH, SOUTH, EAST, WEST, NORTHEAST, "
                 "SOUTHEAST, SOUTHWEST, or NORTHWEST\n    (can abbreviate "
                 "as 'GO N' and 'GO SW', or even just 'E' or 'SE')")
-
 
     def _doCommand(self, player):
         room = player.room

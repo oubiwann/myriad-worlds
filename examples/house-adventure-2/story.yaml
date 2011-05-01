@@ -10,7 +10,7 @@ items:
   - name: sword
 
   - name: diamond
-    
+
   - name: apple
     isDeadly: True
 
@@ -79,17 +79,17 @@ scapes:
 
   - room-key: h
     name: courtyard
-    description: > 
+    description: >
         You are in an indoor courtyard. The ceiling is glass, so there
         is a great deal of light that enters the room. What's more, the room is
-        made more interesting by the fact that the doorways to the adjoining 
-        rooms are all at the corners of the courtyard, not against the walls 
-        like the other rooms of this house. Very peculiar... and somehow,  
+        made more interesting by the fact that the doorways to the adjoining
+        rooms are all at the corners of the courtyard, not against the walls
+        like the other rooms of this house. Very peculiar... and somehow,
         mysterious.
 
   - room-key: m
     name: exciting room
-    description: > 
+    description: >
         You are in an exciting room. For some reason, you get butterflies in
         your stomach and begin to laugh. You try to suppress it, but do not
         succeed. This room is just too exciting.

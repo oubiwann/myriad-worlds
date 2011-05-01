@@ -157,7 +157,7 @@ def getSurroundingExits(x, y, grid):
 
 def setSurroundingTiles(tile, x, y, grid):
     """
-    For each random tile we select, we need to 1) make sure that its a valid
+    For each random tile we select, we need to 1) make sure that it's a valid
     transition from all surrounding tiles, and 2) make sure that there are
     least two passable neighboring tiles.
     """
