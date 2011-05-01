@@ -1,3 +1,5 @@
+import textwrap
+
 from myrolds import map
 from myrolds.item import Item
 from myrolds.util import enumerateItems, enumerateExits
@@ -62,36 +64,45 @@ class Tile(object):
     def removeItem(self, item):
         self.inv.remove(item)
 
-    def describe(self):
-        print self.desc
+    def getDescription(self):
+        output = textwrap.fill(self.desc)
         visibleItems = [item for item in self.inv if item.isVisible]
+        output += "\n\n"
         if len(visibleItems) > 1:
-            print "There are %s here." % enumerateItems(visibleItems)
+            output += "There are %s here." % enumerateItems(visibleItems)
         else:
-            print "There is %s here." % enumerateItems(visibleItems)
+            output += "There is %s here." % enumerateItems(visibleItems)
+        return output
+
+    def printDescription(self):
+        print self.getDescription()
 
     def getExitName(self):
         return "exit"
 
-    def listExits(self):
+    def getExits(self):
+        reply = "\n"
         numExits = sum([1 for exit in self.exits if exit is not None])
         if numExits == 0:
-            reply = "There are no %s in any direction." % self.getExitName()
+            reply += "There are no %s in any direction." % self.getExitName()
         else:
             if numExits == 1:
-                reply = "There is a %s to the " % self.getExitName()
+                reply += "There is a %s to the " % self.getExitName()
             else:
-                reply = "There are %ss to the " % self.getExitName()
+                reply += "There are %ss to the " % self.getExitName()
             exitNames = [map.getDirectionName(exit)
                          for exit, room in enumerate(self.exits)
                          if room is not None]
             reply += enumerateExits(exitNames)
             reply += "."
-            print reply
+            return reply
 
-    def describeAndListExits(self):
-        self.describe()
-        self.listExits()
+    def printExits(self):
+        print self.getExits()
+
+    def printDescriptionAndExits(self):
+        self.printDescription()
+        self.printExits()
 
 
 class Moment(Tile):

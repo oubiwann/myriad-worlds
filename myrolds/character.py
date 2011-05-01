@@ -10,10 +10,10 @@ class Player(object):
         room.enter(self)
         if self.gameOver:
             if room.desc:
-                room.describe()
+                room.printDescription()
             print "Game over!"
         else:
-            room.describeAndListExits()
+            room.printDescriptionAndExits()
 
     def take(self, item):
         if item.isDeadly:

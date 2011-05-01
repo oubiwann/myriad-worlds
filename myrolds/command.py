@@ -106,7 +106,7 @@ class LookCommand(Command):
         return "LOOK or L - describes the current room and any objects in it"
 
     def _doCommand(self, player):
-        player.room.describeAndListExits()
+        player.room.printDescriptionAndExits()
 
 
 class DoorsCommand(Command):
