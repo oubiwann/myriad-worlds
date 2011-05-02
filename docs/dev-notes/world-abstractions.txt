@@ -6,7 +6,7 @@ World Abstractions
 Table of Contents:
   1. Graphs and the Fractal Nature of the World
   2. Layers of Reality
-
+  3. Laws of Nature
 
 ---------------------------------------------
 1. Graphs and the Fractal Nature of the World
@@ -110,10 +110,50 @@ The question then becomes, is the graph abstraction useful in anyway? If
 objects representing each level of scale are going to be contained, one within
 the other, what need is there to add an extra memory load?
 
-Phrased like that, we should be asking the following: is there some what to
+Phrased like that, we should be asking the following: is there some way to
 represent the base objects of this world as nodes in a graph, and if so, what
 does this buy us?
 
+Looking at this another way, we have several instances of changed scale here
+where many maps will need to be created:
+ * world scale
+    * 1 map for the world (or world section that constitutes the extent the
+      world to the player)
+ * municipal scale
+     * 1 map for every small town
+     * 1 map for every district in a city (a district being, conveniently, 1
+       tile)
+ * edifice scale
+     * 1 map for every floor of every building in the open world, a town, or a
+       city district
+
+Does it make sense to store all of these in a graph (dict of dicts) object?
+Something like:
+
+  maps = {
+    "world": worldMap,
+    "municipalities": {
+      "town 1": {
+        "map": town1Map,
+        "buildings": {
+          "building1": building1Map,
+          "building2": building2Map,
+          ...
+        },
+      },
+      "city 1": {
+        "district 1": {
+          "map": district1Map,
+          "buildings": {
+            ...
+            },
+          },
+        "district 2": {
+          ...
+        },
+      },
+    },
+  }
 
 --------------------
 2. Layers of Reality
@@ -198,3 +238,27 @@ mode/context, the player can be "injected" into any layer. There needs to be an
 API defined for this, one accessible by in-game objects (keys, doors, portals,
 magic spells, states of consciousness, furniture, etc.) with a transfer to a
 different layer triggered by some action on an object by the player.
+
+The underlying infrastructure that would support this could take many forms.
+One that comes to mind is a "context" object. This object could be the object
+that sits between the player and the layers. The layers change, but regardless
+of layer, the context object always has the same methods/attributes, and is
+what the game code uses to interface with the world. It's what "knows" what the
+current layer is.
+
+
+-----------------
+3. Laws of Nature
+-----------------
+
+For each world in a given game, the laws of physics could change (e.g.,
+differences between ordinary reality and a dream state). Basic in-game
+mechanics and physics should be addressed, including such things as:
+ * travel speed
+ * passage of time (perceived and in the ordinary or home reality)
+ * ... (add some more)
+
+Each world object should have a "physics" attribute. The physics object should
+have standard data and methods attached, such that for whatever reality is in
+the current context, the world's physics attribute is access for the
+appropriate data or calculation.
