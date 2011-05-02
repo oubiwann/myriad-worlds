@@ -1,5 +1,11 @@
-class GeographicalFeature(object):
-    defaultDesc = ""
+import inspect
+import random
+
+from myrolds.world.base import Tile
+
+
+class GeographicalFeature(Tile):
+    desc = ""
     allowedTransitions = []
     allowedTransforms = {
         "increased temperature": [],
@@ -24,94 +30,107 @@ class WaterBody(GeographicalFeature):
 
 
 class Plains(Terrain):
-    defaultDesc = ""
+    desc = "You are surrounded by grassy plains."
     isPassable = True
     pervasiveness = 0.8
 
 
 class SandyGround(Plains):
-    traversalMultiplier = 0.8
+    desc = "You are surrounded by sandy ground."
+    traversalMultiplier = 0.6
     isPassable = True
     pervasiveness = 0.3
 
 
 class RockyGround(Plains):
-    defaultDesc = ""
+    desc = "You are surrounded by rocky ground."
+    traversalMultiplier = 0.8
     isPassable = True
     pervasiveness = 0.3
 
 
 class Hills(RockyGround):
-    defaultDesc = ""
+    desc = "You have entered a hilly area."
     traversalMultiplier = 0.6
     isPassable = True
     pervasiveness = 0.5
 
 
 class Mountains(Hills):
-    defaultDesc = ""
+    desc = "You are in the mountains"
     traversalMultiplier = 0.4
     isPassable = True
     pervasiveness = 0.4
 
 
 class HighPeaks(Mountains):
-    defaultDesc = ""
+    desc = ("The wind is blowing hard, and you have a difficult time "
+            "breathing. You are very high up in the mountains, among "
+            "the highest peaks.")
     traversalMultiplier = 0.1
     isPassable = False
     pervasiveness = 0.2
 
 
 class HighPlateau(Mountains):
-    defaultDesc = ""
+    desc = ("The wind is blowing hard, and you have a difficult time "
+            "breathing. You are very high up in the mountains, on a "
+            "large, moderately flat plateau. It is a forbidding environment.")
+    traversalMultiplier = 0.7
     isPassable = True
     pervasiveness = 0.1
 
 
 class Valley(Plains):
-    defaultDesc = ""
+    desc = "Nestled between the slopes, you are standing in a valley."
     isPassable = True
     pervasiveness = 0.3
 
 
 class Desert(SandyGround):
-    defaultDesc = ""
+    desc = ("You have entered the desert. You wonder how long your water "
+            "will last if you have to keep this up...")
+    traversalMultiplier = 0.4
     isPassable = False
     pervasiveness = 0.7
 
 
 class Beach(SandyGround):
-    defaultDesc = ""
+    desc = ("You are on a beach. This would be a lovely place for a vacation. "
+            "If you knew what vacations were.")
     isPassable = True
     pervasiveness = 0.3
 
 
-class Ravine(Terrain):
-    defaultDesc = ""
+class Ravine(RockyGround):
+    desc = ("You've managed to get yourself into a ravine. Let's see if you "
+            "can get yourself out.")
+    traversalMultiplier = 0.6
     isPassable = True
     pervasiveness = 0.3
 
 
 class Canyon(Ravine):
-    defaultDesc = ""
+    desc = ("You are now in a canyon. A most unenviable position for a "
+            "traveller to be in.")
     isPassable = False
     pervasiveness = 0.3
 
 
 class River(WaterBody):
-    defaultDesc = ""
+    desc = "For some reason, you've decided to take a swim in a river."
     isPassable = False
     pervasiveness = 0.3
 
 
 class Lake(WaterBody):
-    defaultDesc = ""
+    desc = "You are currently in a lake."
     isPassable = False
     pervasiveness = 0.7
 
 
 class Ocean(WaterBody):
-    defaultDesc = ""
+    desc = "You have entered the ocean."
     isPassable = False
     pervasiveness = 0.9
 
@@ -167,3 +186,61 @@ requires = {
 # occurred with a permanent change (local or global) in temperature (e.g., a
 # river turning into a dry ravine).
 transforms ={}
+
+
+def getTileClasses():
+    from myrolds.world import terrain
+    classes = inspect.getmembers(terrain, inspect.isclass)
+    terrainClasses = [klass for name, klass in classes
+        if issubclass(klass, terrain.Terrain)
+        and klass is not terrain.Terrain]
+    waterClasses = [klass for name, klass in classes
+        if issubclass(klass, terrain.WaterBody)
+        and klass is not terrain.WaterBody]
+    return terrainClasses + waterClasses
+
+
+def getRandomTileClass():
+    # XXX this needs to use the session randomizer... need to move this
+    return random.choice(getTileClasses())
+
+
+def getPassableRandomTileClass():
+    tile = getRandomTileClass()
+    while not tile.isPassable:
+        tile = getRandomTileClass()
+    return tile
+
+
+def getRandomTileTransitionClass(tile, neighborTiles):
+    # build sets of all valid transitions for each neighbor, then to find a
+    # transition that's valid for them all simultaneously, do an intersection
+    if not neighborTiles:
+        intersections = transitions[tile]
+    elif len(neighborTiles) == 1:
+        intersections = neighborTiles
+    else:
+        intersections = []
+        for index, tile in enumerate(neighborTiles):
+            if index == len(neighborTiles) - 1:
+                break
+            thisTransition = transitions[tile]
+            nextTransition = transitions[neighborTiles[index + 1]]
+            intersections.extend(
+                list(set(thisTransition).intersection(nextTransition)))
+        # remove redundancies
+        intersections = list(set(intersections))
+    # the higher tendency the tile is to be pervasive, the more likely the
+    # tile will continue being used; if the same tile is not pervaded, randomly
+    # select a valid transition tile from the intersections
+
+    # XXX this needs to use the session randomizer... need to move this
+    reuseCheck = random.random()
+    if tile in intersections and reuseCheck < tile.pervasiveness:
+        return tile
+
+    # XXX this needs to use the session randomizer... need to move this
+    return random.choice(intersections)
+
+
+

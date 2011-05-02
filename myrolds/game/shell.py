@@ -4,11 +4,8 @@ from pyparsing import alphas, empty, oneOf, replaceWith
 from pyparsing import CaselessLiteral, OneOrMore, Optional, ParseException
 from pyparsing import CaselessKeyword, LineEnd, MatchFirst, Word
 
-from myrolds.command import DropCommand, InventoryCommand, TakeCommand
-from myrolds.command import MoveCommand, OpenCommand, QuitCommand, UseCommand
-from myrolds.command import DoorsCommand, HelpCommand, LookCommand, ReadCommand
+from myrolds.game import command
 from myrolds.item import Item
-from myrolds.util import aOrAn
 
 
 class ShellParseException(ParseException):
@@ -68,17 +65,17 @@ class ShellParser(object):
         helpCommand = helpVerb
         readCommand = readVerb + itemRef("subjectObj")
 
-        invCommand.setParseAction(InventoryCommand)
-        dropCommand.setParseAction(DropCommand)
-        takeCommand.setParseAction(TakeCommand)
-        useCommand.setParseAction(UseCommand)
-        openCommand.setParseAction(OpenCommand)
-        moveCommand.setParseAction(MoveCommand)
-        quitCommand.setParseAction(QuitCommand)
-        lookCommand.setParseAction(LookCommand)
-        doorsCommand.setParseAction(DoorsCommand)
-        helpCommand.setParseAction(HelpCommand)
-        readCommand.setParseAction(ReadCommand)
+        invCommand.setParseAction(command.InventoryCommand)
+        dropCommand.setParseAction(command.DropCommand)
+        takeCommand.setParseAction(command.TakeCommand)
+        useCommand.setParseAction(command.UseCommand)
+        openCommand.setParseAction(command.OpenCommand)
+        moveCommand.setParseAction(command.MoveCommand)
+        quitCommand.setParseAction(command.QuitCommand)
+        lookCommand.setParseAction(command.LookCommand)
+        doorsCommand.setParseAction(command.DoorsCommand)
+        helpCommand.setParseAction(command.HelpCommand)
+        readCommand.setParseAction(command.ReadCommand)
         return (invCommand |
                   useCommand |
                   openCommand |

@@ -1,10 +1,14 @@
-class Player(object):
+from myrolds.common import InventoriedObject
+
+
+class Player(InventoriedObject):
 
     def __init__(self, name):
+        super(Player, self).__init__()
         self.name = name
         self.gameOver = False
-        self.inv = []
 
+    # XXX change "room" to something more generic, e.g., "tile"
     def moveTo(self, room):
         self.room = room
         room.enter(self)

@@ -1,7 +1,6 @@
-from myrolds import map
+from myrolds import util
 from myrolds.const import N, S, E, W, NE, NW, SE, SW, C
 from myrolds.item import Item
-from myrolds.util import aOrAn, enumerateItems
 
 
 class Command(object):
@@ -82,7 +81,7 @@ class DropCommand(Command):
             rm.addItem(subj)
             player.drop(subj)
         else:
-            print "You don't have %s %s." % (aOrAn(subj), subj)
+            print "You don't have %s %s." % (util.aOrAn(subj), subj)
 
 
 class InventoryCommand(Command):
@@ -94,7 +93,7 @@ class InventoryCommand(Command):
         return "INVENTORY or INV or I - lists what items you have"
 
     def _doCommand(self, player):
-        print "You have %s." % enumerateItems(player.inv)
+        print "You have %s." % util.enumerateItems(player.inv)
 
 
 class LookCommand(Command):
@@ -118,7 +117,7 @@ class DoorsCommand(Command):
         return "DOORS - display what doors are visible from this room"
 
     def _doCommand(self, player):
-        player.room.listExits()
+        player.room.printExits()
 
 
 class UseCommand(Command):

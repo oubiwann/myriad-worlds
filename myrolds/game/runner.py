@@ -1,6 +1,6 @@
 from myrolds import util
-from myrolds.session import Session
-from myrolds.shell import ShellParser
+from myrolds.game.session import Session
+from myrolds.game.shell import ShellParser
 
 
 class Game(object):

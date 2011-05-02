@@ -1,8 +1,7 @@
 import yaml
 
 from myrolds.character import Player
-from myrolds.map import Map
-from myrolds.world import World
+from myrolds.world import Map, World
 from myrolds.item import Item, OpenableItem
 
 
@@ -14,6 +13,7 @@ class Story(object):
         self.storyFile = filename
         self.stream = open(self.storyFile)
         self.data = yaml.load(self.stream)
+        # XXX map should be an attribute of the world
         self.map = Map(self.data.get("map"))
         self.world = World()
         self.world.setScapes(self.map.getScapes())

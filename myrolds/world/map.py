@@ -1,11 +1,17 @@
+import itertools
 import random
 
 from pyparsing import srange
 
 from myrolds import util
 from myrolds.const import N, S, E, W, NE, NW, SE, SW, C, U, D
+from myrolds.world import terrain
 
 
+# XXX we need to get rid of this; the directions are being pulled from
+# myrolds.const now, and since the directions are now constants themselves,
+# there's not need for a mapping... all dependent code should be updated to not
+# use this
 directions = {
     N: 0,
     S: 1,
@@ -13,31 +19,6 @@ directions = {
     W: 3}
 reverseDirections = dict([
     (index, direction) for direction, index in directions.items()])
-
-
-def getDirectionName(direction):
-    if direction == N:
-        return "north"
-    elif direction == S:
-        return "south"
-    elif direction == E:
-        return "east"
-    elif direction == W:
-        return "west"
-    elif direction == NE:
-        return "northeast"
-    elif direction == SE:
-        return "southeast"
-    elif direction == SW:
-        return "southwest"
-    elif direction == NW:
-        return "northwest"
-    elif direction == C:
-        return "center"
-    elif direction == U:
-        return "up"
-    elif direction == D:
-        return "down"
 
 
 class ASCIICharacterMap(object):
@@ -79,7 +60,7 @@ class ASCIICharacterMap(object):
         """
         # XXX if we have to import these here to avoid circularity, then maybe
         # the classes have been placed in the wrong location. Look into this.
-        from myrolds.world import Exit, Room
+        from myrolds.world.municipal import Exit, Room
         # If there is no new line at the beginning of the ASCII map, the
         # parseing will not be successful. Let's make sure there is.
         map.lstrip()
@@ -185,32 +166,31 @@ class GeneratedMap(object):
             # XXX debug
             print "grid size: (%s, %s)" % (x, y)
             self.tileDimensions = (x, y)
-            grid = util.createEmptyGrid(x, y)
-            tile = util.getRandomTileClass()
+            grid = createEmptyGrid(x, y)
+            tile = terrain.getRandomTileClass()
             # let's get the first one started, and then start setting the
             # surrounding tiles
             grid[0][0] = tile
-            util.setSurroundingTiles(tile, 0, 0, grid)
+            setSurroundingTiles(tile, 0, 0, grid)
         # enough tiles to hold 3-6 small towns
-        if self.size == "small":
+        elif self.size == "small":
             pass
         # enough tiles to hold one large city and a good-sized boundary area
-        if self.size == "medium":
+        elif self.size == "medium":
             pass
         # enough tiles to hold something the size of a state in the US
-        if self.size == "large":
+        elif self.size == "large":
             pass
         # enough tiles to hold one country
-        if self.size == "huge":
+        elif self.size == "huge":
             pass
         # enough tiles to hold a continent
-        if self.size == "gigantic":
+        elif self.size == "gigantic":
             pass
         # for all non-planetary sized grids, border tiles will be non-passable
         # at the edges
-        util.setGridBoundaries(grid)
         # enough tiles to hold an Earth-sized planet
-        if self.size == "planetary":
+        elif self.size == "planetary":
             pass
         self.grid = grid
         # XXX debug
@@ -219,6 +199,7 @@ class GeneratedMap(object):
     def finishTiles(self):
         """
         This method does the following, once the tiles have been generated:
+            * instantiates the tile classes at each grid location
             * sets the exits on each tile
             * builds a list of tiles that are passable
             * builds a list of tiles that are playable (passable *and* have
@@ -227,18 +208,20 @@ class GeneratedMap(object):
         """
         for j, row in enumerate(self.grid):
             for i, tile in enumerate(row):
-                tile.startingPlace = False
+                tileInstance = tile()
+                tileInstance.startingPlace = False
                 # set the exits
-                exits = util.getSurroundingExits(i, j, self.grid)
-                tile.exits = exits
-                maxExits = len(tile.exits)
+                exits = getSurroundingExits(i, j, self.grid)
+                tileInstance.exits = exits
+                maxExits = len(tileInstance.exits)
                 # get passable tiles
-                if tile.isPassable:
-                    self.passableTiles.append(tile)
+                if tileInstance.isPassable:
+                    self.passableTiles.append(tileInstance)
                     # get playable tiles
-                    nones = [exit for exit in tile.exits if exit is None]
+                    nones = [exit for exit in tileInstance.exits
+                             if exit is None]
                     if nones > maxExits:
-                        self.playableTiles.append(tile)
+                        self.playableTiles.append(tileInstance)
         # set one of the playable tiles as the starting place
         # XXX use randomizer for this? or do we always want to start in a new
         # place?
@@ -281,3 +264,105 @@ class Map(object):
 
     def getStartingPlace(self):
         return self._map.startingTile
+
+
+def createEmptyGrid(x, y):
+    return [[0] * x for j in xrange(y)]
+
+
+def getSurroundingIndices(x, y, grid):
+    """"
+    Each tile will have 8 surrounding tiles, 4 for the 4 cardinal directions
+    (n, s, e, w), and 4 for the intermediate directions (nw, ne, se, sw). Tiles
+    at the edge will only wrap if 
+    """
+    maxXIndex = len(grid[0]) - 1
+    maxYIndex = len(grid) - 1
+    indices = {
+        C: (x, y),
+        NW: (x - 1, y - 1),
+        N: (x, y - 1),
+        NE: (x + 1, y - 1),
+        E: (x + 1, y),
+        SE: (x + 1, y + 1),
+        S: (x, y + 1),
+        SW: (x - 1, y + 1),
+        W: (x - 1, y),
+        }
+    for direction, value in indices.items():
+        if (-1 in value) or (value[0] > maxXIndex) or (value[1] > maxYIndex):
+            indices[direction] = None
+    return indices
+
+
+def getSurroundingExits(x, y, grid):
+    indices = getSurroundingIndices(x, y, grid)
+    for direction, value in indices.items():
+        if direction == C:
+            continue
+        elif not value:
+            continue
+        else:
+            tile = grid[y][x]
+            if not tile.isPassable:
+                indices[direction] = None
+    return [value for key, value in sorted(indices.items())]
+
+
+def setSurroundingTiles(tile, x, y, grid):
+    """
+    For each random tile we select, we need to 1) make sure that it's a valid
+    transition from all surrounding tiles, and 2) make sure that there are
+    least two passable neighboring tiles.
+    """
+    neighbors = getSurroundingIndices(x, y, grid)
+    neighborClasses = []
+    emptyTiles = []
+    for direction, coords in neighbors.items():
+        # if the neighbor is off the grid (e.g., tile would be on the border),
+        # skip it
+        if not coords:
+            continue
+        (neighborX, neighborY) = coords
+        neighborTile = grid[neighborY][neighborX]
+        # let's track the tiles that need to be set
+        if neighborTile == 0:
+            emptyTiles.append((neighborX, neighborY))
+        # let's separately track the tiles that have already been set
+        elif issubclass(neighborTile, terrain.GeographicalFeature):
+            neighborClasses.append(neighborTile)
+        else:
+            raise Exception("What *is* this tile?!?")
+    for x, y in emptyTiles:
+        grid[y][x] = terrain.getRandomTileTransitionClass(
+            tile, neighborClasses)
+    # once all the neighbors have been set, get the next unset (x, y) and
+    # re-run; we'll use the eastern-most neighbor until we run out of tiles in
+    # the current row
+    neighbor = neighbors[E]
+    if neighbor:
+        newX, newY = neighbors[E]
+    else:
+        newX, newY = (0, y + 1)
+    # this next checks for y values that are off the grid (which indicates that
+    # we're done)
+    if newY > len(grid):
+        return
+    # this collapses all the rows into a single array; if all the zeros have
+    # been replaced with terrain classes, we're done
+    if 0 not in itertools.chain(*grid):
+        return
+    setSurroundingTiles(grid[newY][newX], newX, newY, grid)
+
+
+def setGridBoundaries(grid):
+    """
+    Set all boundary tiles as non-passable in off-grid directions.
+
+    Grids that represent a blog (e.g., planetary sized grids) should not use
+    this methods; those grids should instead wrap at their boundaries.
+    """
+    # set top tiles as unpassable in the N direction
+    # set bottom tiles as unpassable in the S direction
+    # set right tiles as unpassable in the E direction
+    # set left tiles as unpassable in the W direction
