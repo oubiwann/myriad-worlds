@@ -1,0 +1,200 @@
+==================
+World Abstractions
+==================
+
+
+Table of Contents:
+  1. Graphs and the Fractal Nature of the World
+  2. Layers of Reality
+
+
+---------------------------------------------
+1. Graphs and the Fractal Nature of the World
+---------------------------------------------
+
+As an adventuring character in a game, you have several scales where you can
+explore the virtual game world:
+ * the world at large (terrain, geography)
+ * cities and towns
+ * city districts/boroughs/neighborhoods/wards
+ * buildings
+ * floors
+ * rooms
+ * furniture
+
+This lends itself to a graph representation very easily:
+
+
+
+                     - Market District
+                    /
+            - City -                          - House 1
+           /        \                        |                                          - Chair 1
+    World -          - Residential District -|- House 2   - Basement                    |
+           \                                 |           |                              |- Chair 2
+            - Town                           |- House 3 -|- First Floor    - Bedroom 1 -|
+                                             |           |                |             |- Love Seat
+                                              - House 4   - Second Floor -|- Bedroom 2  |
+                                                                          |              - Bed
+                                                                           - Bathroom
+
+
+
+For simplicity, only one node at each level was expanded, but it's obvious how
+this would easily explode into a massive tree graph were one to populate each
+node.
+
+In actual gameplay, we have a Russian-doll situation (consecutive containment)
+more like this:
+
+   +--------------------------------------------------------------+
+   |                                World                         |
+   | +-------------------------------------+ +------------------+ |
+   | |                 City                | |       Town       | |
+   | | +---------------------------------+ | +------------------+ |
+   | | |         Market District         | |                      |
+   | | +---------------------------------+ |                      |
+   | |                                     |                      |
+   | | +---------------------------------+ |                      |
+   | | |       Residential District      | |                      |
+   | | | +-----------------------------+ | |                      |
+   | | | |          House 1            | | |                      |
+   | | | +-----------------------------+ | |                      |
+   | | |                                 | |                      |
+   | | | +-----------------------------+ | |                      |
+   | | | |          House 2            | | |                      |
+   | | | +-----------------------------+ | |                      |
+   | | |                                 | |                      |
+   | | | +-----------------------------+ | |                      |
+   | | | |          House 3            | | |                      |
+   | | | | +-------------------------+ | | |                      |
+   | | | | |        Basement         | | | |                      |
+   | | | | +-------------------------+ | | |                      |
+   | | | |                             | | |                      |
+   | | | | +-------------------------+ | | |                      |
+   | | | | |        First Floor      | | | |                      |
+   | | | | +-------------------------+ | | |                      |
+   | | | |                             | | |                      |
+   | | | | +-------------------------+ | | |                      |
+   | | | | |      Second Floor       | | | |                      |
+   | | | | | +---------------------+ | | | |                      |
+   | | | | | |                     | | | | |                      |
+   | | | | | |      Bedroom 1      | | | | |                      |
+   | | | | | |      ---------      | | | | |                      |
+   | | | | | |                     | | | | |                      |
+   | | | | | |      Bedroom 2      | | | | |                      |
+   | | | | | |      ---------      | | | | |                      |
+   | | | | | |      Chair 1        | | | | |                      |
+   | | | | | |      Chair 2        | | | | |                      |
+   | | | | | |      Love Seat      | | | | |                      |
+   | | | | | |      Bed            | | | | |                      |
+   | | | | | |                     | | | | |                      |
+   | | | | | |      Bathroom       | | | | |                      |
+   | | | | | |      --------       | | | | |                      |
+   | | | | | |                     | | | | |                      |
+   | | | | | +---------------------+ | | | |                      |
+   | | | | +-------------------------+ | | |                      |
+   | | | +-----------------------------+ | |                      |
+   | | |                                 | |                      |
+   | | | +-----------------------------+ | |                      |
+   | | | |          House 4            | | |                      |
+   | | | +-----------------------------+ | |                      |
+   | | |                                 | |                      |
+   | | +---------------------------------+ |                      |
+   | |                                     |                      |
+   | +-------------------------------------+                      |
+   |                                                              |
+   +--------------------------------------------------------------+
+
+The question then becomes, is the graph abstraction useful in anyway? If
+objects representing each level of scale are going to be contained, one within
+the other, what need is there to add an extra memory load?
+
+Phrased like that, we should be asking the following: is there some what to
+represent the base objects of this world as nodes in a graph, and if so, what
+does this buy us?
+
+
+--------------------
+2. Layers of Reality
+--------------------
+
+There are many ways in which a player may perceive his world around him,
+according to the wishes and cleverness of the game story author. Ordinarily, a
+game takes place in one "layer" of reality: the game world, in all it's various
+scales (see the previous section).
+
+However, what if the player navigates his way to a bed, lies down for a sleep,
+and begins dreaming? What world presents itself to the dreaming player? How are
+the rules changed? Who appears here that doesn't appear in the "real world" of
+the waking game character? What if, in the dream, our player's dream self falls
+asleep and has another dream? One inside the other? What if the author of this
+story wants to give this "layer of reality" different rules that the "home"
+layer and the first dream layer?
+
+Other scenarios might include the following:
+ * player near death experiences
+ * player hallucinations
+ * player subjected to spells that deeply affect perception
+ * traveling by some means to an alternate reality, alternate universe
+ * transforming in scale to something very large, where perception greatly
+   changes
+ * transforming in the other direction, to something small, where the world is
+   completely different
+ * the player assumes a different form of consciousness (becoming a tree, an
+   animal, an insect, an alien creature, a spirit, etc.)
+
+Some completely insane game designer/story teller might, bizarrely, incorporate
+all of these into a single plot. They will be in desperate need of keeping
+track of all these layers, writing stories and characters for each layer,
+populating each layer with the sorts of things appropriate for that world,
+reality, or perceptual differences of one or the other.
+
+In the first iteration of this project's code, myriad-worlds had room for just
+one world (and not, despite its name, myriad ones). The object hierarchy went
+something like this:
+
+  game
+    story
+      world
+        player
+        terrain or rooms
+          items
+
+However, to support reality layers, we are looking at something like this:
+
+  game
+    story
+      player
+      layers
+        ordinary world
+          terrain
+            npcs
+            items
+            cities
+              npcs
+              items
+              buildings
+                floors
+                  rooms
+                    npcs
+                    items
+        dream world
+          (for this example, same structure as "ordinary world" above, but with
+           different rules for travel, communication, viewing remote objects,
+           etc.)
+        spirit world
+          environs/mode
+          spirits
+        energetic/magical realm
+          environs/mode
+          energy
+          magically created entities
+          npc magicians
+
+In this second structure, the player is abstract out of any individual layer,
+and instead is placed in parallel with the layers. Depending upon the story
+mode/context, the player can be "injected" into any layer. There needs to be an
+API defined for this, one accessible by in-game objects (keys, doors, portals,
+magic spells, states of consciousness, furniture, etc.) with a transfer to a
+different layer triggered by some action on an object by the player.
