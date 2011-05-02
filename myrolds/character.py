@@ -1,17 +1,37 @@
 from myrolds.common import InventoriedObject
 
 
-class Player(InventoriedObject):
+class Character(InventoriedObject):
 
     def __init__(self, name):
-        super(Player, self).__init__()
+        super(Character, self).__init__()
         self.name = name
-        self.gameOver = False
 
     # XXX change "room" to something more generic, e.g., "tile"
     def moveTo(self, room):
         self.room = room
+        # XXX rooms need the ability to announce to everyone present that
+        # soneone has just entered them
         room.enter(self)
+
+    def drop(self, item):
+        self.inv.remove(item)
+        if item.isFragile:
+            item.breakItem()
+
+
+class NPC(Character):
+    pass
+
+
+class Player(Character):
+
+    def __init__(self, name):
+        super(Player, self).__init__(name)
+        self.gameOver = False
+
+    def moveTo(self, room):
+        super(Player, self).moveTo(room)
         if self.gameOver:
             if room.desc:
                 room.printDescription()
@@ -27,7 +47,3 @@ class Player(InventoriedObject):
         else:
             self.inv.append(item)
 
-    def drop(self, item):
-        self.inv.remove(item)
-        if item.isFragile:
-            item.breakItem()
