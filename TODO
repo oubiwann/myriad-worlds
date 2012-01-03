@@ -2,6 +2,13 @@ As one might imagine, I have pages and pages of hand-written notes. I'll only
 transfer them to this TODO file when I plan on working on noted features in
 the "near" future (i.e., next up on the list).
 
+==============
+Infrastructure
+==============
+
+* Update the Makefile with better targets (e.g., copy from a recent project).
+* Add a ChangeLog file.
+
 ========================
 Commands and Interpreter
 ========================
