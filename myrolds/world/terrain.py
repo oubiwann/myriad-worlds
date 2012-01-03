@@ -134,6 +134,7 @@ class Ocean(WaterBody):
     isPassable = False
     pervasiveness = 0.9
 
+
 # for procedural generation of tile layouts, valid transitions from one tile
 # type to another have to be defined.
 transitions = {
@@ -241,6 +242,3 @@ def getRandomTileTransitionClass(tile, neighborTiles):
 
     # XXX this needs to use the session randomizer... need to move this
     return random.choice(intersections)
-
-
-

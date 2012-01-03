@@ -4,7 +4,7 @@ import random
 from pyparsing import srange
 
 from myrolds import util
-from myrolds.const import N, S, E, W, NE, NW, SE, SW, C, U, D
+from myrolds.const import N, S, E, W, NE, SE, SW, NW, C, U, D
 from myrolds.world import terrain
 
 
@@ -19,14 +19,30 @@ directions = {
     W: 3}
 reverseDirections = dict([
     (index, direction) for direction, index in directions.items()])
+northConnectors = "^|"
+southConnectors = "v|"
+eastConnectors = ">-"
+westConnectors = "<-"
+neConnector = "/"
+seConnector = "\\"
+swConnector = "/"
+nwConnector = "\\"
+roomConnectorsOneWay = [x[0] for x in [
+    northConnectors, southConnectors, eastConnectors, westConnectors]]
+roomConnectorsTwoWay = [neConnector, seConnector] + [x[1] for x in [
+    northConnectors, eastConnectors]]
+roomConnectrosAll = roomConnectorsOneWay + roomConnectorsTwoWay
+legalRoomKeys = ("""ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuwxyz"""
+                 """0123456789!@#$%&*+=?[]{}:;'".,""")
+exitKey = "Z"
 
 
 class ASCIICharacterMap(object):
     """
     This class parses maps that have been created using ASCII characters.
 
-    Because rooms are limited to A-Za-z, ASCII character-based maps are limited
-    to 52 rooms/scapes.
+    Because rooms are limited to legalRoomKeys, ASCII character-based maps are
+    limited to len(legalRoomKeys) == 81 rooms/tile.
     """
     def __init__(self, filename=""):
         self.scapes = {}
@@ -48,15 +64,15 @@ class ASCIICharacterMap(object):
 
     def createScapes(self, map):
         """
-        create rooms, using multiline string showing map layout
-        string contains symbols for the following:
+        Create rooms, using a multi-line string showing map layout. The string
+        contains symbols for the following:
 
-            A-Z, a-z indicate rooms, and rooms will be stored in a dictionary
-                by reference letter
+            A-Z, a-u, w-z, 0-9, !@#$%&*+=?[]{}:;.,'" indicate rooms, and rooms
+                will be stored in a dictionary by reference letter
 
             -, |, /, \ symbols indicate connection between rooms
 
-            <, >, ^, . symbols indicate one-way connection between rooms
+            <, >, ^, v symbols indicate one-way connection between rooms
         """
         # XXX if we have to import these here to avoid circularity, then maybe
         # the classes have been placed in the wrong location. Look into this.
@@ -66,18 +82,18 @@ class ASCIICharacterMap(object):
         map.lstrip()
         map = "\n" + map
         # look for room symbols, and initialize dictionary
-        # - exit room is always marked 'Z'
         for c in map:
-            if "A" <= c <= "Z" or "a" <= c <= "z":
-                if c != "Z":
-                    self.scapes[c] = Room(c)
-                else:
-                    self.scapes[c] = Exit()
+            if c in legalRoomKeys:
+                room = Room(c)
+                if c == exitKey:
+                    room = Exit()
+                # XXX change to "tiles" instead of "scapes"
+                self.scapes[c] = room
         # scan through input string looking for connections between rooms
         rows = map.split("\n")
         for row, line in enumerate(rows):
             for col, c in enumerate(line):
-                if c not in srange("[A-Za-z]"):
+                if c not in legalRoomKeys:
                     continue
                 room = self.scapes[c]
                 n = None
@@ -91,42 +107,42 @@ class ASCIICharacterMap(object):
                 # look in neighboring cells for connection symbols (must
                 # take care to guard that neighboring cells exist before
                 # testing contents)
-                if col > 1 and line[col - 1] in "<-":
+                if col > 1 and line[col - 1] in westConnectors:
                     other = line[col - 2]
                     w = self.scapes[other]
-                if col < (len(line) - 1) and line[col + 1] in "->":
+                if col < (len(line) - 1) and line[col + 1] in eastConnectors:
                     other = line[col + 2]
                     e = self.scapes[other]
                 if (row > 2
                     and col < len(rows[row - 1])
-                    and rows[row - 1][col] in '|^'):
+                    and rows[row - 1][col] in northConnectors):
                     other = rows[row - 2][col]
                     n = self.scapes[other]
                 if (row < (len(rows) - 1)
                     and col < len(rows[row + 1])
-                    and rows[row + 1][col] in '|.'):
+                    and rows[row + 1][col] in southConnectors):
                     other = rows[row + 2][col]
                     s = self.scapes[other]
                 if (row > 2 
                     and col < len(rows[row - 1]) - 1 
-                    and rows[row - 1][col + 1] == '/'):
+                    and rows[row - 1][col + 1] == neConnector):
                     other = rows[row - 2][col + 2]
                     ne = self.scapes[other]
                 if (row < len(rows) - 1 
                     and col < len(rows[row + 1]) - 1 
-                    and rows[row + 1][col + 1] == '\\'):
+                    and rows[row + 1][col + 1] == seConnector):
                     other = rows[row + 2][col + 2]
                     se = self.scapes[other]
-                if (row > 2 
-                    and 2 < col < len(rows[row - 1]) + 1 
-                    and rows[row - 1][col - 1] == '\\'):
-                    other = rows[row - 2][col - 2]
-                    nw = self.scapes[other]
                 if (row < len(rows) - 1 
                     and 1 < col < len(rows[row + 1]) + 1 
-                    and rows[row + 1][col - 1] == '/'):
+                    and rows[row + 1][col - 1] == swConnector):
                     other = rows[row + 2][col - 2]
                     sw = self.scapes[other]
+                if (row > 2 
+                    and 2 < col < len(rows[row - 1]) + 1 
+                    and rows[row - 1][col - 1] == nwConnector):
+                    other = rows[row - 2][col - 2]
+                    nw = self.scapes[other]
 
                 # set connections to neighboring rooms
                 room.exits = [n, s, e, w, ne, se, sw, nw]

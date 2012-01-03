@@ -133,13 +133,13 @@ scapes:
     name: room of bargaining
     description: You are in the Room of Bargaining. You can still not go back.
 
-  - room-key: v
+  - room-key: w
     name: room of sorrow
     description: >
         You are in the Room of Sorrow. Hey! You can -- oh, wait. Never mind.
         You can't go back.
 
-  - room-key: w
+  - room-key: x
     name: room of acceptance
     description: >
         You are in the Room of Acceptance. Oddly, having come to terms with the

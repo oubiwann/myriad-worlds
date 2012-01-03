@@ -46,4 +46,3 @@ class Player(Character):
             self.gameOver = True
         else:
             self.inv.append(item)
-
