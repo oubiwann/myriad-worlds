@@ -16,6 +16,7 @@ class Game(object):
         if story:
             self.story = story
         self.player = story.world.player
+        self.player.story = story
         # create parser
         self.parser = ShellParser(session=self.session)
         self.mainLoop()

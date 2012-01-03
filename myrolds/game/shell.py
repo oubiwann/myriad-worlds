@@ -25,6 +25,7 @@ class ShellParser(object):
     def makeBNF(self):
         makeCmd = lambda s: MatchFirst(map(CaselessKeyword, s.split()))
         invVerb = makeCmd("INV INVENTORY I")
+        mapVerb = makeCmd("MAP M")
         dropVerb = makeCmd("DROP LEAVE")
         takeVerb = makeCmd("TAKE PICKUP") | \
             (CaselessLiteral("PICK") + CaselessLiteral("UP"))
@@ -52,6 +53,7 @@ class ShellParser(object):
             | nwDir
 
         invCommand = invVerb
+        mapCommand = mapVerb
         dropCommand = dropVerb + itemRef("item")
         takeCommand = takeVerb + itemRef("item")
         useCommand = useVerb + itemRef("usedObj") + \
@@ -66,6 +68,7 @@ class ShellParser(object):
         readCommand = readVerb + itemRef("subjectObj")
 
         invCommand.setParseAction(command.InventoryCommand)
+        mapCommand.setParseAction(command.MapCommand)
         dropCommand.setParseAction(command.DropCommand)
         takeCommand.setParseAction(command.TakeCommand)
         useCommand.setParseAction(command.UseCommand)
@@ -77,6 +80,7 @@ class ShellParser(object):
         helpCommand.setParseAction(command.HelpCommand)
         readCommand.setParseAction(command.ReadCommand)
         return (invCommand |
+                  mapCommand |
                   useCommand |
                   openCommand |
                   dropCommand |
@@ -109,4 +113,4 @@ class ShellParser(object):
                                  "What was the middle part again?",
                                  "Excuse me?",
                                  "Wtf?",
-                                 "What?"])
+                                 "Uh... what?"])

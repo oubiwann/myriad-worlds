@@ -96,6 +96,23 @@ class InventoryCommand(Command):
         print "You have %s." % util.enumerateItems(player.inv)
 
 
+class MapCommand(Command):
+    def __init__(self, quals):
+        super(MapCommand,self).__init__("MAP", "displaying map")
+        self.quals = quals
+
+    @staticmethod
+    def helpDescription():
+        return "MAP or M - lists what items you have"
+
+    def _doCommand(self, player):
+        # XXX limit this to display only 1) rooms actually visited, and 2)
+        # hallways visible from the current location (if one hasn't visited the
+        # connected rooms).
+        print
+        print player.story.map.getData()
+
+
 class LookCommand(Command):
     def __init__(self, quals):
         super(LookCommand, self).__init__("LOOK", "looking")
