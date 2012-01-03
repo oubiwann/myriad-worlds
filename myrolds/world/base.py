@@ -24,7 +24,7 @@ class World(object):
     def setScapes(self, scapes):
         # XXX scapes need to know which layer they belong to
         # 
-        # XXX actually, thet don't -- scapes added to a world just belong to
+        # XXX actually, they don't -- scapes added to a world just belong to
         # that world. The story needs to know about context (which world in the
         # layer is active), and that should be about it
         self.scapes = scapes
