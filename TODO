@@ -7,14 +7,16 @@ Infrastructure
 ==============
 
 * Update the Makefile with better targets (e.g., copy from a recent project).
-  - use pymon and txAWS
+  - DONE - use pymon and txAWS
 * Add a ChangeLog file.
   - generate one
   - add it
   - start using it!
 * support both bzr and git
-  - create a new project on github
+  - DONE - create a new project on github
   - export bzr history to git
+  - use better commit/push targets from projects that are already using bzr +
+    git together
   - simultaneously commit to bzr and git
 
 
