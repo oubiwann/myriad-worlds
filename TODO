@@ -7,7 +7,16 @@ Infrastructure
 ==============
 
 * Update the Makefile with better targets (e.g., copy from a recent project).
+  - use pymon and txAWS
 * Add a ChangeLog file.
+  - generate one
+  - add it
+  - start using it!
+* support both bzr and git
+  - create a new project on github
+  - export bzr history to git
+  - simultaneously commit to bzr and git
+
 
 ========================
 Commands and Interpreter
@@ -19,14 +28,45 @@ Commands and Interpreter
 
 * Add readline support (in particular, command history) for the interpreter.
 
+* Add a Twisted ssh example
+  - figlet game name banner
+  - set the shell to the interactive game itself
+  - make changes to allow for multiple users
+
+      ___           ___           ___
+     /\  \         /\__\         /\  \
+     \:\  \       /:/  /        /::\  \
+      \:\  \     /:/__/        /:/\:\  \
+      /::\  \   /::\  \ ___   /::\~\:\  \
+     /:/\:\__\ /:/\:\  /\__\ /:/\:\ \:\__\
+    /:/  \/__/ \/__\:\/:/  / \:\~\:\ \/__/
+   /:/  /           \::/  /   \:\ \:\__\
+   \/__/            /:/  /     \:\ \/__/
+                   /:/  /       \:\__\
+                   \/__/         \/__/
+
+      ___           ___           ___           ___           ___
+     /\__\         /\  \         /\__\         /\  \         /\  \
+    /:/  /        /::\  \       /:/  /        /::\  \       /::\  \
+   /:/__/        /:/\:\  \     /:/  /        /:/\ \  \     /:/\:\  \
+  /::\  \ ___   /:/  \:\  \   /:/  /  ___   _\:\~\ \  \   /::\~\:\  \
+ /:/\:\  /\__\ /:/__/ \:\__\ /:/__/  /\__\ /\ \:\ \ \__\ /:/\:\ \:\__\
+ \/__\:\/:/  / \:\  \ /:/  / \:\  \ /:/  / \:\ \:\ \/__/ \:\~\:\ \/__/
+      \::/  /   \:\  /:/  /   \:\  /:/  /   \:\ \:\__\    \:\ \:\__\
+      /:/  /     \:\/:/  /     \:\/:/  /     \:\/:/  /     \:\ \/__/
+     /:/  /       \::/  /       \::/  /       \::/  /       \:\__\
+     \/__/         \/__/         \/__/         \/__/         \/__/
+
+
 =======
 Testing
 =======
 
-* Adjust the API so that it's testable (e.g., convert print statements to print
-  methods that simply print the results of various actions, and then use the
-  methods that generated the results in tests... to do things like play the
-  game programmatically).
+* Adjust the API so that it's testable
+  - convert print statements to print methods that simply print the results of
+    various actions, and then
+  - use the "get" methods in tests (as opposed to the "print" methods
+  - enable playing the example games programmatically (maybe scripting?)
 
 =======
 Terrain
@@ -80,7 +120,7 @@ Since memory usage could get quite large, it'd be a good idea to store each
 context on disk until needed. For large maps (tile layouts for contexts), it
 might be a really good idea to write portions to disk.
 
-Hrm, actually, these contexts fit nicely with tree graphs... 
+Hrm, actually, these contexts fit nicely with tree graphs...
 
 This work should probably joined with the load/save work (the only difference
 being the data, and explicit commands; the underlying plumbing will be the
