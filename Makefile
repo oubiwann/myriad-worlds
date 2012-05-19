@@ -9,7 +9,7 @@ GITHUB_REPO := github.com:oubiwann/$(PROJ).git
 LP_REPO := lp:$(PROJ)
 AUTHOR ?= oubiwann
 MSG_FILE ?= MSG
-LIB := myrolds
+LIB := myriad
 
 
 version:
@@ -98,19 +98,13 @@ build:
 	@python setup.py sdist
 
 
-check-docs: files = "docs/USAGE.txt"
-check-docs:
-	@python -c \
-	"from $(LIB).testing import suite;suite.runDocTests('$(files)');"
-
-
 check-dist:
 	@echo "Need to fill this in ..."
 
 
 check: MOD ?= $(LIB)
-check: build check-docs check-votingdocs
-	python myrolds/testing/runner.py $(MOD)
+check: build
+	python myriad/testing/runner.py $(MOD)
 
 
 check-testcase-names:
