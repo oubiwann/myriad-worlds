@@ -1,39 +1,57 @@
+~~~~
+TODO
+~~~~
+
 As one might imagine, I have pages and pages of hand-written notes. I'll only
 transfer them to this TODO file when I plan on working on noted features in
 the "near" future (i.e., next up on the list).
 
-==============
+
 Infrastructure
 ==============
 
 * Update the Makefile with better targets (e.g., copy from a recent project).
+
   - DONE - use pymon and txAWS
+
 * Add a ChangeLog file.
+
   - generate one
+
   - add it
+
   - start using it!
+
 * support both bzr and git
   - DONE - create a new project on github
+
   - export bzr history to git
+
   - use better commit/push targets from projects that are already using bzr +
     git together
+
   - simultaneously commit to bzr and git
 
 
-========================
+
 Commands and Interpreter
 ========================
 
 * Add save/restore game functionality.
+
   - add LOAD command
+
   - add SAVE command
 
 * Add readline support (in particular, command history) for the interpreter.
 
 * Add a Twisted ssh example
-  - figlet game name banner
+
   - set the shell to the interactive game itself
+
   - make changes to allow for multiple users
+
+  - figlet game name banner::
 
       ___           ___           ___
      /\  \         /\__\         /\  \
@@ -60,17 +78,20 @@ Commands and Interpreter
      \/__/         \/__/         \/__/         \/__/         \/__/
 
 
-=======
+
 Testing
 =======
 
 * Adjust the API so that it's testable
+
   - convert print statements to print methods that simply print the results of
     various actions, and then
+
   - use the "get" methods in tests (as opposed to the "print" methods
+
   - enable playing the example games programmatically (maybe scripting?)
 
-=======
+
 Terrain
 =======
 
@@ -97,7 +118,7 @@ Terrain
 * Need to add unit tests for setExits on GeneratedMap and
   util.getSurroundingExits.
 
-========================
+
 Scapes, Tiles and Worlds
 ========================
 
@@ -105,13 +126,19 @@ I've started to rename "scapes" to "tiles". However, the world object has a
 scapes attribute... and to rename that to "tiles" wouldn't be accurate.
 
 For instance:
- * the ourdoor view of the world will have a definite number of tiles
- * a certain number of these will be town or city tiles
- * each town or city will be able to hold any number of buildings
- * any building, a number of floors
- * any room, a number of rooms
- * similarly goes for caves - a single tile may have on or two caves, and those
-   caves any number of cavern rooms and tunnels
+
+* the ourdoor view of the world will have a definite number of tiles
+
+* a certain number of these will be town or city tiles
+
+* each town or city will be able to hold any number of buildings
+
+* any building, a number of floors
+
+* any room, a number of rooms
+
+* similarly goes for caves - a single tile may have on or two caves, and those
+  caves any number of cavern rooms and tunnels
 
 So this makes me thing we need a "views", "layers", or "contexts" attribute for
 the world. Each context would have it's own tile count, and depending upon
@@ -128,7 +155,7 @@ This work should probably joined with the load/save work (the only difference
 being the data, and explicit commands; the underlying plumbing will be the
 same).
 
-==========
+
 Directions
 ==========
 
