@@ -1,0 +1,195 @@
+2012-01-31
+
+* Added ChangeLog.
+* Added lots more make targets.
+* Updated TODO.
+
+2012-01-03
+
+* Updated example to use new one-way connector convention.
+* Fixed typo.
+* Increased the character set used to create ASCII maps (from 52 to 81
+  characters).
+* Codified the legal characters for room keys, one-way connectors, and two-way
+  connectors.
+* Changed the "south" one-way connector from "." to "v" and removed "v" from
+  the set of legal room keys.
+* Changed raw string references to connectors to use actual (mew) variable
+  names.
+* Added a "map" command for displaying the ASCII map in a game. This required
+  hacking the player object to carry a story attribute (done in the game
+  runner).
+* Added some todo items.
+
+2012-01-02
+
+* Split out a new readable class.
+* Tweaked the item and openable classes.
+* Added a ZILF for a classic test story.
+
+2011-05-02
+
+* Created an abstract Character class.
+* Stubbed a subclass for NPCs.
+* Changed the player class to inherit from Character class.
+* Created base classes for objects that will need to track inventories,
+  descriptions, and passage/exits.
+* These classes were used by the Tile and Player objects.
+  class.
+* Made terrain and water body classes subclasses of the newly abstracted Tile
+* Created a world subpackage and move lots of stuff there (including terrain
+  data).
+* Split up utility methods accross terrain and map modules.
+* Split up unit tests to match up with the recent changes in the module space.
+* Added nascent layer code.
+* Added a new module for town/city-related classes (including
+  buildings/rooms/etc).
+* Added basic descriptions to terrain tile classes.
+* Cleaned up imports.
+* More thoughts about the world.
+* With the addition of layers and the ability to have multiple maps in a single
+  game, with maps representing alternate perceptual realities (alternate to the
+  one considered the "standard", "home", or "ordinary" reality), one can now do
+  dream sequences. To confuse matters more, this example will be one where the
+  player will not be able to distingiush which reality is the "real" one.
+  Inspired by the famous dream of Zhuangzi (Chuang Tsu).
+
+2011-05-01
+
+* Added a test runner and a Makefile.
+* Added notes (lots of thoughts I've been having) about
+    1) the use of graph abstractions in games, and
+    2) layers of reality and how to represent them, move between them, etc.
+* Split up text output generation from actual printing of text. This will allow
+  for easier unit test creation as well as the ability to play through games
+  programmatically (or at least a first step in that direction).
+* Imporved the formatting of the output: text-wrapping the description, adding
+  new lines, etc.
+* Fixed a bug in the move command that only returned the first letter of the
+  command for the direction.
+* Fixed a bug in the map-parsing class. Without it, the developer had to make
+  sure there was a new line at the beginning of the ASCII map.
+* Fixed trailing whitespace in story file.
+* Updated the formatting in the direction test case.
+
+2011-04-30
+
+* Added the directions together as a list in the const module.
+* Added a unit test for ensuring that exit directions were being proberly
+  calculated on ASCII maps.
+* Changed the map parser to include the ordinal directions (from Paul's second
+* version of adventureEngine).
+* More shell parser tweaks and fixes.
+* Story tweaks.
+* Added Paul's example from the second version of his adventureEngine.
+* Added missing directions to parser.
+* Fixed use command.
+* Finished updating the shell parser with Paul's new READ command.
+* More changes from Paul's version 2 of adventureEngine.
+* Improvements to move towards unifying story and map code for both ASCII-based
+  maps and procedurally generated maps.
+* Updated the terrain example to use the new API.
+* Added more data to the story file.
+* Fixed bug in exit name generation.
+
+2011-04-29
+
+* Started adding changes from Paul McGuire's second version of adventureEngine.
+* Another change that's part of the terrain exit code.
+* Changed the directions to use the constants, even in the commands (requires
+  an eval).
+* Moved the code for presenting the tiles (originally intended for debugging)
+  into its own method, since it could be useful generally.
+* Created a method for setting the exits on generated terrain tiles.
+* Fixed a bug in the test that results in a double-call.
+* Fixed a bug when dealing with items that contain other items.
+* Large TODO update.
+* Updated the example game to use the new game API.
+* Removed the playGame function from the shell module.
+* Created a new game class, splitting the playGame function into several
+  methods.
+* Created a new session class, complete with custom randomizer and placeholders
+  for save/load functionality.
+* Made notes about replacing random module usage with the custom randomizer.
+* Renamed Parser to ShellParser.
+* Renamed scape to tile.
+* Added another method supporting layers.
+* Started implementing support for layers.
+* Added docs and notes placeholders.
+
+2011-04-28
+
+Lots of work over the past few days, mostly oriented towards getting the first
+iteration of map-generation done.
+
+* Created directional constants, so that raw strings like "n" and "se"
+  wouldn't have to be used.
+* Added passability and pervasive attributes to tile classes.
+* Tweaked the transitions data structure.
+* Added a terrain.required section (more for notes than anything else at this
+  point), trying to list the requirements over and above the simple terrain
+  transitions that are supported.
+* Added a GeneratedMap class and lots of supporting utility functions.
+* Added a land-generation example.
+* Started adding unit tests.
+
+2011-04-27
+
+* Added a Ravine terrain type.
+* Added a command about terrain transforms.
+* Added comments about increases in the order of magnitude for tile grids.
+* Comment now covers town, city, state, continent, and world sizes (each an order
+  of magnitude larger than the previous one).
+
+2011-04-26
+
+* Added a couple more terrain types.
+* Started working on terrain transitions.
+* Added a constants file.
+* Changed license from BSD to MIT.
+
+2011-04-25
+
+* Started adding terrain data.
+* Added a data subpackage.
+* Updated todo.
+* Consolidated all references to map directions to use a single dict.
+* Fixed door display bug.
+* Lots of formatting and cleaning fixes.
+* Added README and TODO files.
+
+2011-04-23
+
+* Removed unused import.
+* Generalized the code making use of door/exit names.
+* Fixed some bugs due to partial variable name changes.
+* Added names to the scape/room objects.
+* Fixed a bug in making the telescope usable.
+* Fixed variable names and parens.
+* Moved the door listing logic into the scape class, like the room describing
+  logic.
+* Added a method for describing the room as well as listing the doors, and
+  updating the look command to use this method.
+* Fixed a bug in the use command logic.
+* Added more choices for parse failure responses.
+* Added an exit name method in anticipation of improved generalization for
+  exits/doors/etc.
+* Added a story file, using YAML.
+* Added a story module.
+* Moved all of the object instantiation out of the game.py file and into the
+  story.py file (which parses and processes the story.yaml file)
+* Added a map module for processing map data and moved the ascii map parser to
+  here from the world class.
+
+2011-04-22
+
+* Fixed imports.
+* Added world object and updated mechanics to use it.
+* Added license file.
+* Split up Paul's adventure code into separate modules.
+* Moved game-specific code into example dir.
+* Put ASCII map into a dedicated file.
+* Formatting cleanups.
+* Added a new package for the project.
+* Added Paul McGuire's PyParsing adventure engine example as a basis for the
+  project.
