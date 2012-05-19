@@ -11,6 +11,7 @@ This code is based on the `adventure engine <>`_ that `Paul McGuire<>`_, the
 author of `PyParsing <>`_, wrote and then summarized for a `PyCon 2006 talk
 <>`_. The first revision in myriad-worlds repository is his work, 100%.
 
+
 Vision
 ------
 
@@ -30,3 +31,18 @@ fiction adventure games. The initial thrust of this experimentation was:
 
 Ultimately, the intent of this project is to be able to create interesting
 games that are infinitely replayable, due to the variation that is possible.
+
+
+Project Management
+------------------
+
+Bugs are tracked using Launchpad:
+
+* https://bugs.launchpad.net/myriad-worlds
+
+Development plans, if any exist, are managed using Launchpad blueprints:
+
+* https://blueprints.launchpad.net/myriad-worlds
+
+Development tasks are managed using a correlation between blueprints and the
+issue tracker. Each blueprint has a list of associated "bugs."
