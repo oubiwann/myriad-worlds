@@ -33,6 +33,21 @@ Ultimately, the intent of this project is to be able to create interesting
 games that are infinitely replayable, due to the variation that is possible.
 
 
+Running the Examples
+--------------------
+
+Currently, you can run any of the examples that have a game module by pointing
+your Python interpreter at the ``game.py`` file::
+
+  $ python ./examples/house-adventure-2/game.py
+
+
+Running a Server
+----------------
+
+TBD
+
+
 Project Management
 ------------------
 
