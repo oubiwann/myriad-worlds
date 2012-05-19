@@ -14,8 +14,8 @@ This project is an experiment in generating worlds, stories, and interactive
 fiction games. It attempts to do all this with a heritage of the classic
 text-based adventure games -- as well as continuously drawing on them for
 future inspiration. More than a game engine to power text adventures, this
-project aims to be a framework for generating worlds and stories within those
-worlds that are compelling, dynamic, and unpredictable.
+project aims to be a framework for generating worlds -- and stories within
+those worlds -- that are compelling, dynamic, and unpredictable.
 
 History
 -------
@@ -89,4 +89,4 @@ issue tracker. Each blueprint has a list of associated "bugs."
 
 .. _PyParsing: http://pyparsing.wikispaces.com/
 
-.. _PyCon 2006 talk: http://www.ptmcg.com/geo/python/confs/pyCon2006_pres2.html 
+.. _PyCon 2006 talk: http://www.ptmcg.com/geo/python/confs/pyCon2006_pres2.html
