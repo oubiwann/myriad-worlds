@@ -1,3 +1,14 @@
+# Subcommands
+KEYGEN = "keygen"
+SHELL = "shell"
+STOP = "stop"
+
+# Game types
+LOCAL = "local"
+SINGLE = "singleplayer"
+MULTI = "multiplayer"
+
+
 # Human perceptual average distance to horizon on Earth, in miles; this is
 # taken as the unit size of a tile. To provide some reference, a small town of
 # 3000 people can easily fit in 2 square miles (that's about 1300 residential
@@ -19,7 +30,8 @@
 # sea) which would be about 102240015 tiles, or a grid of 10002 by 10222 tiles.
 horizonDistance = 3.1
 
-# directions
+
+# Directions
 N = 0
 S = 1
 E = 2
