@@ -7,7 +7,7 @@ Myriad Worlds
 ~~~~~~~~~~~~~
 
 Background
-==========
+----------
 
 This code is based on the `adventure engine`_ that `Paul McGuire`_, the author
 of PyParsing_, wrote and then summarized for a `PyCon 2006 talk`_. The first
