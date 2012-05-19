@@ -34,7 +34,7 @@ ssh.banner = """:
 """
 
 game = Config()
-game.name = "The House"
+game.name = "The House II"
 game.storydir = "examples/house-adventure-2"
 game.storyfile = os.path.join(game.storydir, "story.yaml")
 game.bannerfile = os.path.join(game.storydir, "banner.asc")
@@ -47,13 +47,15 @@ class MyriadConfigurator(Configurator):
         super(MyriadConfigurator, self).__init__(main, ssh)
         self.game = game
         with open(game.bannerfile) as banner_file:
-            self.ssh.banner.replace("{{GAME_BANNER}}", banner_file.read()
+            self.ssh.banner.replace("{{GAME_BANNER}}", banner_file.read())
 
     def buildDefaults(self):
         config = super(MyriadConfigurator, self).buildDefaults()
         config.add_section("Game")
         config.set("Game", "name", self.game.name)
+        config.set("Game", "storydir", self.game.storydir)
         config.set("Game", "storyfile", self.game.storyfile)
+        config.set("Game", "bannerfile", self.game.bannerfile)
         config.set("Game", "type", self.game.type)
         return config
 
@@ -61,9 +63,12 @@ class MyriadConfigurator(Configurator):
         config = super(MyriadConfigurator, self).updateConfig()
         game = self.game
         # Game config
+        #import pdb;pdb.set_trace()
         game.name = config.get("Game", "name")
-        game.storyfile = str(config.get("Game", "storyfile"))
-        game.type = str(config.get("Game", "type"))
+        game.storydir = config.get("Game", "storydir")
+        game.storyfile = config.get("Game", "storyfile")
+        game.bannerfile = config.get("Game", "bannerfile")
+        game.type = config.get("Game", "type")
         return config
 
 
