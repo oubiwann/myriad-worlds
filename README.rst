@@ -79,6 +79,9 @@ Development plans, if any exist, are managed using Launchpad blueprints:
 Development tasks are managed using a correlation between blueprints and the
 issue tracker. Each blueprint has a list of associated "bugs."
 
+Until the projects and tasks get moved into Launchpad, the current project
+management tool is the TODO_ file.
+
 
 .. Document Links
    ==============
@@ -90,3 +93,5 @@ issue tracker. Each blueprint has a list of associated "bugs."
 .. _PyParsing: http://pyparsing.wikispaces.com/
 
 .. _PyCon 2006 talk: http://www.ptmcg.com/geo/python/confs/pyCon2006_pres2.html
+
+.. _TODO: myriad-worlds/tree/master/TODO.rst
