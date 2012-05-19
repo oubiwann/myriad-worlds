@@ -1,4 +1,4 @@
-.. image:: myriad-worlds/tree/master/resources/images/myriad-worlds-192.jpg
+.. image:: myriad-worlds/raw/master/resources/images/myriad-worlds-192.jpg
     :alt: Myriad Worlds Logo
 
 Myriad Worlds
