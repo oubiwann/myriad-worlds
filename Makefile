@@ -25,29 +25,39 @@ clean:
 		CHECK_THIS_BEFORE_UPLOAD.txt *.egg-info
 
 
-push-tags:
-	git push --tags git@$(GITHUB_REPO)
+bzr-2-git:
+	git init && bzr fast-export `pwd` | git fast-import && git reset HEAD
+	git remote add origin git@github.com:oubiwann/$(PROJ).git
+	git push -u origin master
+
+
+msg:
+	-@rm $(MSG_FILE)
+	@git diff ChangeLog |egrep -v '^\+\+\+'|egrep '^\+.*'|sed -e 's/^+//' >> $(MSG_FILE)
+.PHONY: msg
+
+
+commit: msg
+	bzr commit --show-diff --file=$(MSG_FILE)
+	@echo '!!! REMOVE THIS LINE !!!' >> $(TMP_FILE)
+	@cat $(MSG_FILE) >> $(TMP_FILE)
+	@mv $(TMP_FILE) $(MSG_FILE)
+	git commit -a -v -t $(MSG_FILE)
+	mv $(MSG_FILE) $(MSG_FILE).backup
+	touch $(MSG_FILE)
 
 
 push:
 	git push --all git@$(GITHUB_REPO)
 	bzr push $(LP_REPO)
 
+
+push-tags:
+	git push --tags git@$(GITHUB_REPO)
+
+
 push-all: push push-tags
 .PHONY: push-all
-
-
-msg:
-	-@rm $(MSG_FILE)
-	@echo '!!! REMOVE THIS LINE !!!' >> $(MSG_FILE)
-	@git diff ChangeLog |egrep -v '^\+\+\+'|egrep '^\+.*'|sed -e 's/^+//' >> $(MSG_FILE)
-.PHONY: msg
-
-
-commit: msg
-	git commit -a -v -t $(MSG_FILE)
-	mv $(MSG_FILE) $(MSG_FILE).backup
-	touch $(MSG_FILE)
 
 
 commit-push: commit push-all
@@ -58,7 +68,7 @@ stat: msg
 	@echo
 	@echo "### Changes ###"
 	@echo
-	-@cat $(MSG_FILE)|egrep -v '^\!\!\!'
+	-@cat $(MSG_FILE)
 	@echo
 	@echo "### Git working branch status ###"
 	@echo
@@ -67,9 +77,16 @@ stat: msg
 	@echo "### Git branches ###"
 	@echo
 	@git branch
+	@echo 
+	@echo "### Bzr status ###"
+	@echo
+	@bzr stat
+	@echo
+
 
 status: stat
 .PHONY: status
+
 
 todo:
 	git grep -n -i -2 XXX
@@ -211,11 +228,3 @@ clean-virtual-builds: clean
 
 virtual-build-clean: clean-virtual-builds build virtual-builds
 .PHONY: virtual-build-clean
-
-
-register:
-	python setup.py register
-
-
-upload: check build
-	python setup.py sdist upload --show-response
