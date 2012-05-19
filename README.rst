@@ -7,23 +7,9 @@ Myriad Worlds
 Background
 ----------
 
-This code is based on the `adventure engine`_
-
-.. _adventure engine: http://www.ptmcg.com/geo/python/confs/adventureEngine.py
-
-that `Paul McGuire`_,
-
-.. _Paul McGuire: http://www.oreillynet.com/pub/au/2557
-
-the author of PyParsing_,
-
-.. _PyParsing: http://pyparsing.wikispaces.com/
-
-wrote and then summarized for a `PyCon 2006 talk`_.
-
-.. _PyCon 2006 talk: http://www.ptmcg.com/geo/python/confs/pyCon2006_pres2.html 
-
-The first revision in the myriad-worlds repository is his work, 100%.
+This code is based on the `adventure engine`_ that `Paul McGuire`_, the author
+of PyParsing_, wrote and then summarized for a `PyCon 2006 talk`_. The first
+revision in the myriad-worlds repository is his work, 100%.
 
 
 Vision
@@ -60,3 +46,11 @@ Development plans, if any exist, are managed using Launchpad blueprints:
 
 Development tasks are managed using a correlation between blueprints and the
 issue tracker. Each blueprint has a list of associated "bugs."
+
+.. _adventure engine: http://www.ptmcg.com/geo/python/confs/adventureEngine.py
+
+.. _Paul McGuire: http://www.oreillynet.com/pub/au/2557
+
+.. _PyParsing: http://pyparsing.wikispaces.com/
+
+.. _PyCon 2006 talk: http://www.ptmcg.com/geo/python/confs/pyCon2006_pres2.html 
