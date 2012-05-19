@@ -7,31 +7,19 @@ transfer them to this TODO file when I plan on working on noted features in
 the "near" future (i.e., next up on the list).
 
 
-Infrastructure
-==============
+Quick Tasks
+===========
 
-* Update the Makefile with better targets (e.g., copy from a recent project).
+* Move common config code into dreamssh and modularize it so that it can be use
+  by not only myriad-worlds, but projects like dreammud, bot-prakasha-ke, etc.
 
-  - DONE - use pymon and txAWS
+* Move the service code into a single module.
 
-* Add a ChangeLog file.
+* Devise a means of loading games via configuration.
 
-  - generate one
+* Device a means of loading games via command line switches
 
-  - add it
-
-  - start using it!
-
-* support both bzr and git
-  - DONE - create a new project on github
-
-  - export bzr history to git
-
-  - use better commit/push targets from projects that are already using bzr +
-    git together
-
-  - simultaneously commit to bzr and git
-
+* Run the example games as part of the Twisted plugin
 
 
 Commands and Interpreter
