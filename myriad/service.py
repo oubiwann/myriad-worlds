@@ -20,17 +20,19 @@ class SubCommandOptions(usage.Options):
 class Options(usage.Options):
     """
     """
-    legalInterpreters = [const.PYTHON, const.ECHO]
+    legalGameTypes = [const.LOCAL, const.SINGLE, const.MULTI]
     optParameters = [
-        ["interpreter", "i", "python",
-         ("The interpreter to use; valid options incude: "
-          ",".join(legalInterpreters))]
-         ]
+        ['game-type', 't', const.LOCAL,
+         'The type of game to run; valid options incude: ,'.join(
+            legalGameTypes)], 
+        ['story-file', 's', '',
+         'The path to the story.yaml file for the game.'],
+        ]
     subCommands = [
-        ["keygen", None, SubCommandOptions,
+        [const.KEYGEN, None, SubCommandOptions,
          "Generate ssh keys for the server"],
-        ["shell", None, SubCommandOptions, "Login to the server"],
-        ["stop", None, SubCommandOptions, "Stop the server"],
+        [const.SHELL, None, SubCommandOptions, "Login to the server"],
+        [const.STOP, None, SubCommandOptions, "Stop the server"],
         ]
 
     def parseOptions(self, options):
