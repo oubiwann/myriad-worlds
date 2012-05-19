@@ -3,8 +3,22 @@
 Myriad Worlds
 ~~~~~~~~~~~~~
 
-Background
-==========
+About
+=====
+
+.. image:: myriad-worlds/raw/master/resources/images/myriad-worlds-192.jpg
+    :alt: Myriad Worlds Logo
+    :align: right
+
+This project is an experiment in generating worlds, stories, and interactive
+fiction games. It attempts to do all this with a heritage of the classic
+text-based adventure games -- as well as continuously drawing on them for
+future inspiration. More than a game engine to power text adventures, this
+project aims to be a framework for generating worlds and stories within those
+worlds that are compelling, dynamic, and unpredictable.
+
+History
+-------
 
 This code is based on the `adventure engine`_ that `Paul McGuire`_, the author
 of PyParsing_, wrote and then summarized for a `PyCon 2006 talk`_. The first
@@ -12,11 +26,7 @@ revision in the myriad-worlds repository is his work, 100%.
 
 
 Vision
-======
-
-.. image:: myriad-worlds/raw/master/resources/images/myriad-worlds-192.jpg
-    :alt: Myriad Worlds Logo
-    :align: right
+------
 
 Each subsequent revision since then has aimed to expand Paul's original work
 into something that could support an experiment in authoring interactive
