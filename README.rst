@@ -47,6 +47,9 @@ Development plans, if any exist, are managed using Launchpad blueprints:
 Development tasks are managed using a correlation between blueprints and the
 issue tracker. Each blueprint has a list of associated "bugs."
 
+
+.. Document Links
+
 .. _adventure engine: http://www.ptmcg.com/geo/python/confs/adventureEngine.py
 
 .. _Paul McGuire: http://www.oreillynet.com/pub/au/2557
