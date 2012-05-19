@@ -9,7 +9,7 @@ GITHUB_REPO := github.com:oubiwann/$(PROJ).git
 LP_REPO := lp:$(PROJ)
 AUTHOR ?= oubiwann
 MSG_FILE ?= MSG
-LIB := myrolds
+LIB := myriad
 
 
 version:
@@ -93,7 +93,7 @@ check-dist:
 
 check: MOD ?= $(LIB)
 check: build check-docs check-votingdocs
-	python myrolds/testing/runner.py $(MOD)
+	python myriad/testing/runner.py $(MOD)
 
 
 check-testcase-names:
