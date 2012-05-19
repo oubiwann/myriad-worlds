@@ -81,18 +81,12 @@ build:
 	@python setup.py sdist
 
 
-check-docs: files = "docs/USAGE.txt"
-check-docs:
-	@python -c \
-	"from $(LIB).testing import suite;suite.runDocTests('$(files)');"
-
-
 check-dist:
 	@echo "Need to fill this in ..."
 
 
 check: MOD ?= $(LIB)
-check: build check-docs check-votingdocs
+check: build
 	python myriad/testing/runner.py $(MOD)
 
 
@@ -211,11 +205,3 @@ clean-virtual-builds: clean
 
 virtual-build-clean: clean-virtual-builds build virtual-builds
 .PHONY: virtual-build-clean
-
-
-register:
-	python setup.py register
-
-
-upload: check build
-	python setup.py sdist upload --show-response
