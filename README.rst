@@ -1,11 +1,11 @@
 .. image:: myriad-worlds/raw/master/resources/images/myriad-worlds-192.jpg
     :alt: Myriad Worlds Logo
-
+~~~~~~~~~~~~~
 Myriad Worlds
-=============
+~~~~~~~~~~~~~
 
 Background
-----------
+==========
 
 This code is based on the `adventure engine`_ that `Paul McGuire`_, the author
 of PyParsing_, wrote and then summarized for a `PyCon 2006 talk`_. The first
@@ -13,7 +13,7 @@ revision in the myriad-worlds repository is his work, 100%.
 
 
 Vision
-------
+======
 
 Each subsequent revision since then has aimed to expand Paul's original work
 into something that could support an experiment in authoring interactive
@@ -33,6 +33,10 @@ Ultimately, the intent of this project is to be able to create interesting
 games that are infinitely replayable, due to the variation that is possible.
 
 
+Usage
+=====
+
+
 Running the Examples
 --------------------
 
@@ -49,7 +53,7 @@ TBD
 
 
 Project Management
-------------------
+==================
 
 Bugs are tracked using Launchpad:
 
@@ -64,6 +68,7 @@ issue tracker. Each blueprint has a list of associated "bugs."
 
 
 .. Document Links
+   ==============
 
 .. _adventure engine: http://www.ptmcg.com/geo/python/confs/adventureEngine.py
 
