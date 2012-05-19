@@ -1,5 +1,5 @@
-from myrolds.game import Game
-from myrolds.story import Story
+from myriad.game import Game
+from myriad.story import Story
 
 
 story = Story("examples/land-generation/small-area.yaml")

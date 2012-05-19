@@ -1,6 +1,6 @@
-from myrolds.game import Game
-from myrolds.item import Item, OpenableItem
-from myrolds.story import Story
+from myriad.game import Game
+from myriad.item import Item, OpenableItem
+from myriad.story import Story
 
 
 # start game definition
