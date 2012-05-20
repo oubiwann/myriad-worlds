@@ -1,6 +1,6 @@
 display_name = "Myriad Worlds"
 library_name = "myriad"
-version = "0.2"
+version = "0.5"
 author = "Duncan McGreggor, Paul McGuire"
 author_email = "oubiwann@twistedmatrix.com"
 license = "MIT"
