@@ -1,11 +1,10 @@
+.. image:: myriad-worlds/raw/master/resources/images/myriad-worlds-192.jpg
+    :alt: Myriad Worlds Logo
+    :align: right
 
 ~~~~~~~~~~~~~
 Myriad Worlds
 ~~~~~~~~~~~~~
-
-.. image:: myriad-worlds/raw/master/resources/images/myriad-worlds-192.jpg
-    :alt: Myriad Worlds Logo
-    :align: right
 
 .. contents:: Table of Contents
 
