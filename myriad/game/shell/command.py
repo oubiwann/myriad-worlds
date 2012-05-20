@@ -196,7 +196,7 @@ class OpenCommand(Command):
         rm = player.room
         availItems = rm.inv + player.inv
         if self.subject in availItems:
-            if self.subject.isOpenable:
+            if self.subject.has("isOpenable") and self.subject.isOpenable:
                 self.subject.openItem(player)
             else:
                 print "You can't use that here."

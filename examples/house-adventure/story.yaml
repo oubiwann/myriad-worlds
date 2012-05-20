@@ -22,6 +22,8 @@ items:
   - name: shovel
 
   - name: book
+    isReadable: True
+    isOpenable: True
 
   - name: mirror
     isFragile: True

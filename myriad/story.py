@@ -2,7 +2,7 @@ import yaml
 
 from myriad.character import Player
 from myriad.world import Map, World
-from myriad.item import Item, OpenableItem
+from myriad.item import Item, OpenableItem, OpenableReadableItem, ReadableItem
 
 
 # XXX maybe the story object should have a map attribute assigned based on
@@ -58,10 +58,18 @@ class Story(object):
                 self.processItem(itemName, scape)
 
     def createItem(self, itemData):
-        if itemData.get("isOpenable"):
+        items = []
+        if itemData.has_key("items"):
             itemNames = itemData.pop("items")
             items = [Item.items[x] for x in itemNames]
+        if itemData.get("isOpenable") and itemData.get("isReadable"):
+            itemData.pop("isReadable")
+            item = OpenableReadableItem(itemData.get("name"), items)
+        elif itemData.get("isOpenable"):
             item = OpenableItem(itemData.get("name"), items)
+        elif itemData.get("isReadable"):
+            itemData.pop("isReadable")
+            item = ReadableItem(**itemData)
         else:
             item = Item(**itemData)
         return item
