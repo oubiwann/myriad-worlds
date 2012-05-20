@@ -1,6 +1,11 @@
+from dreamssh.sdk import registry
+
 from myriad import util
 from myriad.game.session import Session
 from myriad.game.shell.grammar import ShellParser
+
+
+config = registry.getConfig()
 
 
 class LocalGame(object):
@@ -24,8 +29,13 @@ class LocalGame(object):
         self.finish()
 
     def mainLoop(self):
+        prompt = config.game.banner
         while not self.player.gameOver:
-            cmdstr = raw_input(">> ")
+            if not self.startedLoop:
+                prompt += ">> "
+            else:
+                prompt = ":>> "
+            cmdstr = raw_input(prompt)
             self.startedLoop = True
             cmd = self.parser.parseCmd(cmdstr)
             if cmd is not None:
