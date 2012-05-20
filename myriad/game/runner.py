@@ -11,6 +11,7 @@ class LocalGame(object):
         self.story = None
         self.parser = None
         self.player = None
+        self.startedLoop = False
 
     def play(self, story=None):
         if story:
@@ -25,6 +26,7 @@ class LocalGame(object):
     def mainLoop(self):
         while not self.player.gameOver:
             cmdstr = raw_input(">> ")
+            self.startedLoop = True
             cmd = self.parser.parseCmd(cmdstr)
             if cmd is not None:
                 cmd.command(self.player)
