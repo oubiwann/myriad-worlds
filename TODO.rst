@@ -10,11 +10,6 @@ the "near" future (i.e., next up on the list).
 Quick Tasks
 ===========
 
-* Update MW so that all the examples can be run as a Twisted plugin
-
-* Move common config code into dreamssh and modularize it so that it can be use
-  by not only myriad-worlds, but projects like dreammud, bot-prakasha-ke, etc.
-
 * Move the service code into a single module.
 
 * Devise a means of loading games via configuration.
@@ -22,6 +17,9 @@ Quick Tasks
 * Device a means of loading games via command line switches
 
 * Run the example games as part of the Twisted plugin
+
+* Update configuration so that there can be mutliple game configs in the
+  config.ini and any one may be loaded by section name
 
 
 Commands and Interpreter
