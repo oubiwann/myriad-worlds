@@ -26,6 +26,17 @@ This code is based on the `adventure engine`_ that `Paul McGuire`_, the author
 of PyParsing_, wrote and then summarized for a `PyCon 2006 talk`_. The first
 revision in the myriad-worlds repository is his work, 100%.
 
+.. Section Links
+   ==============
+
+.. _adventure engine: http://www.ptmcg.com/geo/python/confs/adventureEngine.py
+
+.. _Paul McGuire: http://www.oreillynet.com/pub/au/2557
+
+.. _PyParsing: http://pyparsing.wikispaces.com/
+
+.. _PyCon 2006 talk: http://www.ptmcg.com/geo/python/confs/pyCon2006_pres2.html
+
 
 Vision
 ------
@@ -60,6 +71,11 @@ framework (Python).
 If you like to keep a tight control over what gets installed into your system
 Python packages, we'd encourage you to use ``virtualenv`` to install and run
 Myriad Worlds games.
+
+.. Section Links
+   ==============
+
+.. _DreamSSH: https://github.com/dreamhost/dreamssh
 
 
 Usage
@@ -118,23 +134,13 @@ issue tracker. Each blueprint has a list of associated "bugs."
 Until the projects and tasks get moved into Launchpad, the current project
 management tool is the TODO_ file.
 
+.. Section Links
+   ==============
+
+.. _TODO: myriad-worlds/tree/master/TODO.rst
+
 
 Revision History
 ================
 
 TBD
-
-.. Document Links
-   ==============
-
-.. _adventure engine: http://www.ptmcg.com/geo/python/confs/adventureEngine.py
-
-.. _Paul McGuire: http://www.oreillynet.com/pub/au/2557
-
-.. _PyParsing: http://pyparsing.wikispaces.com/
-
-.. _PyCon 2006 talk: http://www.ptmcg.com/geo/python/confs/pyCon2006_pres2.html
-
-.. _TODO: myriad-worlds/tree/master/TODO.rst
-
-.. _DreamSSH: https://github.com/dreamhost/dreamssh
