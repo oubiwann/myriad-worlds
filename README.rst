@@ -46,23 +46,49 @@ Ultimately, the intent of this project is to be able to create interesting
 games that are infinitely replayable, due to the variation that is possible.
 
 
+Install
+=======
+
+Myriad Worlds uses setuptools, and is thus ``pip``-friendly (and that's the
+best way to install the software). The installer automatically downloads and
+installs the dependencies, so you don't have to. 
+
+If you like to keep a tight control over what gets installed into your system
+Python packages, we'd encourage you to use ``virtualenv`` to install and run
+Myriad Worlds games.
+
+
 Usage
 =====
 
 
-Running the Examples
---------------------
+There are a couple example games that come with Myriad Worlds, and those that
+work use the Twisted plugin infrastructure. The plugin setup allows for games
+to be run in one of several modes:
 
-Currently, you can run any of the examples that have a game module by pointing
-your Python interpreter at the ``game.py`` file::
+# locally (no server starts)
 
-  $ twistd myriad --game-file=./examples/house-adventure-2/game.py
+# single player (a server starts, but there are no shared sessions)
 
-The default is to run a local game (not a networked game); as such, the above
-command is equiavalent to::
+# multiplayer (a server starts with shared session for all players)
+
+
+Running a Local Instance
+------------------------
+
+Here's how you start up a local instance::
+
+  $ twistd myriad
+
+The default is to run a local game (not a networked game) and to use the "House
+Adventure 2" as the game. As such, the above command is equiavalent to::
 
   $ twistd myriad --game-type=local \
-      --game-file=./examples/house-adventure-2/game.py
+      --game-dir=./examples/house-adventure-2
+
+To run a differnt came, point to a different game dir::
+
+  $ twistd myriad --game-dir=./examples/house-adventure
 
 
 Running a Server
@@ -88,6 +114,11 @@ issue tracker. Each blueprint has a list of associated "bugs."
 Until the projects and tasks get moved into Launchpad, the current project
 management tool is the TODO_ file.
 
+
+Revision History
+================
+
+TBD
 
 .. Document Links
    ==============
