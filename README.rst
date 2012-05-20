@@ -3,15 +3,15 @@
 Myriad Worlds
 ~~~~~~~~~~~~~
 
+.. image:: myriad-worlds/raw/master/resources/images/myriad-worlds-192.jpg
+    :alt: Myriad Worlds Logo
+    :align: right
+
 .. contents:: Table of Contents
 
 
 About
 =====
-
-.. image:: myriad-worlds/raw/master/resources/images/myriad-worlds-192.jpg
-    :alt: Myriad Worlds Logo
-    :align: right
 
 This project is an experiment in generating worlds, stories, and interactive
 fiction games. It attempts to do all this with a heritage of the classic
