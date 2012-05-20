@@ -56,7 +56,13 @@ Running the Examples
 Currently, you can run any of the examples that have a game module by pointing
 your Python interpreter at the ``game.py`` file::
 
-  $ python ./examples/house-adventure-2/game.py
+  $ twistd myriad --game-file=./examples/house-adventure-2/game.py
+
+The default is to run a local game (not a networked game); as such, the above
+command is equiavalent to::
+
+  $ twistd myriad --game-type=local \
+      --game-file=./examples/house-adventure-2/game.py
 
 
 Running a Server
