@@ -3,6 +3,9 @@
 Myriad Worlds
 ~~~~~~~~~~~~~
 
+.. contents:: Table of Contents
+
+
 About
 =====
 
@@ -66,11 +69,11 @@ There are a couple example games that come with Myriad Worlds, and those that
 work use the Twisted plugin infrastructure. The plugin setup allows for games
 to be run in one of several modes:
 
-# locally (no server starts)
+#. locally (no server starts)
 
-# single player (a server starts, but there are no shared sessions)
+#. single player (a server starts, but there are no shared sessions)
 
-# multiplayer (a server starts with shared session for all players)
+#. multiplayer (a server starts with shared session for all players)
 
 
 Running a Local Instance
