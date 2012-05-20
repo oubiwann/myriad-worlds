@@ -21,6 +21,8 @@ Quick Tasks
 * Update configuration so that there can be mutliple game configs in the
   config.ini and any one may be loaded by section name
 
+* update HELP to include MAP command
+
 
 Commands and Interpreter
 ========================
