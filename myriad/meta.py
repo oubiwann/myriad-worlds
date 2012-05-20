@@ -10,5 +10,6 @@ description = ("An experiment in generating worlds, stories, and "
 long_description = description
 requires = [
     "PyParsing",
+    "PyYAML",
     "DreamSSH",
     ]
