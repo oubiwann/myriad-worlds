@@ -5,7 +5,7 @@ from twisted.conch.checkers import SSHPublicKeyDatabase
 from dreamssh.util import ssh as util
 
 
-def getShellFactory(interpreterType, **namespace):
+def getShellFactory(**namespace):
     realm = echoshell.EchoTerminalRealm(namespace)
     sshPortal = portal.Portal(realm)
     factory = manhole_ssh.ConchFactory(sshPortal)
