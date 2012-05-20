@@ -1,9 +1,9 @@
 from myriad import util
 from myriad.game.session import Session
-from myriad.game.shell import ShellParser
+from myriad.game.shell.grammar import ShellParser
 
 
-class Game(object):
+class LocalGame(object):
 
     def __init__(self, name=""):
         self.name = name

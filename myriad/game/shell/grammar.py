@@ -4,7 +4,7 @@ from pyparsing import alphas, empty, oneOf, replaceWith
 from pyparsing import CaselessLiteral, OneOrMore, Optional, ParseException
 from pyparsing import CaselessKeyword, LineEnd, MatchFirst, Word
 
-from myriad.game import command
+from myriad.game.shell import command
 from myriad.item import Item
 
 

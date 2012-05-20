@@ -40,6 +40,9 @@ class Item(object):
         if self.useAction:
             self.useAction(player, self, target)
 
+    def has(self, attr):
+        return hasattr(self, attr)
+
 
 class OpenableItem(Item):
 
@@ -82,3 +85,8 @@ class ReadableItem(Item):
     def readItem(self, player, target):
         if self.readAction:
             self.readAction(player, self, target)
+
+
+class OpenableReadableItem(OpenableItem, ReadableItem):
+    """
+    """

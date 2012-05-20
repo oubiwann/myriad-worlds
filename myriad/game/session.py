@@ -2,7 +2,8 @@ import random
 
 from myriad import util
 
-
+# XXX how will multiplayer and singleplayer sessions differ? This will probably
+# end up being a baseclass for those respective session types.
 class Session(object):
     """
     The Session object is intended for game-specific data and metadata that

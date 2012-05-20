@@ -10,6 +10,8 @@ the "near" future (i.e., next up on the list).
 Quick Tasks
 ===========
 
+* Update MW so that all the examples can be run as a Twisted plugin
+
 * Move common config code into dreamssh and modularize it so that it can be use
   by not only myriad-worlds, but projects like dreammud, bot-prakasha-ke, etc.
 
