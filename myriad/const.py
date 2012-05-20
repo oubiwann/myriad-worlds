@@ -1,6 +1,9 @@
 # Options
 GAME_TYPE = "gametype"
+STORY_DIR = "storydir"
 STORY_FILE = "storyfile"
+STORY_MODULE = "storymodule"
+BANNER_FILE = "bannerfile"
 
 # Subcommands
 KEYGEN = "keygen"
