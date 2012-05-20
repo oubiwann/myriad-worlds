@@ -53,7 +53,9 @@ Install
 
 Myriad Worlds uses setuptools, and is thus ``pip``-friendly (and that's the
 best way to install the software). The installer automatically downloads and
-installs the dependencies, so you don't have to. 
+installs the dependencies, so you don't have to. In short, however, it depends
+upon DreamSSH_ which is a custom SSH server created with the Twisted networking
+framework (Python).
 
 If you like to keep a tight control over what gets installed into your system
 Python packages, we'd encourage you to use ``virtualenv`` to install and run
@@ -134,3 +136,5 @@ TBD
 .. _PyCon 2006 talk: http://www.ptmcg.com/geo/python/confs/pyCon2006_pres2.html
 
 .. _TODO: myriad-worlds/tree/master/TODO.rst
+
+.. _DreamSSH: https://github.com/dreamhost/dreamssh
