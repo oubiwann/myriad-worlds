@@ -76,3 +76,9 @@ def getDirectionName(direction):
         return "up"
     elif direction == D:
         return "down"
+
+
+def renderBanner(template, gameBanner, help):
+    return template.replace(
+        "{{GAME_BANNER}}", gameBanner.strip()).replace(
+        "{{HELP}}", help)
