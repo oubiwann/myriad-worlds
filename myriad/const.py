@@ -1,3 +1,7 @@
+# Options
+GAME_TYPE = "gametype"
+STORY_FILE = "storyfile"
+
 # Subcommands
 KEYGEN = "keygen"
 SHELL = "shell"
