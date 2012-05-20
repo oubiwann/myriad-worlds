@@ -28,14 +28,14 @@ class Options(usage.Options):
         [const.GAME_TYPE, 't', const.LOCAL,
          'The type of game to run; valid options incude: ' + 
          ', '.join(legalGameTypes)], 
+        [const.STORY_DIR, 'd', '',
+         'The path to the directory that holds the game data.'],
         [const.STORY_FILE, 'f', 'story.yaml',
          'The filename of the story (YAML) file.'],
         [const.STORY_MODULE, 'm', 'item_setup',
          'The filename of the Python module that does game pre-processing.'],
         [const.BANNER_FILE, 'b', 'banner.asc',
          'The filename of the login banner.'],
-        [const.STORY_DIR, 'd', '',
-         'The path to the directory that holds the game data.'],
         ]
     subCommands = [
         [const.KEYGEN, None, SubCommandOptions,
