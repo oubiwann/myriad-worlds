@@ -57,9 +57,6 @@ class Options(usage.Options):
         bannerFile = os.path.abspath(os.path.join(
             storyDir, self.get(const.BANNER_FILE)))
         config = registry.getConfig()
-        print "***"
-        print config
-        print "***"
         if not storyDir == config.game.storydir:
             config.game.storydir = storyDir
             config.game.storyfile = os.path.abspath(os.path.join(
