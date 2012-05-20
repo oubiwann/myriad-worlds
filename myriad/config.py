@@ -6,7 +6,7 @@ from zope.interface import moduleProvides
 from dreamssh.config import Config, Configurator, main, ssh
 from dreamssh.sdk import interfaces
 
-from myriad import const, meta
+from myriad import const, meta, util
 
 
 moduleProvides(interfaces.IConfig)
@@ -35,10 +35,14 @@ ssh.banner = """:
 
 game = Config()
 game.name = "The House II"
-game.storydir = "examples/house-adventure-2"
-game.storyfile = os.path.join(game.storydir, "story.yaml")
-game.bannerfile = os.path.join(game.storydir, "banner.asc")
+game.storydir = os.path.abspath("examples/house-adventure-2")
+game.storyfile = os.path.abspath(
+    os.path.join(game.storydir, "story.yaml"))
+game.bannerfile = os.path.abspath(
+    os.path.join(game.storydir, "banner.asc"))
 game.type = const.LOCAL
+game.helpprompt = "Type 'help' at any time to view a list of commands."
+game.banner = ""
 
 
 class MyriadConfigurator(Configurator):
@@ -47,7 +51,8 @@ class MyriadConfigurator(Configurator):
         super(MyriadConfigurator, self).__init__(main, ssh)
         self.game = game
         with open(game.bannerfile) as banner_file:
-            self.ssh.banner.replace("{{GAME_BANNER}}", banner_file.read())
+            self.banner = util.renderBanner(
+                self.ssh.banner, banner_file.read(), game.helpprompt)
 
     def buildDefaults(self):
         config = super(MyriadConfigurator, self).buildDefaults()
@@ -57,18 +62,21 @@ class MyriadConfigurator(Configurator):
         config.set("Game", "storyfile", self.game.storyfile)
         config.set("Game", "bannerfile", self.game.bannerfile)
         config.set("Game", "type", self.game.type)
+        config.set("Game", "banner", self.banner)
         return config
 
     def updateConfig(self):
-        config = super(MyriadConfigurator, self).updateConfig()
-        game = self.game
+        config = (
+            super(MyriadConfigurator, self).updateConfig() or
+            self.getConfig())
         # Game config
-        #import pdb;pdb.set_trace()
+        game = self.game
         game.name = config.get("Game", "name")
         game.storydir = config.get("Game", "storydir")
         game.storyfile = config.get("Game", "storyfile")
         game.bannerfile = config.get("Game", "bannerfile")
         game.type = config.get("Game", "type")
+        game.banner = config.get("Game", "banner")
         return config
 
 
