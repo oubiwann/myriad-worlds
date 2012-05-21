@@ -3,3 +3,4 @@ build
 dropin.cache
 *.sw[po]
 .venv
+*.log
