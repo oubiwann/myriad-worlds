@@ -10,6 +10,8 @@ the "near" future (i.e., next up on the list).
 Quick Tasks
 ===========
 
+* convert the shell parser's print statements to return values
+
 * Devise a means of loading games via configuration.
 
 * Device a means of loading games via command line switches
