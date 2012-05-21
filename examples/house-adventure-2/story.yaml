@@ -157,7 +157,7 @@ scapes:
     description: >
         You are sinking in quicksand... you realize too late that the sign back
         in the other room was probably warning about this very thing. Your
-        teachers always said you had trouble paying attention to direction.
+        teachers always said you had trouble paying attention to directions.
         They were right: it *did* end up killing you.
     gameOver: True
 
