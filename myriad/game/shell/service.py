@@ -4,9 +4,11 @@ from twisted.conch.checkers import SSHPublicKeyDatabase
 
 from dreamssh.util import ssh as util
 
+from myriad.game.shell import servershell
 
-def getShellFactory(**namespace):
-    realm = echoshell.EchoTerminalRealm(namespace)
+
+def getShellFactory(game, **namespace):
+    realm = servershell.TerminalRealm(game, namespace)
     sshPortal = portal.Portal(realm)
     factory = manhole_ssh.ConchFactory(sshPortal)
     factory.privateKeys = {'ssh-rsa': util.getPrivKey()}
