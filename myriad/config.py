@@ -18,6 +18,7 @@ main.config.userfile = "%s/%s" % (main.config.userdir, main.config.localfile)
 
 # Internal SSH Server
 ssh.servicename = meta.description
+ssh.ip = "127.0.0.1"
 ssh.port = 4222
 ssh.keydir = os.path.join(main.config.userdir, "ssh")
 ssh.localdir = "~/.ssh"
@@ -80,5 +81,6 @@ class MyriadConfigurator(Configurator):
         return config
 
 
-configurator = MyriadConfigurator(main, ssh, game)
-configurator.updateConfig()
+def updateConfig():
+    configurator = MyriadConfigurator(main, ssh, game)
+    configurator.updateConfig()

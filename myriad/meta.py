@@ -5,9 +5,9 @@ author = "Duncan McGreggor, Paul McGuire"
 author_email = "oubiwann@twistedmatrix.com"
 license = "MIT"
 url = "http://github.com/oubiwann/myriad-worlds"
-description = ("An experiment in generating worlds, stories, and "
-               "interactive fiction games.")
-long_description = description
+description = "Myriad Worlds Game Server"
+logn_description = ("An experiment in generating worlds, stories, and "
+                    "interactive fiction games.")
 requires = [
     "PyParsing",
     "PyYAML",
