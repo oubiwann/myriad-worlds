@@ -1,15 +1,14 @@
-import sys
-import os
+import imp, os, sys
 
 from twisted.application import service, internet
-from twisted.python import usage
+from twisted.python import log, usage
 
 from dreamssh.sdk import registry, scripts
 
 from myriad import const, meta, util
+from myriad.game.runner import LocalGame
 from myriad.game.shell.service import getShellFactory
-
-
+from myriad.story import Story
 
 
 class SubCommandOptions(usage.Options):
@@ -64,30 +63,36 @@ class Options(usage.Options):
             config.game.storymodule = storyModule
             with open(bannerFile) as bannerFile:
                 config.game.banner = util.renderBanner(
-                    config.ssh.banner, bannerFile.read(), config.game.helpprompt)
+                    config.ssh.banner, bannerFile.read(),
+                    config.game.helpprompt)
         if self.subCommand == const.KEYGEN:
             scripts.KeyGen()
-            sys.exit(0)
+            sys.exit(const.OK)
         elif self.subCommand == const.SHELL:
             scripts.ConnectToShell()
-            sys.exit(0)
+            sys.exit(const.OK)
         elif self.subCommand == const.STOP:
             scripts.StopDaemon()
-            sys.exit(0)
+            sys.exit(const.OK)
         # do the non-twisted game types
         if gameType == const.LOCAL:
-            from myriad.game.runner import LocalGame
-            from myriad.story import Story
             sys.path.insert(0, config.game.storydir)
-            import imp
             moduleData = imp.find_module(
                 config.game.storymodule, [config.game.storydir])
             module = imp.load_module(config.game.storymodule, *moduleData)
             story = Story(config.game.storyfile)
             module.customizeItems(story)
+            handler = util.SignalHandler()
             game = LocalGame()
-            game.play(story)
-            sys.exit(0)
+            try:
+                game.play(story)
+            except EOFError, e:
+                if handler.exitCode == const.OK:
+                    handler.exitCode = const.CONTROL_D
+                    msg = "Received ^D; exiting ..."
+                    print "\n" + msg
+                    log.msg(msg)
+            sys.exit(handler.exitCode)
 
 
 def makeService(options):
