@@ -1,10 +1,8 @@
 import random, signal, sys
 
-from twisted.python import log
+from dreamssh.sdk import interfaces, registry
 
-from myriad.const import (
-    N, S, E, W, NE, NW, SE, SW, C, U, D, INVALID_EXIT, OK, SIGUSR1, SIGUSR2,
-    signalLookup)
+from myriad import const
 
 
 def aOrAn(item):
@@ -58,27 +56,27 @@ def getRandomInts(min=0, max=1, step=1, count=1):
 
 
 def getDirectionName(direction):
-    if direction == N:
+    if direction == const.N:
         return "north"
-    elif direction == S:
+    elif direction == const.S:
         return "south"
-    elif direction == E:
+    elif direction == const.E:
         return "east"
-    elif direction == W:
+    elif direction == const.W:
         return "west"
-    elif direction == NE:
+    elif direction == const.NE:
         return "northeast"
-    elif direction == SE:
+    elif direction == const.SE:
         return "southeast"
-    elif direction == SW:
+    elif direction == const.SW:
         return "southwest"
-    elif direction == NW:
+    elif direction == const.NW:
         return "northwest"
-    elif direction == C:
+    elif direction == const.C:
         return "center"
-    elif direction == U:
+    elif direction == const.U:
         return "up"
-    elif direction == D:
+    elif direction == const.D:
         return "down"
 
 
@@ -88,10 +86,23 @@ def renderBanner(template, gameBanner, help):
         "{{HELP}}", help)
 
 
+def setupLogging(logfile, type=const.LOCAL):
+    """
+    Set up logging to be Twisted compatible.
+    """
+    if type == const.LOCAL:
+        import logging as log
+        log.msg = log.info
+        log.basicConfig(filename=logfile, level=log.INFO)
+    else:
+        from twisted.python import log
+    registry.registerComponent(log, interfaces.ILogger)
+
+
 class SignalHandler(object):
     """
     """
-    exitCode = OK
+    exitCode = const.OK
 
     def __init__(self):
         for signum in xrange(1, 32):
@@ -99,9 +110,11 @@ class SignalHandler(object):
                 signal.signal(signum, self.handle)
 
     def handle(self, signum, frame):
-        self.exitCode = INVALID_EXIT + signum
+        self.exitCode = const.INVALID_EXIT + signum
         msg = "Received signal %s: '%s'; exiting with code %s" % (
-            signum, signalLookup[signum], self.exitCode)
+            signum, const.signalLookup[signum], self.exitCode)
+        # XXX do a terminal write here
         print "\n" + msg
+        log = registry.getLogger()
         log.msg(msg)
         sys.exit(self.exitCode)
