@@ -114,7 +114,17 @@ To run a differnt came, point to a different game dir::
 Running a Server
 ----------------
 
-TBD
+First, you'll need to generate SSH keys for the game server::
+
+  $ twistd myriad keygen
+
+With those in place, you're ready to start the game server::
+
+  $ twistd myriad --gametype=singleplayer
+
+That will run the game daemon, and now you can log into the game::
+
+  $ twistd myriad shell
 
 
 Project Management
