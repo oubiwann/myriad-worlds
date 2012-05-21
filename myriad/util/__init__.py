@@ -1,6 +1,10 @@
-import random
+import random, signal, sys
 
-from myriad.const import N, S, E, W, NE, NW, SE, SW, C, U, D
+from twisted.python import log
+
+from myriad.const import (
+    N, S, E, W, NE, NW, SE, SW, C, U, D, INVALID_EXIT, OK, SIGUSR1, SIGUSR2,
+    signalLookup)
 
 
 def aOrAn(item):
@@ -82,3 +86,22 @@ def renderBanner(template, gameBanner, help):
     return template.replace(
         "{{GAME_BANNER}}", gameBanner.strip()).replace(
         "{{HELP}}", help)
+
+
+class SignalHandler(object):
+    """
+    """
+    exitCode = OK
+
+    def __init__(self):
+        for signum in xrange(1, 32):
+            if signum not in [signal.SIGKILL, signal.SIGSTOP]:
+                signal.signal(signum, self.handle)
+
+    def handle(self, signum, frame):
+        self.exitCode = INVALID_EXIT + signum
+        msg = "Received signal %s: '%s'; exiting with code %s" % (
+            signum, signalLookup[signum], self.exitCode)
+        print "\n" + msg
+        log.msg(msg)
+        sys.exit(self.exitCode)
