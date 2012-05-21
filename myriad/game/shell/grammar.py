@@ -100,8 +100,7 @@ class ShellParser(object):
 
     def parseCmd(self, cmdstr):
         try:
-            ret = self.bnf.parseString(cmdstr)
-            return ret
+            return self.bnf.parseString(cmdstr)
         except ShellParseException, parseError:
             print parseError.msg
         except ParseException, parseError:
