@@ -10,8 +10,6 @@ the "near" future (i.e., next up on the list).
 Quick Tasks
 ===========
 
-* Move the service code into a single module.
-
 * Devise a means of loading games via configuration.
 
 * Device a means of loading games via command line switches
@@ -25,6 +23,8 @@ Quick Tasks
 
 * whereever there are print statements, replace with an object that writes to
   the terminal
+
+  - register that terminal so we can do a component lookup for it
 
 
 Commands and Interpreter
