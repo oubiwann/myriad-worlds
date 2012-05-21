@@ -1,14 +1,13 @@
-import imp, os, sys
+import os, sys
 
 from twisted.application import service, internet
 from twisted.python import log, usage
 
-from dreamssh.sdk import registry, scripts
+from dreamssh.sdk import interfaces, registry, scripts
 
 from myriad import const, meta, util
-from myriad.game.runner import LocalGame
+from myriad.game import runner
 from myriad.game.shell.service import getShellFactory
-from myriad.story import Story
 
 
 class SubCommandOptions(usage.Options):
@@ -27,7 +26,7 @@ class Options(usage.Options):
         [const.GAME_TYPE, 't', const.LOCAL,
          'The type of game to run; valid options incude: ' + 
          ', '.join(legalGameTypes)], 
-        [const.STORY_DIR, 'd', '',
+        [const.STORY_DIR, 'd', './examples/house-adventure-2',
          'The path to the directory that holds the game data.'],
         [const.STORY_FILE, 'f', 'story.yaml',
          'The filename of the story (YAML) file.'],
@@ -35,6 +34,8 @@ class Options(usage.Options):
          'The filename of the Python module that does game pre-processing.'],
         [const.BANNER_FILE, 'b', 'banner.asc',
          'The filename of the login banner.'],
+        [const.LOG_FILE, 'l', 'game.log',
+         'The file to which log messages should be sent.'],
         ]
     subCommands = [
         [const.KEYGEN, None, SubCommandOptions,
@@ -44,6 +45,7 @@ class Options(usage.Options):
         ]
 
     def parseOptions(self, options):
+        config = registry.getConfig()
         usage.Options.parseOptions(self, options)
         # check options
         gameType = self.get(const.GAME_TYPE)
@@ -55,7 +57,6 @@ class Options(usage.Options):
         storyModule = self.get(const.STORY_MODULE)
         bannerFile = os.path.abspath(os.path.join(
             storyDir, self.get(const.BANNER_FILE)))
-        config = registry.getConfig()
         if not storyDir == config.game.storydir:
             config.game.storydir = storyDir
             config.game.storyfile = os.path.abspath(os.path.join(
@@ -76,23 +77,8 @@ class Options(usage.Options):
             sys.exit(const.OK)
         # do the non-twisted game types
         if gameType == const.LOCAL:
-            sys.path.insert(0, config.game.storydir)
-            moduleData = imp.find_module(
-                config.game.storymodule, [config.game.storydir])
-            module = imp.load_module(config.game.storymodule, *moduleData)
-            story = Story(config.game.storyfile)
-            module.customizeItems(story)
-            handler = util.SignalHandler()
-            game = LocalGame()
-            try:
-                game.play(story)
-            except EOFError, e:
-                if handler.exitCode == const.OK:
-                    handler.exitCode = const.CONTROL_D
-                    msg = "Received ^D; exiting ..."
-                    print "\n" + msg
-                    log.msg(msg)
-            sys.exit(handler.exitCode)
+            util.setupLogging(self.get(const.LOG_FILE))
+            runner.runLocal()
 
 
 def makeService(options):
