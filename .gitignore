@@ -4,3 +4,4 @@ dropin.cache
 *.sw[po]
 .venv
 *.log
+.bzr
