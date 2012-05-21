@@ -6,8 +6,11 @@ from twisted.python import log, usage
 from dreamssh.sdk import interfaces, registry, scripts
 
 from myriad import const, meta, util
-from myriad.game import runner
+from myriad.game import base, runner
 from myriad.game.shell.service import getShellFactory
+
+
+config = registry.getConfig()
 
 
 class SubCommandOptions(usage.Options):
@@ -81,6 +84,11 @@ class Options(usage.Options):
             runner.runLocal()
 
 
+class ServedGame(base.Game):
+    """
+    """
+
+
 def makeService(options):
     """
     """
@@ -89,7 +97,7 @@ def makeService(options):
     services = service.IServiceCollection(application)
     # setup ssh access to a Python shell
     sshFactory = getShellFactory(
-        app=application, services=services)
+        ServedGame(), app=application, services=services)
     sshserver = internet.TCPServer(config.ssh.port, sshFactory)
     sshserver.setName(config.ssh.servicename)
     sshserver.setServiceParent(services)
