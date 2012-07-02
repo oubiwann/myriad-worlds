@@ -10,7 +10,8 @@ BANNER_HELP = "This shell has no commands; it simply returns what you type."
 
 
 class SessionTransport(base.TerminalSessionTransport):
-
+    """
+    """
     def getHelpHint(self):
         return BANNER_HELP
 
@@ -67,6 +68,10 @@ class Manhole(base.MOTDColoredManhole):
             namespace = self.namespace
         self.interpreter = Interpreter(self, locals=namespace)
         self.interpreter.game = self.game
+        # now that we know what's writing the data for the game, we can
+        # register the component
+        registry.registerComponent(
+            self.interpreter, interfaces.ITerminalWriter)
 
     def updateNamespace(self, namespace={}):
         self.interpreter.updateNamespace(namespace)
