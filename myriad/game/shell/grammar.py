@@ -102,9 +102,9 @@ class ShellParser(object):
         try:
             return self.bnf.parseString(cmdstr)
         except ShellParseException, parseError:
-            print parseError.msg
+            print "ShellParseException: %s" % parseError.msg
         except ParseException, parseError:
-            print random.choice(["Sorry, I don't understand that.",
+            return random.choice(["Sorry, I don't understand that.",
                                  "Say what?",
                                  "Whatchyoo talkin' 'bout, Willis?",
                                  "Huh?",
