@@ -6,7 +6,8 @@ from myriad.item import Item
 # that require a layer to be known, the current layer (context) could just be
 # used...
 class World(object):
-
+    """
+    """
     def __init__(self, name="Ordinary World", map=None, physics=None):
         self.name = name
         self.map = map
@@ -68,9 +69,12 @@ class Tile(InventoriedObject, DescribedObject, TraversedObject):
         if self.gameOver:
             player.gameOver = True
 
+    def getDescriptionAndExits(self):
+        return "%s\n%s" % (
+            self.getDescription(), self.getExits())
+
     def printDescriptionAndExits(self):
-        self.printDescription()
-        self.printExits()
+        print getDescriptionAndExits()
 
 
 class Moment(Tile):
