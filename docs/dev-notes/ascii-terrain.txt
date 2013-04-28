@@ -1,0 +1,148 @@
+----
+---- Plains
+--
+-
+
+-+--
+--+- Savanna
+-+
+-
+
++-++
+++-+ Woodlands
++-
++
+
+++++
+++++ Forest
+++
++
+
+$+&+
++&+$ Jungle
+&+
+&
+
+.... 
+.... SandyGround (Desert/Beach)
+..
+.
+
+,.,. 
+.,., RockyGround (Shoreline)
+,.
+,
+
+^_^_
+_^_^ Hills
+^_
+^
+
+
+|,,.
+.,,| Cliffs
+|,
+|
+
+^_^_
+_O_O Caves
+_O
+o
+
+^^^^
+^^^^ Mountains
+^^
+^
+
+
+^+^+
++^+^ Alpine Treeline
+^+
+^
+
+/\**
+**/\ HighPeaks
+^*
+^
+
+/\__
+__/\ HighPlateau
+^_
+^
+
+
+\/--
+--\/ Valley
+V-
+v
+
+-V-v
+v-V- Ravine
+V-
+v
+
+_  _
+ \/  Canyon
+VV
+V
+
+...n
+n... Buttes
+n.
+n
+
+*.*.
+.*.* Tundra
+.*
+*
+
+~S~s
+s~S~ Stream
+~s
+~
+
+~{~{
+}~}~ River
+~S
+~
+
+~.~.
+.~.~ Lake
+~.
+~
+
+~~~~
+~~~~ Ocean
+~~
+~
+
+^\/^
+/^^\ Valley (old)
+
+++++
+++++
+
+$&$&
+&$&$
+
+,.,. 
+.,., RockyGround (Shoreline)
+
+.... 
+.... SandyGround (Desert/Beach)
+
+====
+====
+
+''''
+''''
+
+;;;;
+;;;;
+
+::::
+::::
+
+____
+____
+
