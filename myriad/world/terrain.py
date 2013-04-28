@@ -141,7 +141,7 @@ class Desert(SandyGround):
 
 
 class Buttes(Desert, Hills):
-    desc "Several stunning buttes are within view."
+    desc = "Several stunning buttes are within view."
     pervasiveness = 0.1
 
 
@@ -187,27 +187,37 @@ class Ocean(WaterBody):
 # type to another have to be defined.
 transitions = {
     Plains: [Plains, SandyGround, RockyGround, Hills, Valley, Desert, Beach,
-             Canyon, River, Lake, Ocean],
+             Canyon, River, Lake, Ocean, Jungle],
+    Woodlands: [Plains, SandyGround, RockyGround, Hills, Valley, Beach,
+                Woodlands, Forest, Jungle],
     Hills: [Plains, SandyGround, RockyGround, Hills, Mountains, Canyon, River,
            Lake],
-    Mountains: [Hills, Mountains, HighPlateau, HighPeaks, Valley],
-    HighPlateau: [Mountains, HighPlateau, HighPeaks],
+    Mountains: [Hills, Mountains, HighPlateau, HighPeaks, Valley,
+                AlpineTreeline],
+    AlpineTreeline: [Mountains, HighPlateau, HighPeaks],
+    HighPlateau: [Mountains, HighPlateau, HighPeaks, AlpineTreeline],
     Valley: [Plains, SandyGround, RockyGround, Hills, Mountains, River, Lake],
     Ravine: [Plains, SandyGround, RockyGround, Hills, Ravine, Canyon, River],
     Desert: [Plains, SandyGround, RockyGround, Ravine, Desert, Beach, Canyon,
              River, Lake, Ocean],
-    River: [Plains, SandyGround, RockyGround, Hills, Desert, Beach, Canyon,
-            River, Lake, Ocean],
+    Stream: [Shoreline, River, Stream, Lake],
     Lake: [Plains, SandyGround, RockyGround, Hills, Valley, Desert, Beach,
            River, Lake],
-    Ocean: [Plains, SandyGround, RockyGround, Hills, Desert, Beach, River],
+    Ocean: [Shoreline, River, Beach],
+    Shoreline: [Ocean, Lake, River, Stream, Shoreline, Beach],
     }
 
 
+transitions[Lake] = transitions[Stream]
+transitions[River] = transitions[Stream] + [Beach]
 transitions[SandyGround] = transitions[Plains]
+transitions[Savanna] = transitions[Plains] + [Savanna, Woodlands]
+transitions[Forest] = transitions[Woodlands]
+transitions[Jungle] = transitions[Woodlands]
 transitions[RockyGround] = transitions[Plains]
 transitions[HighPeaks] = transitions[HighPlateau]
 transitions[Canyon] = transitions[Ravine]
+transitions[Buttes] = transitions[Desert]
 transitions[Beach] = transitions[Plains]
 
 # some terrain types require

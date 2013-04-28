@@ -7,4 +7,4 @@ class TerrainUtilTestCase(unittest.TestCase):
 
     def test_getTileClasses(self):
         result = terrain.getTileClasses()
-        self.assertEqual(len(result), 15)
+        self.assertEqual(len(result), 26)
