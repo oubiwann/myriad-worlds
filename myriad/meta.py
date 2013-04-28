@@ -11,5 +11,5 @@ logn_description = ("An experiment in generating worlds, stories, and "
 requires = [
     "PyParsing",
     "PyYAML",
-    "DreamSSH",
+    "carapce",
     ]

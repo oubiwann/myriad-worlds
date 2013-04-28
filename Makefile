@@ -10,25 +10,34 @@ LP_REPO := lp:$(PROJ)
 AUTHOR ?= oubiwann
 MSG_FILE ?= MSG
 LIB := myriad
+VENV ?= .venv
+ACT ?= $(VENV)/bin/activate
 
+$(VENV):
+	virtualenv $(VENV)
+
+deps:
+	. $(ACT) && pip install carapace
+	. $(ACT) && pip install PyParsing==1.5.7
+	. $(ACT) && pip install PyYAML
 
 version:
-	python $(LIB)/scripts/getVersion.py
+	. $(ACT) && python $(LIB)/scripts/getVersion.py
 
 keygen:
-	@python -c "from myriad import game;from dreamssh.sdk import scripts;scripts.KeyGen()"
+	@python -c "from myriad import game;from carapace.sdk import scripts;scripts.KeyGen()"
 
-run:
-	twistd -n myriad
+run: $(VENV) deps
+	. $(ACT) && twistd -n myriad
 
-daemon:
-	twistd myriad
+daemon: $(VENV) deps
+	. $(ACT) && twistd myriad
 
-shell:
-	@python -c "from myriad import game;from dreamssh.sdk import scripts;scripts.ConnectToShell()"
+shell: $(VENV)
+	@. $(ACT) && python -c "from myriad import game;from carapace.sdk import scripts;scripts.ConnectToShell()"
 
 stop:
-	@python -c "from myriad import game;from dreamssh.sdk import scripts;scripts.StopDaemon()"
+	@. $(ACT) && python -c "from myriad import game;from carapace.sdk import scripts;scripts.StopDaemon()"
 
 run-test:
 	make daemon && make shell && make stop

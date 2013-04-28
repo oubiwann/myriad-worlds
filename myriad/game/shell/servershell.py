@@ -1,5 +1,5 @@
-from dreamssh.app.shell import base
-from dreamssh.sdk import registry
+from carapace.app.shell import base
+from carapace.sdk import registry
 
 
 config = registry.getConfig()

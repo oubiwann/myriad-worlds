@@ -2,7 +2,7 @@ from twisted.cred import portal
 from twisted.conch import manhole_ssh
 from twisted.conch.checkers import SSHPublicKeyDatabase
 
-from dreamssh.util import ssh as util
+from carapace.util import ssh as util
 
 from myriad.game.shell import servershell
 

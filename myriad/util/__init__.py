@@ -1,6 +1,6 @@
 import random, signal, sys
 
-from dreamssh.sdk import interfaces, registry
+from carapace.sdk import interfaces, registry
 
 from myriad import const
 

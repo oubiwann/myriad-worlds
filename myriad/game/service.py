@@ -3,7 +3,7 @@ import os, sys
 from twisted.application import service, internet
 from twisted.python import log, usage
 
-from dreamssh.sdk import interfaces, registry, scripts
+from carapace.sdk import interfaces, registry, scripts
 
 from myriad import const, meta, util
 from myriad.game import base, runner

@@ -15,7 +15,7 @@ setup(
     license=meta.license,
     packages=find_packages() + ["twisted.plugins"],
     package_data={
-        "twisted": ['plugins/dreamssh.py']
+        "twisted": ['plugins/example_server.py']
         },
     install_requires=meta.requires,
     zip_safe=False

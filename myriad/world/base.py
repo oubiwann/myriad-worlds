@@ -74,7 +74,7 @@ class Tile(InventoriedObject, DescribedObject, TraversedObject):
             self.getDescription(), self.getExits())
 
     def printDescriptionAndExits(self):
-        print getDescriptionAndExits()
+        print self.getDescriptionAndExits()
 
 
 class Moment(Tile):

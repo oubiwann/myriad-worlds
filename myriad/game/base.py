@@ -1,6 +1,6 @@
 import imp, sys
 
-from dreamssh.sdk import interfaces, registry
+from carapace.sdk import interfaces, registry
 
 from myriad import util
 from myriad.game.session import Session
