@@ -117,7 +117,7 @@ check-dist:
 
 check: MOD ?= $(LIB)
 check: build
-	clear && . $(ACT) && python myriad/testing/runner.py $(MOD)
+	clear && . $(ACT) && PYTHONPATH=. python myriad/testing/runner.py $(MOD)
 
 check-testcase-names:
 	@echo "Checking for (possibly) badly named test cases..."
