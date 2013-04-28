@@ -5,3 +5,4 @@ dropin.cache
 .venv
 *.log
 .bzr
+*.egg-info
