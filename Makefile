@@ -109,15 +109,15 @@ todo:
 .PHONY: todo
 
 build:
-	@python setup.py build
-	@python setup.py sdist
+	@. $(ACT) && python setup.py build
+	@. $(ACT) && python setup.py sdist
 
 check-dist:
 	@echo "Need to fill this in ..."
 
 check: MOD ?= $(LIB)
 check: build
-	python myriad/testing/runner.py $(MOD)
+	clear && . $(ACT) && python myriad/testing/runner.py $(MOD)
 
 check-testcase-names:
 	@echo "Checking for (possibly) badly named test cases..."
